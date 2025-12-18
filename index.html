@@ -53,7 +53,7 @@ nav a{
   margin-left:16px;
 }
 
-/* HERO BACKGROUND CNC */
+/* HERO */
 .hero{
   background:
     linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
@@ -91,7 +91,7 @@ h2{color:var(--red)}
 }
 .meta{font-size:14px;color:#6b7280;line-height:1.6}
 
-/* SHOP BACKGROUND 3D */
+/* SHOP BACKGROUND */
 .shop-bg{
   background:
     linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.95)),
@@ -169,12 +169,23 @@ h2{color:var(--red)}
   font-size:14px;
 }
 
-/* WHATSAPP */
+/* FLOATING BUTTONS */
 #wa{
   position:fixed;
   bottom:18px;
   right:18px;
   background:#25d366;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:999px;
+  font-weight:bold;
+  box-shadow:var(--shadow);
+}
+#fb{
+  position:fixed;
+  bottom:80px;
+  right:18px;
+  background:#1877f2;
   color:#fff;
   padding:14px 18px;
   border-radius:999px;
@@ -190,6 +201,7 @@ footer{
   font-size:12px;
   text-align:center;
 }
+footer a{color:#fff}
 </style>
 </head>
 
@@ -204,6 +216,9 @@ footer{
     <nav>
       <a href="#shop">Shop</a>
       <a href="#policies">Policies</a>
+      <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">
+        Facebook
+      </a>
     </nav>
   </div>
 </header>
@@ -233,17 +248,19 @@ footer{
     <p class="meta">
       • All CNC machined and 3D printed parts are FINAL SALE.<br>
       • Custom orders are non-refundable.<br>
-      • Items are sold AS-IS unless otherwise stated.<br>
-      • Customer is responsible for correct application and installation.<br>
-      • JC CNC Machine is not liable for misuse or improper installation.<br>
-      • Operates under Florida and United States law.
+      • Items sold AS-IS.<br>
+      • Customer responsible for application and installation.<br>
+      • Operates under Florida & United States law.
     </p>
   </div>
 </section>
 
 <footer>
   © 2025 JC CNC Machine — Tampa, Florida<br>
-  sales@jccncmachine.com
+  📧 sales@jccncmachine.com<br>
+  🔵 <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">
+    Facebook Page
+  </a>
 </footer>
 
 <div id="drawer">
@@ -252,23 +269,11 @@ footer{
   <p class="meta">Payment instructions will be sent via email.</p>
 </div>
 
-<a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp Support</a>
+<a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp</a>
+<a id="fb" href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">📘 Facebook</a>
 
 <script>
-// ===============================
-// ADD YOUR PRODUCTS HERE
-// ===============================
-const PRODUCTS = [
-  
-  {
-    id: "3d printing",
-    name: "srt-4",
-    price: 25,
-    img: "srt-4.png"
-  }
-  
-];
-
+const PRODUCTS = [];
 const cart = [];
 const count = document.getElementById("count");
 const list = document.getElementById("list");
@@ -294,10 +299,7 @@ function renderProducts(){
 
 function add(id){
   const product = PRODUCTS.find(p => p.id === id);
-  if(!product){
-    alert("Product not configured yet");
-    return;
-  }
+  if(!product){ alert("Product not configured yet"); return; }
   cart.push(product);
   count.textContent = cart.length;
   renderCart();
@@ -308,17 +310,14 @@ function renderCart(){
   list.innerHTML = "";
   cart.forEach(p=>{
     total += p.price;
-    list.innerHTML += `
-      <div class="cart-item">
-        <strong>${p.name}</strong><br>
-        $${p.price}
-      </div>`;
+    list.innerHTML += `<div class="cart-item"><strong>${p.name}</strong><br>$${p.price}</div>`;
   });
   list.innerHTML += `<hr><strong>Total: $${total}</strong>`;
 }
-
 renderProducts();
 </script>
 
 </body>
 </html>
+
+
