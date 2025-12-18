@@ -53,9 +53,13 @@ nav a{
   margin-left:16px;
 }
 
-/* HERO */
+/* HERO BACKGROUND CNC */
 .hero{
-  background:linear-gradient(to bottom,#0b0b0b,#1a1a1a);
+  background:
+    linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+    url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png");
+  background-size:cover;
+  background-position:center;
   color:#fff;
   padding:120px 16px;
   text-align:center;
@@ -68,9 +72,7 @@ nav a{
   width:220px;
   margin-bottom:24px;
 }
-.hero h1{
-  font-size:46px;
-}
+.hero h1{font-size:46px}
 .hero p{
   color:#d1d5db;
   max-width:60ch;
@@ -87,7 +89,16 @@ h2{color:var(--red)}
   margin:12px 0 28px;
   border-radius:999px;
 }
-.meta{font-size:14px;color:#6b7280}
+.meta{font-size:14px;color:#6b7280;line-height:1.6}
+
+/* SHOP BACKGROUND 3D */
+.shop-bg{
+  background:
+    linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.95)),
+    url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/3dprint.png");
+  background-size:cover;
+  background-position:center;
+}
 
 /* PRODUCTS */
 .grid{
@@ -98,13 +109,10 @@ h2{color:var(--red)}
 .card{
   border-radius:var(--radius);
   box-shadow:var(--shadow);
-  overflow:hidden;
   background:#000;
   color:#fff;
 }
-.card .content{
-  padding:20px;
-}
+.card .content{padding:20px}
 .product-img{
   width:100%;
   height:180px;
@@ -161,6 +169,19 @@ h2{color:var(--red)}
   font-size:14px;
 }
 
+/* WHATSAPP */
+#wa{
+  position:fixed;
+  bottom:18px;
+  right:18px;
+  background:#25d366;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:999px;
+  font-weight:bold;
+  box-shadow:var(--shadow);
+}
+
 /* FOOTER */
 footer{
   background:#0b0b0b;
@@ -182,7 +203,7 @@ footer{
     </div>
     <nav>
       <a href="#shop">Shop</a>
-      <a href="#contact">Contact</a>
+      <a href="#policies">Policies</a>
     </nav>
   </div>
 </header>
@@ -193,41 +214,61 @@ footer{
   <div class="hero-inner">
     <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
     <h1>Professional CNC & 3D Printing</h1>
-    <p>Precision manufacturing services. Orders reviewed after payment.</p>
+    <p>Precision manufacturing services. Orders reviewed and confirmed after payment.</p>
   </div>
 </section>
 
-<section class="section" id="shop">
+<section class="section shop-bg" id="shop">
   <div class="wrap">
     <h2>Shop</h2>
     <div class="divider"></div>
-
     <div class="grid" id="products"></div>
   </div>
 </section>
 
+<section class="section" id="policies">
+  <div class="wrap">
+    <h2>Sales Policy – Florida / USA</h2>
+    <div class="divider"></div>
+    <p class="meta">
+      • All CNC machined and 3D printed parts are FINAL SALE.<br>
+      • Custom orders are non-refundable.<br>
+      • Items are sold AS-IS unless otherwise stated.<br>
+      • Customer is responsible for correct application and installation.<br>
+      • JC CNC Machine is not liable for misuse or improper installation.<br>
+      • Operates under Florida and United States law.
+    </p>
+  </div>
+</section>
+
 <footer>
-  © 2025 JC CNC Machine — Tampa, Florida
+  © 2025 JC CNC Machine — Tampa, Florida<br>
+  sales@jccncmachine.com
 </footer>
 
 <div id="drawer">
   <h3>Your Order</h3>
   <div id="list"></div>
-  <p class="meta">Payment instructions will be sent by email.</p>
+  <p class="meta">Payment instructions will be sent via email.</p>
 </div>
+
+<a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp Support</a>
 
 <script>
 // ===============================
-// PRODUCTS – ADD YOUR ITEMS HERE
+// ADD YOUR PRODUCTS HERE
 // ===============================
 const PRODUCTS = [
+  
   {
-    id: "3D Printing",
-    name: "srt",
+    id: "3d printing",
+    name: "srt-4",
     price: 25,
-    img: "srt-4.png"
+    img: "srt-4png"
   }
+  
 ];
+
 const cart = [];
 const count = document.getElementById("count");
 const list = document.getElementById("list");
@@ -242,7 +283,7 @@ function renderProducts(){
   grid.innerHTML = PRODUCTS.map(p=>`
     <div class="card">
       <div class="content">
-        <img class="product-img" src="${p.img}" alt="${p.name}">
+        <img class="product-img" src="${p.img}">
         <h3>${p.name}</h3>
         <p>$${p.price}</p>
         <button class="btn btn-add" onclick="add('${p.id}')">Add to Cart</button>
@@ -265,17 +306,14 @@ function add(id){
 function renderCart(){
   let total = 0;
   list.innerHTML = "";
-
   cart.forEach(p=>{
     total += p.price;
     list.innerHTML += `
       <div class="cart-item">
         <strong>${p.name}</strong><br>
         $${p.price}
-      </div>
-    `;
+      </div>`;
   });
-
   list.innerHTML += `<hr><strong>Total: $${total}</strong>`;
 }
 
