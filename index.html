@@ -16,179 +16,43 @@
   --shadow:0 10px 25px rgba(0,0,0,.12);
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#fff;
-  color:#111;
-}
+body{margin:0;font-family:Arial, sans-serif;background:#fff;color:#111}
 a{text-decoration:none}
 
-/* HEADER */
-header{
-  background:linear-gradient(90deg,var(--red),var(--red2));
-  color:#fff;
-  padding:18px 16px;
-}
-.header-inner{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.brand img{
-  height:42px;
-  background:#fff;
-  padding:6px;
-  border-radius:10px;
-}
-nav a{
-  color:#fff;
-  font-weight:bold;
-  margin-left:16px;
-}
+header{background:linear-gradient(90deg,var(--red),var(--red2));color:#fff;padding:18px 16px}
+.header-inner{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
+nav a{color:#fff;font-weight:bold;margin-left:16px}
 
-/* HERO */
-.hero{
-  background:#0b0b0b;
-  color:#fff;
-  padding:48px 16px;
-}
-.hero-inner{
-  max-width:1200px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:24px;
-}
-.hero img{
-  width:100%;
-  border-radius:14px;
-  object-fit:cover;
-}
-.hero h1{
-  font-size:42px;
-  margin:0 0 10px;
-}
-.hero p{
-  color:#d1d5db;
-  max-width:45ch;
-}
+.hero{background:#0b0b0b;color:#fff;padding:48px 16px}
+.hero-inner{max-width:1200px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.hero img{width:100%;border-radius:14px;object-fit:cover}
+.hero h1{font-size:40px;margin:0 0 10px}
+.hero p{color:#d1d5db;max-width:45ch}
 
-/* SECTION */
-.section{
-  padding:48px 16px;
-}
-.wrap{
-  max-width:1200px;
-  margin:auto;
-}
-h2{
-  color:var(--red);
-  margin-bottom:6px;
-}
-.divider{
-  height:3px;
-  background:linear-gradient(90deg,var(--red),transparent);
-  border-radius:999px;
-  margin:10px 0 22px;
-}
+.section{padding:48px 16px}
+.wrap{max-width:1200px;margin:auto}
+h2{color:var(--red);margin-bottom:6px}
+.divider{height:3px;background:linear-gradient(90deg,var(--red),transparent);border-radius:999px;margin:10px 0 22px}
 
-/* SHOP */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-}
-.card{
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  background:#fff;
-  box-shadow:var(--shadow);
-  overflow:hidden;
-}
-.card img{
-  width:100%;
-  aspect-ratio:16/10;
-  object-fit:cover;
-}
-.card .body{
-  padding:14px;
-}
-.card h3{
-  margin:0 0 6px;
-}
-.meta{
-  font-size:13px;
-  color:var(--muted);
-  margin-bottom:10px;
-}
-.btn{
-  border:0;
-  padding:10px 14px;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:bold;
-}
-.btn-add{
-  background:var(--red);
-  color:#fff;
-}
-.btn-msg{
-  background:#111;
-  color:#fff;
-}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--shadow);overflow:hidden}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover}
+.card .body{padding:14px}
+.card h3{margin:0 0 6px}
+.meta{font-size:13px;color:var(--muted);margin-bottom:10px}
+.btn{border:0;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:bold}
+.btn-add{background:var(--red);color:#fff}
+.btn-msg{background:#111;color:#fff}
 
-/* CART */
-#cartBtn{
-  position:fixed;
-  top:16px;
-  right:16px;
-  background:#fff;
-  color:var(--red);
-  border-radius:999px;
-  padding:10px 14px;
-  font-weight:bold;
-  cursor:pointer;
-  box-shadow:var(--shadow);
-}
-#drawer{
-  position:fixed;
-  right:0;
-  top:0;
-  width:340px;
-  height:100%;
-  background:#fff;
-  box-shadow:-10px 0 30px rgba(0,0,0,.3);
-  transform:translateX(100%);
-  transition:.2s;
-  padding:16px;
-}
+#cartBtn{position:fixed;top:16px;right:16px;background:#fff;color:var(--red);border-radius:999px;padding:10px 14px;font-weight:bold;cursor:pointer;box-shadow:var(--shadow)}
+#drawer{position:fixed;right:0;top:0;width:340px;height:100%;background:#fff;box-shadow:-10px 0 30px rgba(0,0,0,.3);transform:translateX(100%);transition:.2s;padding:16px}
 #drawer.open{transform:translateX(0)}
-.cart-item{
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:10px;
-  margin-bottom:10px;
-}
+.cart-item{border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:10px}
 
-/* FOOTER */
-footer{
-  background:#0b0b0b;
-  color:#cbd5e1;
-  text-align:center;
-  padding:18px;
-}
-@media(max-width:900px){
-  .hero-inner{grid-template-columns:1fr}
-  .grid{grid-template-columns:1fr}
-}
+footer{background:#0b0b0b;color:#cbd5e1;text-align:center;padding:18px}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -215,10 +79,10 @@ footer{
   <div class="hero-inner">
     <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1400&q=70">
     <div>
-      <h1>Precision CNC Machining</h1>
+      <h1>Professional CNC Machining</h1>
       <p>
-        Piezas CNC fabricadas con precisión.
-        Selecciona productos disponibles y envía tu pedido por WhatsApp.
+        CNC machining services and ready-to-ship items.
+        Simple shop: add what is available and send your order by WhatsApp.
       </p>
     </div>
   </div>
@@ -227,7 +91,7 @@ footer{
 <section class="section" id="shop">
   <div class="wrap">
     <h2>Shop CNC</h2>
-    <p class="meta">Agrega productos disponibles y envía tu pedido (sin pago automático).</p>
+    <p class="meta">Aquí puedes publicar cualquier pieza CNC disponible para venta inmediata.</p>
     <div class="divider"></div>
 
     <div class="grid" id="shopGrid"></div>
@@ -239,9 +103,11 @@ footer{
     <h2>Sales Policies – Florida / USA</h2>
     <div class="divider"></div>
     <p class="meta">
-      Todas las piezas CNC personalizadas son <strong>venta final</strong>.
-      Productos en stock pueden revisarse dentro de 5 días hábiles.
-      El cliente es responsable del uso final del producto.
+      • Todas las piezas CNC personalizadas son <strong>VENTA FINAL</strong>.<br>
+      • Piezas en inventario se consideran "as-is" y deben inspeccionarse al recibir.<br>
+      • Reclamos por errores o daños deben notificarse dentro de 5 días hábiles.<br>
+      • El cliente es responsable del uso, instalación y aplicación final del producto.<br>
+      • JC CNC Machine opera bajo las leyes del estado de Florida, EE.UU.
     </p>
   </div>
 </section>
@@ -249,7 +115,7 @@ footer{
 <section class="section" id="contact">
   <div class="wrap">
     <h2>Contact</h2>
-    <p class="meta">Pedidos y consultas por WhatsApp.</p>
+    <p class="meta">Pedidos y preguntas directamente por WhatsApp.</p>
     <button class="btn btn-add" onclick="openWA('Hola, quiero hacer un pedido CNC')">
       📲 WhatsApp
     </button>
@@ -267,23 +133,19 @@ footer{
 </div>
 
 <script>
+// 👉 AGREGA / ELIMINA PRODUCTOS AQUÍ (sin precios, sin especificaciones fijas)
 const PRODUCTS = [
-  // AGREGA TUS PRODUCTOS AQUÍ
-  // {
-  //   id:"p1",
-  //   name:"Bracket CNC",
-  //   desc:"Aluminio · Stock limitado",
-  //   img:"TU_IMAGEN.jpg"
-  // }
+  // EJEMPLO:
+  // { id:'p1', name:'Bracket CNC', desc:'Disponible · Envío inmediato', img:'imagen.jpg' }
 ];
 
 const cart = new Map();
-const grid = document.getElementById("shopGrid");
-const drawer = document.getElementById("drawer");
-const count = document.getElementById("count");
-const list = document.getElementById("cartList");
+const grid = document.getElementById('shopGrid');
+const drawer = document.getElementById('drawer');
+const count = document.getElementById('count');
+const list = document.getElementById('cartList');
 
-document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
+document.getElementById('cartBtn').onclick = () => drawer.classList.toggle('open');
 
 function renderShop(){
   grid.innerHTML = PRODUCTS.map(p=>`
@@ -296,7 +158,7 @@ function renderShop(){
         <button class="btn btn-msg" onclick="openWA('Info sobre ${p.name}')">Message</button>
       </div>
     </div>
-  `).join("");
+  `).join('');
 }
 
 function add(id){
@@ -309,11 +171,11 @@ function renderCart(){
   list.innerHTML=[...cart.entries()].map(([id,q])=>{
     const p=PRODUCTS.find(x=>x.id===id);
     return `<div class="cart-item">${p.name} (x${q})</div>`;
-  }).join("");
+  }).join('');
 }
 
 function sendOrder(){
-  let msg="Pedido JC CNC:%0A";
+  let msg='Pedido JC CNC:%0A';
   cart.forEach((q,id)=>{
     const p=PRODUCTS.find(x=>x.id===id);
     msg+=`- ${p.name} (x${q})%0A`;
@@ -322,7 +184,7 @@ function sendOrder(){
 }
 
 function openWA(t){
-  window.open("https://wa.me/18133387239?text="+encodeURIComponent(t),"_blank");
+  window.open('https://wa.me/18133387239?text='+encodeURIComponent(t),'_blank');
 }
 
 renderShop();
@@ -330,6 +192,3 @@ renderShop();
 
 </body>
 </html>
-
-
-
