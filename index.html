@@ -58,20 +58,27 @@ nav a{
 .hero{
   background:#0b0b0b;
   color:#fff;
-  padding:64px 16px;
+  padding:56px 16px;
 }
 .hero-inner{
   max-width:1200px;
   margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  align-items:center;
+}
+.hero img{
+  width:100%;
+  border-radius:14px;
 }
 .hero h1{
-  font-size:44px;
-  margin:0 0 12px;
+  font-size:42px;
+  margin:0 0 10px;
 }
 .hero p{
   color:#d1d5db;
-  max-width:55ch;
-  line-height:1.6;
+  max-width:50ch;
 }
 
 /* SECTION */
@@ -90,7 +97,7 @@ h2{
   height:3px;
   background:linear-gradient(90deg,var(--red),transparent);
   border-radius:999px;
-  margin:10px 0 28px;
+  margin:10px 0 22px;
 }
 .meta{
   color:var(--muted);
@@ -98,66 +105,90 @@ h2{
   line-height:1.55;
 }
 
+/* SERVICES */
+.service-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+.service{
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.service img{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+}
+.service .body{
+  padding:16px;
+}
+
 /* SHOP */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:24px;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:16px;
 }
 .card{
   border:1px solid var(--line);
   border-radius:var(--radius);
   background:#fff;
   box-shadow:var(--shadow);
-  padding:28px;
-  text-align:center;
 }
-.card h3{
-  font-size:22px;
-  margin:0 0 10px;
+.card img{
+  width:100%;
+  aspect-ratio:16/10;
+  object-fit:cover;
 }
-.card p{
-  color:var(--muted);
-  font-size:14px;
-  margin-bottom:18px;
+.card .body{
+  padding:14px;
 }
 .btn{
-  display:inline-block;
-  padding:12px 18px;
+  border:0;
+  padding:10px 14px;
   border-radius:12px;
+  cursor:pointer;
   font-weight:bold;
 }
-.btn-buy{
+.btn-add{
   background:var(--red);
   color:#fff;
 }
-.btn-buy:hover{background:var(--red2)}
+.btn-msg{
+  background:#111;
+  color:#fff;
+}
 
 /* FOOTER */
 footer{
   background:#0b0b0b;
   color:#cbd5e1;
   text-align:center;
-  padding:22px 16px;
+  padding:20px;
+  font-size:12px;
 }
 footer a{color:#fff;font-weight:bold}
 
 /* FLOATING WHATSAPP */
-.whatsapp{
+#wa-float{
   position:fixed;
-  right:18px;
   bottom:18px;
+  right:18px;
   background:#25d366;
   color:#fff;
   padding:14px 16px;
   border-radius:999px;
   font-weight:bold;
-  box-shadow:0 10px 25px rgba(0,0,0,.3);
+  box-shadow:0 8px 20px rgba(0,0,0,.3);
+  z-index:999;
 }
-.whatsapp:hover{opacity:.9}
+#wa-float:hover{opacity:.9}
 
 @media(max-width:900px){
-  .hero h1{font-size:36px}
+  .hero-inner,.service-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -167,114 +198,132 @@ footer a{color:#fff;font-weight:bold}
 <header>
   <div class="header-inner">
     <div class="brand">
-      <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png" alt="JC CNC Machine">
+      <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
       <strong>JC CNC Machine</strong>
     </div>
     <nav>
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
       <a href="#shop">Shop</a>
+      <a href="#policies">Policies</a>
       <a href="#terms">Terms</a>
+      <a href="#privacy">Privacy</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
 </header>
 
-<section class="hero">
+<section class="hero" id="home">
   <div class="hero-inner">
-    <h1>Professional CNC & 3D Printing</h1>
-    <p>
-      Precision CNC machining and professional 3D printing services.
-      Secure online checkout powered by Stripe.
-    </p>
+    <div>
+      <h1>Professional CNC & 3D Printing</h1>
+      <p>
+        Precision CNC machining and functional 3D printed parts.
+        Simple ordering — send requests via WhatsApp.
+      </p>
+    </div>
+    <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png">
   </div>
 </section>
 
-<section class="section" id="shop">
+<section class="section" id="services">
   <div class="wrap">
-    <h2>Shop – Ready to Order</h2>
+    <h2>Services</h2>
     <div class="divider"></div>
 
-    <div class="grid">
-
-      <!-- CNC -->
-      <div class="card">
-        <h3>CNC Machining</h3>
-        <p>
-          Precision CNC parts, fixtures, brackets, adapters and production components.
-          Ready-to-order services.
-        </p>
-        <a href="TU_LINK_STRIPE_CNC" target="_blank" class="btn btn-buy">
-          Buy CNC Service
-        </a>
+    <div class="service-grid">
+      <div class="service">
+        <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png">
+        <div class="body">
+          <h3>CNC Machining</h3>
+          <p class="meta">
+            Aluminum and metal CNC parts, fixtures, brackets,
+            adapters, prototypes and custom components.
+          </p>
+        </div>
       </div>
 
-      <!-- 3D PRINT -->
-      <div class="card">
-        <h3>3D Printing</h3>
-        <p>
-          Prototypes, jigs, fixtures and functional 3D printed parts.
-          STL / STEP files supported.
-        </p>
-        <a href="TU_LINK_STRIPE_3D" target="_blank" class="btn btn-buy">
-          Buy 3D Printing
-        </a>
+      <div class="service">
+        <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/3dprint.png">
+        <div class="body">
+          <h3>3D Printing</h3>
+          <p class="meta">
+            Prototypes, jigs, supports, test parts and custom prints.
+            STL / STEP files accepted.
+          </p>
+        </div>
       </div>
-
     </div>
+  </div>
+</section>
+
+<section class="section" id="policies">
+  <div class="wrap">
+    <h2>Sales Policies – Florida / USA</h2>
+    <div class="divider"></div>
+    <p class="meta" style="font-size:12px">
+      All custom CNC machined and 3D printed parts are FINAL SALE.
+      Inventory items are sold AS-IS. Claims must be reported within
+      five (5) business days. Customer is responsible for final
+      application and installation. Operates under Florida and U.S. law.
+    </p>
   </div>
 </section>
 
 <section class="section" id="terms">
   <div class="wrap">
-    <h2>Terms, Policies & Disclaimer</h2>
+    <h2>Industrial Disclaimer</h2>
     <div class="divider"></div>
-
-    <p class="meta">
-      🔒 <strong>Industrial Disclaimer:</strong> Products and services are intended for industrial,
-      fabrication, or prototyping use only. Customer assumes all responsibility for final
-      application, installation, and compliance.
+    <p class="meta" style="font-size:12px">
+      CNC machined and 3D printed components may fail if used outside
+      their intended design. JC CNC Machine is not responsible for
+      damages, injuries, or losses resulting from improper use,
+      incorrect installation, design errors, or unsafe applications.
     </p>
 
-    <p class="meta">
-      💳 <strong>Payments:</strong> All payments are processed securely via Stripe.
-      Credit/Debit Cards, Apple Pay and Google Pay accepted.
+    <h2 style="margin-top:30px">Payments</h2>
+    <div class="divider"></div>
+    <p class="meta" style="font-size:12px">
+      Payments are accepted manually via PayPal or Stripe.
+      Orders are processed only after payment confirmation.
+      No automatic checkout is provided.
     </p>
+  </div>
+</section>
 
-    <p class="meta">
-      📄 <strong>Sales Policy:</strong> Custom CNC and 3D printed services are FINAL SALE.
-      No refunds once production has started.
-    </p>
-
-    <p class="meta">
-      📄 <strong>Privacy Policy:</strong> Customer data is used only for order processing
-      and support. No information is sold or shared.
-    </p>
-
-    <p class="meta">
-      Jurisdiction: State of Florida, United States.
+<section class="section" id="privacy">
+  <div class="wrap">
+    <h2>Privacy Policy</h2>
+    <div class="divider"></div>
+    <p class="meta" style="font-size:12px">
+      JC CNC Machine does not collect personal data automatically.
+      Any information shared via WhatsApp, email, or social media
+      is used solely to process orders and respond to inquiries.
+      No data is sold or shared with third parties.
     </p>
   </div>
 </section>
 
 <section class="section" id="contact">
   <div class="wrap">
-    <h2>Support</h2>
+    <h2>Contact</h2>
     <p class="meta">
-      For questions or technical support only.
-      Orders are processed automatically via Stripe.
+      Orders and questions via WhatsApp or Facebook.
     </p>
+    <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">
+      👉 Visit our Facebook Page
+    </a>
   </div>
 </section>
 
 <footer>
-  © 2025 JC CNC Machine — Tampa, Florida
+  © 2025 JC CNC Machine — Tampa, Florida<br>
+  Operating under Florida & United States law
 </footer>
 
-<a class="whatsapp"
-   href="https://wa.me/18133387239"
-   target="_blank">
-  💬 Support
-</a>
+<a id="wa-float" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp</a>
 
 </body>
 </html>
+
 
