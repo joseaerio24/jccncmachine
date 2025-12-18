@@ -102,7 +102,7 @@ h2{
 .meta{
   color:var(--muted);
   font-size:14px;
-  line-height:1.55;
+  line-height:1.5;
 }
 
 /* SERVICES */
@@ -147,17 +147,18 @@ h2{
   padding:14px;
 }
 .btn{
+  display:inline-block;
   border:0;
   padding:10px 14px;
   border-radius:12px;
   cursor:pointer;
   font-weight:bold;
 }
-.btn-add{
+.btn-buy{
   background:var(--red);
   color:#fff;
 }
-.btn-msg{
+.btn-support{
   background:#111;
   color:#fff;
 }
@@ -168,24 +169,22 @@ footer{
   color:#cbd5e1;
   text-align:center;
   padding:20px;
-  font-size:12px;
 }
 footer a{color:#fff;font-weight:bold}
 
 /* FLOATING WHATSAPP */
-#wa-float{
+.whatsapp{
   position:fixed;
-  bottom:18px;
   right:18px;
+  bottom:18px;
   background:#25d366;
   color:#fff;
   padding:14px 16px;
   border-radius:999px;
   font-weight:bold;
-  box-shadow:0 8px 20px rgba(0,0,0,.3);
-  z-index:999;
+  box-shadow:0 10px 25px rgba(0,0,0,.3);
 }
-#wa-float:hover{opacity:.9}
+.whatsapp:hover{opacity:.9}
 
 @media(max-width:900px){
   .hero-inner,.service-grid{grid-template-columns:1fr}
@@ -198,28 +197,25 @@ footer a{color:#fff;font-weight:bold}
 <header>
   <div class="header-inner">
     <div class="brand">
-      <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
+      <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png" alt="JC CNC Machine">
       <strong>JC CNC Machine</strong>
     </div>
     <nav>
-      <a href="#home">Home</a>
       <a href="#services">Services</a>
       <a href="#shop">Shop</a>
-      <a href="#policies">Policies</a>
       <a href="#terms">Terms</a>
-      <a href="#privacy">Privacy</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
 </header>
 
-<section class="hero" id="home">
+<section class="hero">
   <div class="hero-inner">
     <div>
       <h1>Professional CNC & 3D Printing</h1>
       <p>
-        Precision CNC machining and functional 3D printed parts.
-        Simple ordering — send requests via WhatsApp.
+        Precision CNC machining and 3D printed parts.
+        Secure online checkout powered by Stripe.
       </p>
     </div>
     <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png">
@@ -237,8 +233,8 @@ footer a{color:#fff;font-weight:bold}
         <div class="body">
           <h3>CNC Machining</h3>
           <p class="meta">
-            Aluminum and metal CNC parts, fixtures, brackets,
-            adapters, prototypes and custom components.
+            Precision CNC parts in aluminum and other materials.
+            Fixtures, brackets, adapters, and production parts.
           </p>
         </div>
       </div>
@@ -248,8 +244,8 @@ footer a{color:#fff;font-weight:bold}
         <div class="body">
           <h3>3D Printing</h3>
           <p class="meta">
-            Prototypes, jigs, supports, test parts and custom prints.
-            STL / STEP files accepted.
+            Prototypes, jigs, fixtures and functional prints.
+            STL / STEP files supported.
           </p>
         </div>
       </div>
@@ -257,71 +253,90 @@ footer a{color:#fff;font-weight:bold}
   </div>
 </section>
 
-<section class="section" id="policies">
+<section class="section" id="shop">
   <div class="wrap">
-    <h2>Sales Policies – Florida / USA</h2>
+    <h2>Shop – Ready to Ship</h2>
     <div class="divider"></div>
-    <p class="meta" style="font-size:12px">
-      All custom CNC machined and 3D printed parts are FINAL SALE.
-      Inventory items are sold AS-IS. Claims must be reported within
-      five (5) business days. Customer is responsible for final
-      application and installation. Operates under Florida and U.S. law.
-    </p>
+
+    <div class="grid">
+
+      <div class="card">
+        <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png">
+        <div class="body">
+          <h3>CNC Bracket</h3>
+          <p class="meta">Aluminum · Ready to ship</p>
+          <a class="btn btn-buy" href="TU_LINK_STRIPE_AQUI" target="_blank">
+            Buy Now
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png">
+        <div class="body">
+          <h3>CNC Adapter</h3>
+          <p class="meta">Machined billet part</p>
+          <a class="btn btn-buy" href="TU_LINK_STRIPE_AQUI" target="_blank">
+            Buy Now
+          </a>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
 <section class="section" id="terms">
   <div class="wrap">
-    <h2>Industrial Disclaimer</h2>
+    <h2>Terms, Policies & Disclaimer</h2>
     <div class="divider"></div>
-    <p class="meta" style="font-size:12px">
-      CNC machined and 3D printed components may fail if used outside
-      their intended design. JC CNC Machine is not responsible for
-      damages, injuries, or losses resulting from improper use,
-      incorrect installation, design errors, or unsafe applications.
+
+    <p class="meta">
+      🔒 <strong>Industrial Disclaimer:</strong> Products are intended for industrial,
+      prototyping or fabrication use only. Customer is responsible for final application,
+      installation and compliance.
     </p>
 
-    <h2 style="margin-top:30px">Payments</h2>
-    <div class="divider"></div>
-    <p class="meta" style="font-size:12px">
-      Payments are accepted manually via PayPal or Stripe.
-      Orders are processed only after payment confirmation.
-      No automatic checkout is provided.
+    <p class="meta">
+      💳 <strong>Payments:</strong> All payments are processed securely via Stripe.
+      Credit/Debit cards, Apple Pay and Google Pay supported.
     </p>
-  </div>
-</section>
 
-<section class="section" id="privacy">
-  <div class="wrap">
-    <h2>Privacy Policy</h2>
-    <div class="divider"></div>
-    <p class="meta" style="font-size:12px">
-      JC CNC Machine does not collect personal data automatically.
-      Any information shared via WhatsApp, email, or social media
-      is used solely to process orders and respond to inquiries.
-      No data is sold or shared with third parties.
+    <p class="meta">
+      📄 <strong>Sales Policy:</strong> Custom CNC & 3D printed parts are FINAL SALE.
+      Inventory items are sold as-is. Claims must be reported within 5 business days.
+    </p>
+
+    <p class="meta">
+      📄 <strong>Privacy Policy:</strong> Customer information is used solely for order
+      processing and communication. No data is sold or shared with third parties.
+    </p>
+
+    <p class="meta">
+      Jurisdiction: State of Florida, United States.
     </p>
   </div>
 </section>
 
 <section class="section" id="contact">
   <div class="wrap">
-    <h2>Contact</h2>
+    <h2>Support</h2>
     <p class="meta">
-      Orders and questions via WhatsApp or Facebook.
+      For questions or technical support only.
+      Orders are processed online via Stripe.
     </p>
-    <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">
-      👉 Visit our Facebook Page
-    </a>
   </div>
 </section>
 
 <footer>
-  © 2025 JC CNC Machine — Tampa, Florida<br>
-  Operating under Florida & United States law
+  © 2025 JC CNC Machine — Tampa, Florida
 </footer>
 
-<a id="wa-float" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp</a>
+<a class="whatsapp"
+   href="https://wa.me/18133387239"
+   target="_blank">
+  💬 Support
+</a>
 
 </body>
 </html>
