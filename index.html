@@ -1,197 +1,92 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JC CNC Machine</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #ffffff;
-  color: #000;
-}
-
-header {
-  background: linear-gradient(90deg, #b30000, #ff0000);
-  color: #fff;
-  text-align: center;
-  padding: 30px 15px;
-}
-
-header img {
-  max-width: 180px;
-  margin-bottom: 15px;
-}
-
-nav {
-  background: #b30000;
-  padding: 10px;
-  text-align: center;
-}
-
-nav a {
-  color: #fff;
-  margin: 0 15px;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 40px 20px;
-}
-
-h2 {
-  color: #b30000;
-  border-bottom: 3px solid #b30000;
-  padding-bottom: 5px;
-}
-
-.products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.card h3 {
-  margin-top: 0;
-}
-
-.btn {
-  display: inline-block;
-  background: #b30000;
-  color: #fff;
-  padding: 10px 15px;
-  text-decoration: none;
-  border-radius: 4px;
-  margin-top: 10px;
-}
-
-.btn:hover {
-  background: #ff0000;
-}
-
-form {
-  display: grid;
-  gap: 15px;
-}
-
-input, textarea, select {
-  padding: 10px;
-  font-size: 16px;
-  width: 100%;
-}
-
-footer {
-  background: #b30000;
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JC CNC Machine | Tienda Profesional</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+    header { background: #111; color: #fff; padding: 20px; text-align: center; }
+    nav { background: #222; padding: 10px; text-align: center; }
+    nav a { color: #fff; margin: 0 15px; text-decoration: none; font-weight: bold; }
+    .container { padding: 40px; max-width: 1200px; margin: auto; }
+    .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .card img { width: 100%; border-radius: 6px; }
+    .card h3 { margin: 15px 0 5px; }
+    .price { color: #0077cc; font-size: 18px; font-weight: bold; }
+    .btn { display: inline-block; margin-top: 10px; padding: 10px 15px; background: #0077cc; color: #fff; text-decoration: none; border-radius: 4px; }
+    footer { background: #111; color: #ccc; text-align: center; padding: 20px; margin-top: 40px; }
+  </style>
 </head>
-
 <body>
 
-<header>
-  <img src="logo.jpg" alt="JC CNC Machine Logo">
+<header style="text-align:center;">
+  <img src="logo.jpg" alt="JC CNC Machine Logo" style="max-width:180px; margin-bottom:15px;">
   <h1>JC CNC Machine</h1>
-  <p>Fabricación profesional CNC en aluminio y partes automotrices</p>
+  <p>Tienda profesional de piezas CNC en aluminio y partes automotrices</p>
 </header>
 
 <nav>
+  <a href="#">Inicio</a>
   <a href="#productos">Productos</a>
-  <a href="#planos">Subir Plano</a>
-  <a href="#pagos">Pagos</a>
-  <a href="#terminos">Términos</a>
+  <a href="#contacto">Contacto</a>
 </nav>
 
 <div class="container" id="productos">
-  <h2>Productos y Servicios</h2>
-
+  <h2>Productos Destacados</h2>
   <div class="products">
-    <div class="card">
-      <h3>Soporte Automotriz CNC</h3>
-      <p>Pieza mecanizada para aplicaciones automotrices.</p>
-      <a class="btn" href="https://wa.me/18133387239" target="_blank">
-        Cotizar por WhatsApp
-      </a>
-    </div>
 
     <div class="card">
-      <h3>Pieza CNC Personalizada</h3>
-      <p>Fabricación bajo plano (STEP / PDF).</p>
-      <a class="btn" href="#planos">Solicitar Cotización</a>
-    </div>
-  </div>
+  <img src="https://via.placeholder.com/400x250?text=Auto+Part" alt="Auto Part">
+  <h3>Soporte Automotriz</h3>
+  <p>Ideal para motores y aplicaciones de alto estrés.</p>
+  <a class="btn" href="https://wa.me/18133387239" target="_blank">Cotizar por WhatsApp</a>
 </div>
+      <a class="btn" href="#">Comprar</a>
+    </div>
 
-<div class="container" id="planos">
-  <h2>Subir Plano CNC</h2>
-  <form>
-    <input type="text" placeholder="Nombre completo" required>
-    <input type="email" placeholder="Email" required>
-    <input type="text" placeholder="Material (Ej: Aluminio 6061)" required>
-    <select>
-      <option>Cantidad</option>
-      <option>1–5</option>
-      <option>6–20</option>
-      <option>Más de 20</option>
-    </select>
-    <input type="file" accept=".pdf,.step,.stp">
-    <textarea rows="4" placeholder="Notas adicionales"></textarea>
-    <button class="btn" type="submit">Enviar Cotización</button>
-  </form>
+    <div class="card">
+      <img src="https://via.placeholder.com/400x250?text=CNC+Custom" alt="Custom CNC">
+      <h3>Pieza CNC Personalizada</h3>
+      <p>Fabricación bajo plano o diseño personalizado.</p>
+      <div class="price">Desde $120.00</div>
+      <a class="btn" href="#">Cotizar</a>
+    </div>
+
+  </div>
 </div>
 
 <div class="container" id="pagos">
   <h2>Formas de Pago</h2>
-
-  <p>Aceptamos los siguientes métodos de pago:</p>
   <ul>
-    <li>Tarjetas de crédito / débito</li>
-    <li>PayPal</li>
-    <li>Zelle</li>
-    <li>Stripe (pagos online)</li>
+    <li><strong>Tarjetas de crédito y débito:</strong> Visa, MasterCard, American Express, Discover</li>
+    <li><strong>PayPal</strong></li>
+    <li><strong>Zelle</strong></li>
+    <li><strong>Efectivo</strong> (solo ventas locales)</li>
+    <li><strong>Transferencia bancaria</strong> (previa coordinación)</li>
   </ul>
-
-  <!-- PAYPAL REAL -->
-  <form action="https://www.paypal.com/donate" method="post" target="_blank">
-    <input type="hidden" name="business" value="ventas@jccncmachine.com">
-    <input type="hidden" name="currency_code" value="USD">
-    <button class="btn" type="submit">Pagar con PayPal</button>
-  </form>
-
-  <p><em>Stripe se integra al confirmar cotización.</em></p>
 </div>
 
-<div class="container" id="terminos">
-  <h2>Términos y Condiciones</h2>
+<div class="container" id="politicas">
+  <h2>Política de Devoluciones y Reembolsos</h2>
+  <p><strong>JC CNC Machine</strong> opera bajo las leyes aplicables del estado de Florida y los Estados Unidos.</p>
+  <p><strong>Productos personalizados y CNC:</strong> Todas las piezas fabricadas bajo especificación del cliente (incluyendo piezas CNC personalizadas) <strong>NO son elegibles para devolución ni reembolso</strong>, excepto en casos de defecto de fabricación comprobable.</p>
+  <p><strong>Productos estándar:</strong> Los productos no personalizados pueden devolverse dentro de los <strong>14 días</strong> posteriores a la entrega, siempre que estén sin uso y en su empaque original.</p>
+  <p><strong>Defectos o errores:</strong> Si un producto presenta defectos o no coincide con la orden aprobada, el cliente debe notificarlo dentro de los <strong>5 días hábiles</strong> posteriores a la recepción.</p>
+  <p><strong>Costos de envío:</strong> Los costos de envío no son reembolsables. El cliente es responsable del envío de devolución, salvo error atribuible a JC CNC Machine.</p>
+  <p><strong>Reembolsos:</strong> Los reembolsos aprobados se procesarán utilizando el mismo método de pago original, conforme a las políticas del proveedor de pago.</p>
+  <p>Para iniciar una devolución o reclamación, contáctenos en <strong>ventas@jccncmachine.com</strong> o vía WhatsApp.</p>
+</div>
 
-  <p><strong>JC CNC Machine</strong> opera bajo las leyes del estado de Florida y EE.UU.</p>
-
-  <p><strong>Trabajos CNC personalizados:</strong> Todas las piezas fabricadas bajo plano o especificación del cliente son <strong>venta final</strong>. No se aceptan devoluciones ni reembolsos.</p>
-
-  <p><strong>Errores o defectos:</strong> Cualquier reclamo debe notificarse dentro de los 5 días hábiles posteriores a la entrega.</p>
-
-  <p><strong>Pagos:</strong> Todos los pagos deben completarse antes del inicio de la fabricación.</p>
-
-  <p><strong>Responsabilidad:</strong> JC CNC Machine no se responsabiliza por diseños proporcionados por el cliente.</p>
+<div class="container" id="contacto">
+  <h2>Contacto</h2>
+  <p>Email: ventas@jccncmachine.com</p>
+  <p>WhatsApp: (XXX) XXX‑XXXX</p>
 </div>
 
 <footer>
-  <p>© 2025 JC CNC Machine — Florida, USA</p>
+  <p>© 2025 JC CNC Machine. Todos los derechos reservados.</p>
 </footer>
 
 </body>
