@@ -1,885 +1,332 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JC CNC Machine | CNC & 3D Printing</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JC CNC Machine | CNC Shop</title>
 
-  <style>
-    :root{
-      --red:#b30000;
-      --red2:#ff0000;
-      --ink:#0b0b0b;
-      --muted:#6b7280;
-      --card:#ffffff;
-      --bg:#ffffff;
-      --line:#e5e7eb;
-      --shadow: 0 10px 25px rgba(0,0,0,.10);
-      --shadow2: 0 6px 16px rgba(0,0,0,.14);
-      --radius: 14px;
-    }
+<style>
+:root{
+  --red:#b30000;
+  --red2:#ff0000;
+  --dark:#0b0b0b;
+  --line:#e5e7eb;
+  --muted:#6b7280;
+  --radius:14px;
+  --shadow:0 10px 25px rgba(0,0,0,.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#fff;
+  color:#111;
+}
+a{text-decoration:none}
 
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
-    body{
-      margin:0;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
-      color:#111;
-    }
+/* HEADER */
+header{
+  background:linear-gradient(90deg,var(--red),var(--red2));
+  color:#fff;
+  padding:18px 16px;
+}
+.header-inner{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.brand img{
+  height:42px;
+  background:#fff;
+  padding:6px;
+  border-radius:10px;
+}
+nav a{
+  color:#fff;
+  font-weight:bold;
+  margin-left:16px;
+}
 
-    /* TOP BAR */
-    .topbar{
-      position: sticky;
-      top:0;
-      z-index: 1000;
-      background: linear-gradient(90deg, var(--red), var(--red2));
-      color:#fff;
-      height:64px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:0 16px;
-      box-shadow: var(--shadow2);
-    }
-    .topbar-inner{
-      width: min(1200px, 100%);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      text-decoration:none;
-      color:#fff;
-    }
-    .brand img{
-      height:42px;
-      width:auto;
-      border-radius:10px;
-      background:#fff;
-      padding:6px;
-    }
-    .brand .title{
-      display:flex;
-      flex-direction:column;
-      line-height:1.05;
-    }
-    .brand .title strong{ font-size:16px; letter-spacing:.4px; }
-    .brand .title span{ font-size:12px; opacity:.9; }
+/* HERO */
+.hero{
+  background:#0b0b0b;
+  color:#fff;
+  padding:48px 16px;
+}
+.hero-inner{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+.hero img{
+  width:100%;
+  border-radius:14px;
+  object-fit:cover;
+}
+.hero h1{
+  font-size:42px;
+  margin:0 0 10px;
+}
+.hero p{
+  color:#d1d5db;
+  max-width:45ch;
+}
 
-    .nav{
-      display:flex;
-      align-items:center;
-      gap:16px;
-    }
-    .nav a{
-      color:#fff;
-      text-decoration:none;
-      font-weight:700;
-      font-size:14px;
-      padding:10px 10px;
-      border-radius:10px;
-      transition:.15s;
-      white-space:nowrap;
-    }
-    .nav a:hover{ background: rgba(255,255,255,.16); }
+/* SECTION */
+.section{
+  padding:48px 16px;
+}
+.wrap{
+  max-width:1200px;
+  margin:auto;
+}
+h2{
+  color:var(--red);
+  margin-bottom:6px;
+}
+.divider{
+  height:3px;
+  background:linear-gradient(90deg,var(--red),transparent);
+  border-radius:999px;
+  margin:10px 0 22px;
+}
 
-    .actions{
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
+/* SHOP */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.card{
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:#fff;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.card img{
+  width:100%;
+  aspect-ratio:16/10;
+  object-fit:cover;
+}
+.card .body{
+  padding:14px;
+}
+.card h3{
+  margin:0 0 6px;
+}
+.meta{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+.btn{
+  border:0;
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.btn-add{
+  background:var(--red);
+  color:#fff;
+}
+.btn-msg{
+  background:#111;
+  color:#fff;
+}
 
-    .icon-btn{
-      border:0;
-      background: rgba(255,255,255,.14);
-      color:#fff;
-      padding:10px 12px;
-      border-radius:12px;
-      cursor:pointer;
-      font-weight:800;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      transition:.15s;
-    }
-    .icon-btn:hover{ background: rgba(255,255,255,.22); }
-    .badge{
-      background:#fff;
-      color: var(--red);
-      font-weight:900;
-      border-radius:999px;
-      padding:2px 8px;
-      font-size:12px;
-      min-width:22px;
-      text-align:center;
-    }
+/* CART */
+#cartBtn{
+  position:fixed;
+  top:16px;
+  right:16px;
+  background:#fff;
+  color:var(--red);
+  border-radius:999px;
+  padding:10px 14px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+}
+#drawer{
+  position:fixed;
+  right:0;
+  top:0;
+  width:340px;
+  height:100%;
+  background:#fff;
+  box-shadow:-10px 0 30px rgba(0,0,0,.3);
+  transform:translateX(100%);
+  transition:.2s;
+  padding:16px;
+}
+#drawer.open{transform:translateX(0)}
+.cart-item{
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px;
+  margin-bottom:10px;
+}
 
-    /* MOBILE MENU */
-    .hamburger{ display:none; }
-    @media (max-width: 900px){
-      .nav{ display:none; }
-      .hamburger{ display:flex; }
-    }
-
-    /* HERO */
-    .hero{
-      background: #0a0a0a;
-      color:#fff;
-      padding: 42px 16px;
-    }
-    .hero-inner{
-      width: min(1200px, 100%);
-      margin:0 auto;
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 22px;
-      align-items:center;
-    }
-    .hero-media{
-      border-radius: var(--radius);
-      overflow:hidden;
-      background:#111;
-      box-shadow: var(--shadow2);
-      min-height: 320px;
-      position:relative;
-    }
-    .hero-media img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      filter: contrast(1.05) saturate(1.05);
-    }
-    .hero-copy{
-      padding: 6px 6px;
-    }
-    .location{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight:800;
-      letter-spacing:.25em;
-      text-transform:uppercase;
-      font-size:12px;
-      opacity:.95;
-      margin-bottom:16px;
-    }
-    .hero h1{
-      margin:0 0 14px;
-      font-size: clamp(34px, 4vw, 54px);
-      line-height:1.02;
-      letter-spacing:-.02em;
-    }
-    .hero p{
-      margin: 0 0 18px;
-      color: #e5e7eb;
-      max-width: 48ch;
-      line-height:1.5;
-      font-size:15px;
-    }
-    .hero-ctas{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top: 10px;
-    }
-    .btn{
-      border:0;
-      cursor:pointer;
-      border-radius: 12px;
-      padding: 12px 14px;
-      font-weight:900;
-      letter-spacing:.2px;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      text-decoration:none;
-    }
-    .btn-primary{
-      background: linear-gradient(90deg, var(--red), var(--red2));
-      color:#fff;
-      box-shadow: var(--shadow2);
-    }
-    .btn-ghost{
-      background: rgba(255,255,255,.12);
-      color:#fff;
-      border: 1px solid rgba(255,255,255,.2);
-    }
-    @media (max-width: 900px){
-      .hero-inner{ grid-template-columns: 1fr; }
-      .hero-media{ min-height: 240px; }
-      .hero h1{ margin-top:8px; }
-    }
-
-    /* SECTIONS */
-    .section{
-      padding: 44px 16px;
-    }
-    .wrap{
-      width: min(1200px, 100%);
-      margin:0 auto;
-    }
-    .section h2{
-      margin:0 0 10px;
-      color: var(--red);
-      font-size: 28px;
-      letter-spacing:-.01em;
-    }
-    .section .sub{
-      margin:0 0 18px;
-      color: var(--muted);
-      line-height:1.45;
-    }
-    .divider{
-      height:3px;
-      width: 100%;
-      background: linear-gradient(90deg, var(--red), rgba(179,0,0,.0));
-      border-radius:999px;
-      margin: 8px 0 22px;
-    }
-
-    /* GALLERY STRIP (like your screenshot) */
-    .gallery-strip{
-      background:#8a94a3;
-      padding: 28px 0;
-    }
-    .strip-inner{
-      width: min(1400px, 100%);
-      margin:0 auto;
-      padding: 0 16px;
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap:16px;
-    }
-    .strip-card{
-      border-radius: 12px;
-      overflow:hidden;
-      background:#111;
-      box-shadow: var(--shadow2);
-      aspect-ratio: 4/3;
-      position:relative;
-    }
-    .strip-card img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-    @media (max-width: 1000px){
-      .strip-inner{ grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 520px){
-      .strip-inner{ grid-template-columns: 1fr; }
-    }
-
-    /* SHOP GRID */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:16px;
-      margin-top: 14px;
-    }
-    .card{
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow:hidden;
-      background: var(--card);
-      box-shadow: var(--shadow);
-    }
-    .card .thumb{
-      aspect-ratio: 16/10;
-      background:#f3f4f6;
-    }
-    .card .thumb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-    .card .body{
-      padding: 14px 14px 16px;
-    }
-    .card h3{
-      margin:0 0 6px;
-      font-size:16px;
-      letter-spacing:.1px;
-    }
-    .meta{
-      color: var(--muted);
-      font-size:13px;
-      line-height:1.35;
-      margin:0 0 12px;
-    }
-    .row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .btn-add{
-      background: var(--red);
-      color:#fff;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border:0;
-      cursor:pointer;
-      font-weight:900;
-    }
-    .btn-add:hover{ background: var(--red2); }
-
-    .btn-small{
-      background:#111;
-      color:#fff;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border:0;
-      cursor:pointer;
-      font-weight:900;
-    }
-    .btn-small:hover{ opacity:.92; }
-
-    @media (max-width: 1000px){
-      .grid{ grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 620px){
-      .grid{ grid-template-columns: 1fr; }
-    }
-
-    /* 3D Section cards */
-    .info-grid{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:16px;
-      align-items:stretch;
-      margin-top: 12px;
-    }
-    .panel{
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background:#fff;
-      box-shadow: var(--shadow);
-      padding: 16px;
-    }
-    .panel h3{ margin:0 0 8px; }
-    .panel ul{ margin:0; padding-left:18px; color:#111; }
-    .panel li{ margin:6px 0; color:#111; }
-    .note{ color: var(--muted); font-size:13px; margin-top:10px; line-height:1.35; }
-    @media(max-width: 900px){
-      .info-grid{ grid-template-columns: 1fr; }
-    }
-
-    /* CONTACT */
-    .contact{
-      background:#0b0b0b;
-      color:#fff;
-      padding: 44px 16px;
-    }
-    .contact h2{ color:#fff; margin:0 0 10px; }
-    .contact .sub{ color:#d1d5db; }
-    .contact-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:16px;
-      margin-top: 18px;
-    }
-    .contact-card{
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: var(--radius);
-      padding: 16px;
-    }
-    .contact-card strong{ display:block; margin-bottom:6px; }
-    .contact-card a{ color:#fff; font-weight:900; text-decoration:none; }
-    .contact-card a:hover{ text-decoration:underline; }
-    @media(max-width: 900px){
-      .contact-grid{ grid-template-columns: 1fr; }
-    }
-
-    /* FOOTER */
-    footer{
-      background: #0b0b0b;
-      color:#cbd5e1;
-      text-align:center;
-      padding: 18px 16px;
-      border-top: 1px solid rgba(255,255,255,.08);
-    }
-    .social{
-      display:flex;
-      justify-content:center;
-      gap:10px;
-      margin-top: 8px;
-    }
-    .social a{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      width:44px;
-      height:44px;
-      border-radius:12px;
-      background: rgba(255,255,255,.08);
-      color:#fff;
-      text-decoration:none;
-      font-weight:900;
-      border: 1px solid rgba(255,255,255,.12);
-    }
-    .social a:hover{ background: rgba(255,255,255,.12); }
-
-    /* CART DRAWER */
-    .drawer-backdrop{
-      position:fixed; inset:0;
-      background: rgba(0,0,0,.55);
-      display:none;
-      z-index: 1500;
-    }
-    .drawer{
-      position:fixed;
-      top:0; right:0;
-      height:100%;
-      width: min(380px, 92vw);
-      background:#fff;
-      box-shadow: -12px 0 40px rgba(0,0,0,.25);
-      transform: translateX(110%);
-      transition: .2s ease;
-      z-index: 1600;
-      display:flex;
-      flex-direction:column;
-    }
-    .drawer.open{ transform: translateX(0%); }
-    .drawer-header{
-      padding: 16px;
-      border-bottom: 1px solid var(--line);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .drawer-header strong{ font-size:16px; }
-    .drawer-body{
-      padding: 12px 16px;
-      overflow:auto;
-      flex: 1;
-    }
-    .cart-item{
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 10px 10px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom: 10px;
-    }
-    .cart-item .name{
-      font-weight:900;
-      font-size:13px;
-    }
-    .cart-item .qty{
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
-    .mini{
-      border:0;
-      background: #111;
-      color:#fff;
-      width:34px;
-      height:34px;
-      border-radius: 10px;
-      cursor:pointer;
-      font-weight:900;
-    }
-    .mini:hover{ opacity:.92; }
-    .drawer-footer{
-      padding: 14px 16px;
-      border-top: 1px solid var(--line);
-      display:grid;
-      gap:10px;
-    }
-    .muted{ color: var(--muted); font-size: 13px; line-height:1.35; }
-    .btn-full{
-      width:100%;
-      justify-content:center;
-    }
-
-  </style>
+/* FOOTER */
+footer{
+  background:#0b0b0b;
+  color:#cbd5e1;
+  text-align:center;
+  padding:18px;
+}
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 
 <body>
 
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="#home">
-        <!-- ✅ Logo: si tu archivo se llama logo.jpg en el repo, esto funciona -->
-        <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/logo.jpg" alt="JC CNC Machine Logo">
-        <div class="title">
-          <strong>JC CNC Machine</strong>
-          <span>Tampa, Florida</span>
-        </div>
-      </a>
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/logo.jpg">
+      <strong>JC CNC Machine</strong>
+    </div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#shop">Shop</a>
+      <a href="#policies">Policies</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
 
-      <nav class="nav">
-        <a href="#home">Home</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#shop">Shop</a>
-        <a href="#printing">3D Printing</a>
-        <a href="#policies">Policies</a>
-        <a href="#contact">Contact</a>
-      </nav>
+<div id="cartBtn">🛒 <span id="count">0</span></div>
 
-      <div class="actions">
-        <button class="icon-btn" id="cartBtn" title="Carrito">
-          🛒 <span class="badge" id="cartCount">0</span>
-        </button>
-        <button class="icon-btn hamburger" id="menuBtn" title="Menú">☰</button>
-      </div>
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1400&q=70">
+    <div>
+      <h1>Precision CNC Machining</h1>
+      <p>
+        Piezas CNC fabricadas con precisión.
+        Selecciona productos disponibles y envía tu pedido por WhatsApp.
+      </p>
     </div>
   </div>
+</section>
 
-  <!-- HERO -->
-  <section class="hero" id="home">
-    <div class="hero-inner">
-      <div class="hero-media">
-        <!-- ✅ Cambia esta imagen por una tuya cuando quieras -->
-        <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1600&q=70" alt="CNC machining">
-      </div>
+<section class="section" id="shop">
+  <div class="wrap">
+    <h2>Shop CNC</h2>
+    <p class="meta">Agrega productos disponibles y envía tu pedido (sin pago automático).</p>
+    <div class="divider"></div>
 
-      <div class="hero-copy">
-        <div class="location">📍 TAMPA, FLORIDA</div>
-        <h1>Precision CNC<br/> & 3D Prototypes</h1>
-        <p>
-          Fabricación CNC y prototipos 3D con enfoque en calidad, acabado y consistencia.
-          Selecciona productos disponibles o revisa el portfolio de trabajos realizados.
-        </p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="#shop">🛍️ Shop</a>
-          <a class="btn btn-ghost" href="#portfolio">📸 Portfolio</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    <div class="grid" id="shopGrid"></div>
+  </div>
+</section>
 
-  <!-- GALLERY STRIP (like your screenshots) -->
-  <section class="gallery-strip" id="portfolio">
-    <div class="strip-inner">
-      <!-- ✅ Reemplaza las fotos por las tuyas (sube jpg al repo y cambia la ruta) -->
-      <div class="strip-card"><img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?auto=format&fit=crop&w=1400&q=70" alt="Work 1"></div>
-      <div class="strip-card"><img src="https://images.unsplash.com/photo-1589792923962-537704632910?auto=format&fit=crop&w=1400&q=70" alt="Work 2"></div>
-      <div class="strip-card"><img src="https://images.unsplash.com/photo-1581092795360-52d1b1b873a3?auto=format&fit=crop&w=1400&q=70" alt="Work 3"></div>
-      <div class="strip-card"><img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1400&q=70" alt="Work 4"></div>
-    </div>
-  </section>
+<section class="section" id="policies">
+  <div class="wrap">
+    <h2>Sales Policies – Florida / USA</h2>
+    <div class="divider"></div>
+    <p class="meta">
+      Todas las piezas CNC personalizadas son <strong>venta final</strong>.
+      Productos en stock pueden revisarse dentro de 5 días hábiles.
+      El cliente es responsable del uso final del producto.
+    </p>
+  </div>
+</section>
 
-  <!-- SHOP -->
-  <section class="section" id="shop">
-    <div class="wrap">
-      <h2>Shop</h2>
-      <p class="sub">Productos disponibles. Agrega al carrito y envía el pedido por WhatsApp (sin pago automático).</p>
-      <div class="divider"></div>
+<section class="section" id="contact">
+  <div class="wrap">
+    <h2>Contact</h2>
+    <p class="meta">Pedidos y consultas por WhatsApp.</p>
+    <button class="btn btn-add" onclick="openWA('Hola, quiero hacer un pedido CNC')">
+      📲 WhatsApp
+    </button>
+  </div>
+</section>
 
-      <div class="grid" id="shopGrid">
-        <!-- Se llena con JS -->
-      </div>
-    </div>
-  </section>
+<footer>
+  © 2025 JC CNC Machine — Tampa, Florida
+</footer>
 
-  <!-- 3D PRINTING -->
-  <section class="section" id="printing">
-    <div class="wrap">
-      <h2>3D Printing</h2>
-      <p class="sub">Dime lo que necesitas y lo imprimimos: prototipos, soportes, herramientas, piezas de prueba y más.</p>
-      <div class="divider"></div>
+<div id="drawer">
+  <h3>Pedido</h3>
+  <div id="cartList"></div>
+  <button class="btn btn-add" onclick="sendOrder()">Enviar por WhatsApp</button>
+</div>
 
-      <div class="info-grid">
-        <div class="panel">
-          <h3>¿Qué puedes pedir?</h3>
-          <ul>
-            <li>Prototipos para validar forma/ensamble antes de CNC</li>
-            <li>Soportes, brackets, guías, plantillas y herramientas</li>
-            <li>Piezas personalizadas para proyectos</li>
-            <li>Reemplazo de piezas plásticas (según aplicación)</li>
-          </ul>
-          <p class="note">
-            Si tienes archivo STL/STEP perfecto. Si no tienes archivo, puedes enviar fotos/medidas y una explicación del uso.
-          </p>
-        </div>
+<script>
+const PRODUCTS = [
+  // AGREGA TUS PRODUCTOS AQUÍ
+  // {
+  //   id:"p1",
+  //   name:"Bracket CNC",
+  //   desc:"Aluminio · Stock limitado",
+  //   img:"TU_IMAGEN.jpg"
+  // }
+];
 
-        <div class="panel">
-          <h3>Formatos y materiales</h3>
-          <ul>
-            <li>Archivos: STL / 3MF / STEP</li>
-            <li>Materiales comunes: PLA, PETG, ABS/ASA (según disponibilidad)</li>
-          </ul>
+const cart = new Map();
+const grid = document.getElementById("shopGrid");
+const drawer = document.getElementById("drawer");
+const count = document.getElementById("count");
+const list = document.getElementById("cartList");
 
-          <button class="btn btn-primary btn-full" onclick="openWhatsApp('Hola, quiero hacer un pedido de impresión 3D. Te envío detalles del proyecto.')">
-            📲 Enviar detalles por WhatsApp
-          </button>
-          <p class="note">*Este botón es solo para enviar información, no es cotización automática.</p>
-        </div>
+document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
+
+function renderShop(){
+  grid.innerHTML = PRODUCTS.map(p=>`
+    <div class="card">
+      <img src="${p.img}">
+      <div class="body">
+        <h3>${p.name}</h3>
+        <p class="meta">${p.desc}</p>
+        <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
+        <button class="btn btn-msg" onclick="openWA('Info sobre ${p.name}')">Message</button>
       </div>
     </div>
-  </section>
+  `).join("");
+}
 
-  <!-- POLICIES -->
-  <section class="section" id="policies">
-    <div class="wrap">
-      <h2>Policies (Florida / USA)</h2>
-      <p class="sub">Políticas claras para pedidos, envíos, devoluciones y piezas personalizadas.</p>
-      <div class="divider"></div>
+function add(id){
+  cart.set(id,(cart.get(id)||0)+1);
+  count.textContent=[...cart.values()].reduce((a,b)=>a+b,0);
+  renderCart();
+}
 
-      <div class="panel">
-        <h3 style="margin-top:0; color:var(--red);">1) Custom CNC / Custom 3D — Final Sale</h3>
-        <p class="muted">
-          Toda pieza fabricada bajo especificación del cliente (planos, medidas, materiales, tolerancias, cambios solicitados)
-          se considera producto personalizado y es <strong>VENTA FINAL</strong>. No se aceptan devoluciones/reembolsos,
-          excepto por defecto de fabricación comprobable o error atribuible a JC CNC Machine.
-        </p>
+function renderCart(){
+  list.innerHTML=[...cart.entries()].map(([id,q])=>{
+    const p=PRODUCTS.find(x=>x.id===id);
+    return `<div class="cart-item">${p.name} (x${q})</div>`;
+  }).join("");
+}
 
-        <h3 style="color:var(--red);">2) Ready-to-Ship Items (Non-custom)</h3>
-        <p class="muted">
-          Productos en stock no personalizados pueden ser elegibles a devolución dentro de <strong>14 días</strong> desde la entrega,
-          siempre que estén sin uso y en condición original.
-        </p>
+function sendOrder(){
+  let msg="Pedido JC CNC:%0A";
+  cart.forEach((q,id)=>{
+    const p=PRODUCTS.find(x=>x.id===id);
+    msg+=`- ${p.name} (x${q})%0A`;
+  });
+  openWA(msg);
+}
 
-        <h3 style="color:var(--red);">3) Claims / Inspection Window</h3>
-        <p class="muted">
-          El cliente debe inspeccionar al recibir. Daños de envío, faltantes o discrepancias deben reportarse dentro de
-          <strong>5 días hábiles</strong> con evidencia (fotos del empaque y del producto).
-        </p>
+function openWA(t){
+  window.open("https://wa.me/18133387239?text="+encodeURIComponent(t),"_blank");
+}
 
-        <h3 style="color:var(--red);">4) Shipping</h3>
-        <p class="muted">
-          Tiempos de entrega dependen del transportista. Costos de envío pueden variar por peso/dimensiones/destino.
-        </p>
-
-        <h3 style="color:var(--red);">5) Customer Responsibility</h3>
-        <p class="muted">
-          El cliente es responsable del diseño, aplicación final, instalación y uso. JC CNC Machine no se responsabiliza por uso indebido,
-          diseños del cliente o modificaciones posteriores.
-        </p>
-
-        <p class="muted" style="margin-top:10px;">
-          *Contenido informativo, no constituye asesoría legal.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="contact" id="contact">
-    <div class="wrap">
-      <h2>Contact Us</h2>
-      <p class="sub">Pedidos y preguntas por WhatsApp. También puedes enviar correo.</p>
-
-      <div class="contact-grid">
-        <div class="contact-card">
-          <strong>WhatsApp</strong>
-          <a href="https://wa.me/18133387239" target="_blank" rel="noopener">+1 (813) 338-7239</a>
-          <div class="muted" style="margin-top:6px;">Respuesta rápida para pedidos y soporte.</div>
-        </div>
-
-        <div class="contact-card">
-          <strong>Email</strong>
-          <a href="mailto:ventas@jccncmachine.com">ventas@jccncmachine.com</a>
-          <div class="muted" style="margin-top:6px;">Envío de archivos y detalles de proyectos.</div>
-        </div>
-      </div>
-
-      <div style="margin-top:14px;">
-        <button class="btn btn-primary" onclick="openWhatsApp('Hola, estoy interesado en hacer un pedido. ¿Me puedes ayudar?')">
-          📲 Message on WhatsApp
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div>© 2025 JC CNC Machine — Tampa, Florida</div>
-    <div class="social">
-      <!-- ✅ Pon tus links reales aquí -->
-      <a href="#" title="Instagram">IG</a>
-      <a href="#" title="Facebook">FB</a>
-      <a href="#" title="YouTube">YT</a>
-      <a href="#" title="TikTok">TT</a>
-    </div>
-  </footer>
-
-  <!-- CART DRAWER -->
-  <div class="drawer-backdrop" id="backdrop"></div>
-
-  <aside class="drawer" id="drawer">
-    <div class="drawer-header">
-      <strong>🛒 Cart (Pedido)</strong>
-      <button class="icon-btn" id="closeDrawer" style="background:#111;">✕</button>
-    </div>
-
-    <div class="drawer-body" id="cartList">
-      <p class="muted">Tu carrito está vacío.</p>
-    </div>
-
-    <div class="drawer-footer">
-      <button class="btn btn-primary btn-full" onclick="checkoutWhatsApp()">✅ Enviar pedido por WhatsApp</button>
-      <button class="btn btn-ghost btn-full" onclick="clearCart()">🧹 Vaciar carrito</button>
-      <div class="muted">
-        *Esto NO cobra automático. Solo envía tu lista de productos por WhatsApp para confirmar disponibilidad y pago.
-      </div>
-    </div>
-  </aside>
-
-  <script>
-    // ✅ EDITA AQUÍ TUS PRODUCTOS (nombre, descripción, imagen)
-    const PRODUCTS = [
-      {
-        id: "p1",
-        name: "Bracket CNC",
-        desc: "Aluminio · Stock limitado · Listo para envío",
-        img: "https://images.unsplash.com/photo-1581092334497-1e7c6c1f4d5f?auto=format&fit=crop&w=1200&q=70"
-      },
-      {
-        id: "p2",
-        name: "CNC Adapter",
-        desc: "Serie limitada · Acabado profesional",
-        img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=70"
-      },
-      {
-        id: "p3",
-        name: "Billet Plate",
-        desc: "Pieza mecanizada · Ready-to-ship",
-        img: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1200&q=70"
-      }
-    ];
-
-    // Cart state (simple)
-    const cart = new Map(); // id -> qty
-
-    const cartBtn = document.getElementById("cartBtn");
-    const cartCount = document.getElementById("cartCount");
-    const drawer = document.getElementById("drawer");
-    const backdrop = document.getElementById("backdrop");
-    const closeDrawerBtn = document.getElementById("closeDrawer");
-    const cartList = document.getElementById("cartList");
-    const shopGrid = document.getElementById("shopGrid");
-
-    function openDrawer(){
-      drawer.classList.add("open");
-      backdrop.style.display = "block";
-      renderCart();
-    }
-    function closeDrawer(){
-      drawer.classList.remove("open");
-      backdrop.style.display = "none";
-    }
-
-    cartBtn.addEventListener("click", openDrawer);
-    closeDrawerBtn.addEventListener("click", closeDrawer);
-    backdrop.addEventListener("click", closeDrawer);
-
-    function setCount(){
-      let total = 0;
-      for (const qty of cart.values()) total += qty;
-      cartCount.textContent = total;
-    }
-
-    function addToCart(id){
-      cart.set(id, (cart.get(id) || 0) + 1);
-      setCount();
-      openDrawer();
-    }
-
-    function decQty(id){
-      const q = cart.get(id) || 0;
-      if (q <= 1) cart.delete(id);
-      else cart.set(id, q - 1);
-      setCount();
-      renderCart();
-    }
-
-    function incQty(id){
-      cart.set(id, (cart.get(id) || 0) + 1);
-      setCount();
-      renderCart();
-    }
-
-    function clearCart(){
-      cart.clear();
-      setCount();
-      renderCart();
-    }
-
-    function renderShop(){
-      shopGrid.innerHTML = PRODUCTS.map(p => `
-        <div class="card">
-          <div class="thumb"><img src="${p.img}" alt="${p.name}"></div>
-          <div class="body">
-            <h3>${p.name}</h3>
-            <p class="meta">${p.desc}</p>
-            <div class="row">
-              <button class="btn-add" onclick="addToCart('${p.id}')">Add to cart</button>
-              <button class="btn-small" onclick="openWhatsApp('Hola, estoy interesado en: ${p.name}.')">Message</button>
-            </div>
-          </div>
-        </div>
-      `).join("");
-    }
-
-    function renderCart(){
-      if (cart.size === 0){
-        cartList.innerHTML = `<p class="muted">Tu carrito está vacío.</p>`;
-        return;
-      }
-
-      const rows = [];
-      for (const [id, qty] of cart.entries()){
-        const p = PRODUCTS.find(x => x.id === id);
-        if (!p) continue;
-        rows.push(`
-          <div class="cart-item">
-            <div>
-              <div class="name">${p.name}</div>
-              <div class="muted">Qty: ${qty}</div>
-            </div>
-            <div class="qty">
-              <button class="mini" onclick="decQty('${id}')">-</button>
-              <button class="mini" onclick="incQty('${id}')">+</button>
-            </div>
-          </div>
-        `);
-      }
-      cartList.innerHTML = rows.join("");
-    }
-
-    function checkoutWhatsApp(){
-      if (cart.size === 0){
-        alert("Tu carrito está vacío.");
-        return;
-      }
-
-      let msg = "Pedido JC CNC Machine:%0A";
-      for (const [id, qty] of cart.entries()){
-        const p = PRODUCTS.find(x => x.id === id);
-        if (!p) continue;
-        msg += `- ${p.name} (Qty: ${qty})%0A`;
-      }
-      msg += `%0AUbicación: Tampa, Florida%0A`;
-      msg += `%0AQuiero confirmar disponibilidad y forma de pago.`;
-
-      window.open("https://wa.me/18133387239?text=" + msg, "_blank");
-    }
-
-    function openWhatsApp(text){
-      window.open("https://wa.me/18133387239?text=" + encodeURIComponent(text), "_blank");
-    }
-
-    // init
-    renderShop();
-    setCount();
-  </script>
+renderShop();
+</script>
 
 </body>
 </html>
