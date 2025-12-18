@@ -39,12 +39,6 @@ nav a {
   margin: 0 12px;
   text-decoration: none;
   font-weight: bold;
-  display: inline-block;
-  padding: 6px 4px;
-}
-
-nav a:hover {
-  text-decoration: underline;
 }
 
 .container {
@@ -57,13 +51,6 @@ h2 {
   color: #b30000;
   border-bottom: 3px solid #b30000;
   padding-bottom: 5px;
-  margin-top: 0;
-}
-
-.subtext {
-  margin-top: 10px;
-  color: #222;
-  line-height: 1.5;
 }
 
 .products {
@@ -87,67 +74,19 @@ h2 {
   margin-bottom: 10px;
 }
 
-.meta {
-  font-size: 14px;
-  color: #444;
-  line-height: 1.4;
-}
-
-.badge {
-  display: inline-block;
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  border: 1px solid #b30000;
-  color: #b30000;
-  margin-top: 8px;
-}
-
 .btn {
-  display: inline-block;
   background: #b30000;
   color: #ffffff;
   padding: 10px 15px;
   border: none;
   cursor: pointer;
   border-radius: 4px;
-  margin-top: 10px;
   font-weight: bold;
+  margin-top: 10px;
 }
 
 .btn:hover {
   background: #ff0000;
-}
-
-.btn.secondary {
-  background: #555;
-}
-
-.btn.secondary:hover {
-  background: #333;
-}
-
-.footer {
-  background: #b30000;
-  color: #ffffff;
-  text-align: center;
-  padding: 20px;
-}
-
-/* Listas y textos legales */
-ul {
-  margin: 12px 0 0 18px;
-}
-
-.legal {
-  font-size: 14px;
-  line-height: 1.55;
-  color: #111;
-}
-
-.legal h3 {
-  margin: 18px 0 8px;
-  color: #b30000;
 }
 
 /* CARRITO */
@@ -163,18 +102,13 @@ ul {
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   z-index: 1000;
-  user-select: none;
-}
-
-#cart:hover {
-  background: #ffe6e6;
 }
 
 #cart-panel {
   position: fixed;
   top: 60px;
   right: 20px;
-  width: 320px;
+  width: 300px;
   background: #ffffff;
   border: 2px solid #b30000;
   border-radius: 8px;
@@ -186,17 +120,13 @@ ul {
 #cart-panel ul {
   list-style: none;
   padding: 0;
-  margin: 10px 0;
 }
 
-#cart-panel li {
-  margin-bottom: 10px;
-  font-size: 14px;
-}
-
-.small {
-  font-size: 12px;
-  color: #444;
+footer {
+  background: #b30000;
+  color: #ffffff;
+  text-align: center;
+  padding: 20px;
 }
 </style>
 </head>
@@ -207,212 +137,94 @@ ul {
 <div id="cart">🛒 <span id="cart-count">0</span></div>
 
 <div id="cart-panel">
-  <h3 style="margin:0;color:#b30000;">Carrito</h3>
+  <h3>Solicitud</h3>
   <ul id="cart-items"></ul>
-  <p><strong>Total:</strong> $<span id="cart-total">0</span></p>
-  <button class="btn" onclick="checkout()">Finalizar por WhatsApp</button>
-  <button class="btn secondary" onclick="toggleCart()">Cerrar</button>
-  <p class="small" style="margin-top:10px;">
-    *El total no incluye envío ni impuestos. Se confirmará al procesar el pedido.
-  </p>
+  <button class="btn" onclick="checkout()">Enviar por WhatsApp</button>
+  <button class="btn" onclick="toggleCart()" style="background:#555;">Cerrar</button>
 </div>
 
 <header>
-  <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/logo.jpg" alt="JC CNC Machine Logo">
+  <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/logo.jpg">
   <h1>JC CNC Machine</h1>
-  <p>Mecanizado CNC profesional en aluminio y fabricación de piezas personalizadas</p>
+  <p>Mecanizado CNC profesional en aluminio y fabricación personalizada</p>
 </header>
 
 <nav>
   <a href="#servicios">Servicios</a>
   <a href="#galeria">Proyectos en Venta</a>
-  <a href="#pagos">Pagos</a>
-  <a href="#politicas">Políticas (FL / USA)</a>
-  <a href="#contacto">Contacto</a>
+  <a href="#politicas">Políticas</a>
 </nav>
 
-<!-- SERVICIOS -->
 <div class="container" id="servicios">
-  <h2>Servicios de Mecanizado CNC</h2>
-  <p class="subtext">
-    Fabricación y mecanizado CNC con enfoque en precisión, repetibilidad y acabado. Producción limitada y trabajos personalizados bajo plano (STEP / PDF).
-  </p>
+  <h2>Servicios CNC</h2>
 
   <div class="products">
     <div class="card">
-      <h3>Piezas CNC en Aluminio</h3>
-      <p class="meta">Mecanizado de piezas en aluminio (ej. 6061) para prototipos, mejoras y producción corta.</p>
-      <span class="badge">Cotización rápida</span><br>
-      <button class="btn" onclick="openWhatsApp('Hola, me gustaría cotizar una pieza CNC en aluminio. ¿Qué información necesitas?')">
+      <h3>Mecanizado CNC en Aluminio</h3>
+      <p>Producción de piezas CNC con alta precisión.</p>
+      <button class="btn" onclick="openWhatsApp('Quiero cotizar un trabajo de mecanizado CNC.')">
         Cotizar por WhatsApp
       </button>
     </div>
 
     <div class="card">
       <h3>Pieza CNC Personalizada</h3>
-      <p class="meta">Fabricación bajo plano (STEP / PDF). Podemos revisar tolerancias, material y cantidad.</p>
-      <span class="badge">Bajo plano</span><br>
-      <button class="btn" onclick="openWhatsApp('Hola, quiero una pieza CNC personalizada. Tengo plano STEP/PDF. ¿Cómo te lo envío?')">
+      <p>Fabricación bajo plano (STEP / PDF).</p>
+      <button class="btn" onclick="openWhatsApp('Tengo un plano CNC para cotizar.')">
         Solicitar Cotización
       </button>
     </div>
   </div>
 </div>
 
-<!-- PROYECTOS EN VENTA -->
 <div class="container" id="galeria">
-  <h2>Proyectos CNC Terminados (En Venta)</h2>
-  <p class="subtext">
-    Piezas ya mecanizadas, listas para venta. Stock limitado. Para confirmar disponibilidad, envío e impuestos, finaliza por WhatsApp.
-  </p>
+  <h2>Proyectos CNC Disponibles</h2>
 
   <div class="products">
-
     <div class="card">
-      <img src="https://via.placeholder.com/600x350?text=Producto+CNC+1" alt="Producto CNC 1">
-      <h3>Bracket CNC – Aluminio 6061</h3>
-      <p class="meta">Producción propia · Control de calidad visual · Listo para envío</p>
-      <span class="badge">$85.00</span><br>
-      <button class="btn" onclick="addToCart('Bracket CNC - Aluminio 6061', 85)">
-        Agregar al carrito
+      <img src="https://via.placeholder.com/600x350?text=CNC+1">
+      <h3>Bracket CNC – Aluminio</h3>
+      <p>Producción propia · Stock limitado</p>
+      <button class="btn" onclick="addToCart('Bracket CNC Aluminio')">
+        Agregar
       </button>
     </div>
 
     <div class="card">
-      <img src="https://via.placeholder.com/600x350?text=Producto+CNC+2" alt="Producto CNC 2">
-      <h3>Soporte CNC en Aluminio</h3>
-      <p class="meta">Alta precisión · Listo para envío</p>
-      <span class="badge">$120.00</span><br>
-      <button class="btn" onclick="addToCart('Soporte CNC en Aluminio', 120)">
-        Agregar al carrito
+      <img src="https://via.placeholder.com/600x350?text=CNC+2">
+      <h3>Soporte CNC</h3>
+      <p>Alta precisión · Listo para envío</p>
+      <button class="btn" onclick="addToCart('Soporte CNC')">
+        Agregar
       </button>
     </div>
 
     <div class="card">
-      <img src="https://via.placeholder.com/600x350?text=Producto+CNC+3" alt="Producto CNC 3">
+      <img src="https://via.placeholder.com/600x350?text=CNC+3">
       <h3>Adaptador CNC</h3>
-      <p class="meta">Serie limitada · Listo para envío</p>
-      <span class="badge">$95.00</span><br>
-      <button class="btn" onclick="addToCart('Adaptador CNC', 95)">
-        Agregar al carrito
+      <p>Serie limitada</p>
+      <button class="btn" onclick="addToCart('Adaptador CNC')">
+        Agregar
       </button>
     </div>
-
   </div>
 </div>
 
-<!-- PAGOS -->
-<div class="container" id="pagos">
-  <h2>Formas de Pago</h2>
-  <p class="subtext">Aceptamos métodos de pago comunes en EE.UU. El método final se confirma al procesar el pedido.</p>
-  <ul class="legal">
-    <li>Tarjeta de crédito / débito (Stripe)</li>
-    <li>PayPal</li>
-    <li>Zelle</li>
-    <li>Transferencia (previa coordinación)</li>
-  </ul>
-
-  <p class="small" style="margin-top:12px;">
-    *Para pagos con tarjeta (Stripe) normalmente se envía un link de pago una vez confirmada la orden.
-  </p>
-
-  <!-- PayPal (Ejemplo - ajusta business si lo usas) -->
-  <form action="https://www.paypal.com/donate" method="post" target="_blank" style="margin-top:14px;">
-    <input type="hidden" name="business" value="ventas@jccncmachine.com">
-    <input type="hidden" name="currency_code" value="USD">
-    <button class="btn" type="submit">Pagar con PayPal</button>
-  </form>
-</div>
-
-<!-- POLÍTICAS FL / USA -->
 <div class="container" id="politicas">
-  <h2>Políticas de Venta, Devolución y Términos (Florida / EE.UU.)</h2>
-  <div class="legal">
-
-    <p>
-      <strong>JC CNC Machine</strong> opera en Florida, EE.UU. Estas políticas aplican a ventas locales y envíos dentro de Estados Unidos.
-      Si existe conflicto entre estas políticas y una cotización/orden aprobada por escrito, prevalece la orden aprobada.
-    </p>
-
-    <h3>1) Piezas Personalizadas (Bajo Plano) — Venta Final</h3>
-    <p>
-      Las piezas fabricadas bajo especificación del cliente (planos STEP/PDF, tolerancias, material, cambios solicitados)
-      se consideran <strong>productos personalizados</strong> y son <strong>VENTA FINAL</strong>.
-      No se aceptan devoluciones ni reembolsos, excepto por defecto de fabricación comprobable o error atribuible a JC CNC Machine.
-    </p>
-
-    <h3>2) Productos en Stock / Terminados (No personalizados)</h3>
-    <p>
-      Para productos estándar en stock (no personalizados), se aceptan devoluciones dentro de <strong>14 días</strong> posteriores a la entrega,
-      siempre que el artículo esté <strong>sin uso</strong>, en condición original, y con empaque original cuando aplique.
-    </p>
-
-    <h3>3) Inspección y Reclamos por Daños/Errores</h3>
-    <p>
-      El cliente debe inspeccionar el paquete al recibirlo. Si existe daño por transporte, faltantes o discrepancias,
-      debe notificarse dentro de <strong>5 días hábiles</strong> desde la entrega con evidencia (fotos del empaque y del producto).
-    </p>
-
-    <h3>4) Reembolsos</h3>
-    <p>
-      Reembolsos aprobados (cuando apliquen) se procesan al método de pago original. Los tiempos pueden variar según el proveedor de pago.
-      Los <strong>costos de envío</strong> y tarifas de procesamiento usualmente <strong>no son reembolsables</strong> salvo error atribuible a JC CNC Machine.
-    </p>
-
-    <h3>5) Envíos</h3>
-    <p>
-      El costo de envío se calcula según peso, dimensiones y destino. Impuestos aplicables pueden variar por estado y tipo de transacción.
-      Una vez enviado, se compartirá número de rastreo cuando esté disponible.
-    </p>
-
-    <h3>6) Confirmación de Orden y Pagos</h3>
-    <p>
-      Para iniciar fabricación o reservar stock, puede requerirse pago total o depósito según el tipo de pedido.
-      Cotizaciones pueden expirar si cambian materiales, disponibilidad o costos de envío.
-    </p>
-
-    <h3>7) Responsabilidad del Cliente (Diseño/Aplicación)</h3>
-    <p>
-      El cliente es responsable de la aplicación final, instalación, uso, y verificación del diseño/tolerancias.
-      JC CNC Machine no se responsabiliza por fallas derivadas de diseño proporcionado por el cliente o uso indebido.
-    </p>
-
-    <h3>8) Garantía Limitada</h3>
-    <p>
-      Las piezas se entregan según especificación aprobada. Para defectos de fabricación comprobables, la solución puede ser
-      reparación, reemplazo o crédito, a discreción razonable de JC CNC Machine, conforme al caso.
-    </p>
-
-    <p class="small">
-      *Este contenido es informativo y no constituye asesoría legal. Para requisitos específicos o acuerdos B2B, se recomienda un contrato/PO formal.
-    </p>
-  </div>
-</div>
-
-<!-- CONTACTO -->
-<div class="container" id="contacto">
-  <h2>Contacto</h2>
-  <p class="subtext">
-    Para cotizaciones, pedidos y consultas, contáctanos:
+  <h2>Políticas de Venta (Florida / EE.UU.)</h2>
+  <p>
+    Todas las piezas CNC personalizadas son <strong>venta final</strong>.
+    Los productos disponibles están sujetos a confirmación antes de pago.
+    Reclamos deben realizarse dentro de 5 días hábiles posteriores a la entrega.
   </p>
-  <ul class="legal">
-    <li><strong>WhatsApp:</strong> 813-338-7239</li>
-    <li><strong>Email:</strong> ventas@jccncmachine.com</li>
-    <li><strong>Ubicación:</strong> Florida, USA</li>
-  </ul>
-
-  <button class="btn" onclick="openWhatsApp('Hola, quiero información sobre productos CNC / cotización.')">
-    Escribir por WhatsApp
-  </button>
 </div>
 
-<div class="footer">
+<footer>
   <p>© 2025 JC CNC Machine — Florida, USA</p>
-</div>
+</footer>
 
 <script>
 let cart = [];
-let total = 0;
 
 document.getElementById("cart").onclick = toggleCart;
 
@@ -421,35 +233,23 @@ function toggleCart() {
   panel.style.display = panel.style.display === "block" ? "none" : "block";
 }
 
-function addToCart(name, price) {
-  cart.push({ name, price });
-  total += price;
-
+function addToCart(name) {
+  cart.push(name);
   document.getElementById("cart-count").innerText = cart.length;
-  document.getElementById("cart-total").innerText = total.toFixed(2);
 
   const item = document.createElement("li");
-  item.innerText = `${name} - $${price.toFixed(2)}`;
+  item.innerText = name;
   document.getElementById("cart-items").appendChild(item);
 }
 
 function checkout() {
-  if (cart.length === 0) {
-    alert("Tu carrito está vacío.");
-    return;
-  }
-
-  let msg = "Pedido JC CNC Machine:%0A";
-  cart.forEach(i => msg += `- ${i.name} ($${i.price.toFixed(2)})%0A`);
-  msg += `%0ATotal: $${total.toFixed(2)}%0A`;
-  msg += `%0A*Nota:* El total no incluye envío ni impuestos. Confirmar antes de pagar.`;
-
+  let msg = "Solicitud de productos JC CNC Machine:%0A";
+  cart.forEach(i => msg += "- " + i + "%0A");
   window.open("https://wa.me/18133387239?text=" + msg, "_blank");
 }
 
 function openWhatsApp(text) {
-  const msg = encodeURIComponent(text);
-  window.open("https://wa.me/18133387239?text=" + msg, "_blank");
+  window.open("https://wa.me/18133387239?text=" + encodeURIComponent(text), "_blank");
 }
 </script>
 
