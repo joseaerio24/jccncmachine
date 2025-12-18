@@ -273,7 +273,25 @@ footer a{color:#fff}
 <a id="fb" href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">📘 Facebook</a>
 
 <script>
-const PRODUCTS = [];
+// ===============================
+// ADD YOUR PRODUCTS HERE
+// ===============================
+const PRODUCTS = [
+  /*
+  EJEMPLO – SOLO COPIA Y MODIFICA CUANDO QUIERAS AÑADIR UN PRODUCTO
+
+  {
+    id: "item-1",
+    name: "PRODUCT NAME",
+    price: 0,
+    img: "IMAGE_URL"
+  }
+  */
+];
+
+// ===============================
+// CART LOGIC (NO TOCAR)
+// ===============================
 const cart = [];
 const count = document.getElementById("count");
 const list = document.getElementById("list");
@@ -288,10 +306,12 @@ function renderProducts(){
   grid.innerHTML = PRODUCTS.map(p=>`
     <div class="card">
       <div class="content">
-        <img class="product-img" src="${p.img}">
+        <img class="product-img" src="${p.img}" alt="${p.name}">
         <h3>${p.name}</h3>
         <p>$${p.price}</p>
-        <button class="btn btn-add" onclick="add('${p.id}')">Add to Cart</button>
+        <button class="btn btn-add" onclick="add('${p.id}')">
+          Add to Cart
+        </button>
       </div>
     </div>
   `).join("");
@@ -299,7 +319,10 @@ function renderProducts(){
 
 function add(id){
   const product = PRODUCTS.find(p => p.id === id);
-  if(!product){ alert("Product not configured yet"); return; }
+  if(!product){
+    alert("Product not configured yet");
+    return;
+  }
   cart.push(product);
   count.textContent = cart.length;
   renderCart();
@@ -308,16 +331,22 @@ function add(id){
 function renderCart(){
   let total = 0;
   list.innerHTML = "";
+
   cart.forEach(p=>{
     total += p.price;
-    list.innerHTML += `<div class="cart-item"><strong>${p.name}</strong><br>$${p.price}</div>`;
+    list.innerHTML += `
+      <div class="cart-item">
+        <strong>${p.name}</strong><br>
+        $${p.price}
+      </div>
+    `;
   });
+
   list.innerHTML += `<hr><strong>Total: $${total}</strong>`;
 }
+
+// RENDER PRODUCTS ON LOAD
 renderProducts();
 </script>
-
-</body>
-</html>
 
 
