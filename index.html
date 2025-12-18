@@ -291,25 +291,55 @@ footer{
 </div>
 
 <a id="wa" href="https://wa.me/18133387239" target="_blank">💬 Support</a>
-
 <script>
-const cart=[];
-const count=document.getElementById("count");
-const list=document.getElementById("list");
-const drawer=document.getElementById("drawer");
+const PRODUCTS = [
+  {
+    id: "cnc",
+    name: "CNC Aluminum ",
+    price: ,
+    desc: "6061 Aluminum – Ready to ship",
+  },
+  {
+    id: "3d-prototype",
+    name: "3D Printed Prototype",
+    price: ,
+    desc: "PLA / PETG – Functional prototype",
+  }
+];
 
-document.getElementById("cartBtn").onclick=()=>{
+const cart = [];
+const count = document.getElementById("count");
+const list = document.getElementById("list");
+const drawer = document.getElementById("drawer");
+
+document.getElementById("cartBtn").onclick = () => {
   drawer.classList.toggle("open");
 };
 
-function add(item){
-  cart.push(item);
-  count.textContent=cart.length;
-  list.innerHTML=cart.map(i=>`<div class="cart-item">${i}</div>`).join("");
+function add(id){
+  const product = PRODUCTS.find(p => p.id === id);
+  cart.push(product);
+  count.textContent = cart.length;
+  renderCart();
+}
+
+function renderCart(){
+  let total = 0;
+  list.innerHTML = cart.map(p=>{
+    total += p.price;
+    return `
+      <div class="cart-item">
+        <strong>${p.name}</strong><br>
+        $${p.price}
+      </div>
+    `;
+  }).join("");
+
+  list.innerHTML += `
+    <hr>
+    <strong>Total: $${total}</strong>
+  `;
 }
 </script>
-
-</body>
-</html>
 
 
