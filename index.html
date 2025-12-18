@@ -91,7 +91,7 @@ h2{color:var(--red)}
 }
 .meta{font-size:14px;color:#6b7280;line-height:1.6}
 
-/* SHOP BACKGROUND */
+/* SHOP */
 .shop-bg{
   background:
     linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.95)),
@@ -118,12 +118,27 @@ h2{color:var(--red)}
   height:180px;
   object-fit:cover;
   border-radius:10px;
-  margin-bottom:12px;
+  margin-bottom:10px;
+}
+
+/* THUMBNAILS */
+.thumbs{
+  display:flex;
+  gap:6px;
+  margin-bottom:10px;
+}
+.thumbs img{
+  width:50px;
+  height:50px;
+  object-fit:cover;
+  border-radius:6px;
+  cursor:pointer;
+  border:1px solid #444;
 }
 
 /* BUTTON */
 .btn{
-  margin-top:12px;
+  margin-top:10px;
   padding:12px 18px;
   border-radius:12px;
   font-weight:bold;
@@ -169,23 +184,12 @@ h2{color:var(--red)}
   font-size:14px;
 }
 
-/* FLOATING BUTTONS */
+/* WHATSAPP */
 #wa{
   position:fixed;
   bottom:18px;
   right:18px;
   background:#25d366;
-  color:#fff;
-  padding:14px 18px;
-  border-radius:999px;
-  font-weight:bold;
-  box-shadow:var(--shadow);
-}
-#fb{
-  position:fixed;
-  bottom:80px;
-  right:18px;
-  background:#1877f2;
   color:#fff;
   padding:14px 18px;
   border-radius:999px;
@@ -201,7 +205,6 @@ footer{
   font-size:12px;
   text-align:center;
 }
-footer a{color:#fff}
 </style>
 </head>
 
@@ -216,9 +219,7 @@ footer a{color:#fff}
     <nav>
       <a href="#shop">Shop</a>
       <a href="#policies">Policies</a>
-      <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">
-        Facebook
-      </a>
+      <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">Facebook</a>
     </nav>
   </div>
 </header>
@@ -257,10 +258,7 @@ footer a{color:#fff}
 
 <footer>
   © 2025 JC CNC Machine — Tampa, Florida<br>
-  📧 sales@jccncmachine.com<br>
-  🔵 <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">
-    Facebook Page
-  </a>
+  sales@jccncmachine.com
 </footer>
 
 <div id="drawer">
@@ -269,12 +267,11 @@ footer a{color:#fff}
   <p class="meta">Payment instructions will be sent via email.</p>
 </div>
 
-<a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp</a>
-<a id="fb" href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">📘 Facebook</a>
+<a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp Support</a>
 
 <script>
 // ===============================
-// ADD YOUR PRODUCTS HERE
+// PRODUCTS – MULTI IMAGE SUPPORT
 // ===============================
 const PRODUCTS = [
 
@@ -311,11 +308,9 @@ const PRODUCTS = [
   }
 
 ];
-</script>
-
 
 // ===============================
-// CART LOGIC (NO TOCAR)
+// CART LOGIC
 // ===============================
 const cart = [];
 const count = document.getElementById("count");
@@ -328,26 +323,31 @@ document.getElementById("cartBtn").onclick = () => {
 };
 
 function renderProducts(){
-  grid.innerHTML = PRODUCTS.map(p=>`
+  grid.innerHTML = PRODUCTS.map(p => `
     <div class="card">
       <div class="content">
-        <img class="product-img" src="${p.img}" alt="${p.name}">
+        <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
+
+        <div class="thumbs">
+          ${p.imgs.map(img => `
+            <img src="${img}" onclick="changeImg('${p.id}','${img}')">
+          `).join("")}
+        </div>
+
         <h3>${p.name}</h3>
         <p>$${p.price}</p>
-        <button class="btn btn-add" onclick="add('${p.id}')">
-          Add to Cart
-        </button>
+        <button class="btn btn-add" onclick="add('${p.id}')">Add to Cart</button>
       </div>
     </div>
   `).join("");
 }
 
+function changeImg(id, img){
+  document.getElementById(`img-${id}`).src = img;
+}
+
 function add(id){
   const product = PRODUCTS.find(p => p.id === id);
-  if(!product){
-    alert("Product not configured yet");
-    return;
-  }
   cart.push(product);
   count.textContent = cart.length;
   renderCart();
@@ -356,22 +356,19 @@ function add(id){
 function renderCart(){
   let total = 0;
   list.innerHTML = "";
-
   cart.forEach(p=>{
     total += p.price;
     list.innerHTML += `
       <div class="cart-item">
         <strong>${p.name}</strong><br>
         $${p.price}
-      </div>
-    `;
+      </div>`;
   });
-
   list.innerHTML += `<hr><strong>Total: $${total}</strong>`;
 }
 
-// RENDER PRODUCTS ON LOAD
 renderProducts();
 </script>
 
-
+</body>
+</html>
