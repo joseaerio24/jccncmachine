@@ -89,7 +89,7 @@ h2{color:var(--red)}
 }
 .meta{font-size:14px;color:#6b7280}
 
-/* SERVICES */
+/* PRODUCTS */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -99,23 +99,18 @@ h2{color:var(--red)}
   border-radius:var(--radius);
   box-shadow:var(--shadow);
   overflow:hidden;
+  background:#000;
   color:#fff;
-  min-height:260px;
-  display:flex;
-  align-items:flex-end;
 }
 .card .content{
-  background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.25));
-  padding:26px;
+  padding:20px;
+}
+.product-img{
   width:100%;
-}
-
-/* BACKGROUNDS */
-.cnc-bg{
-  background:url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png") center/cover;
-}
-.print-bg{
-  background:url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/3dprint.png") center/cover;
+  height:180px;
+  object-fit:cover;
+  border-radius:10px;
+  margin-bottom:12px;
 }
 
 /* BUTTON */
@@ -186,7 +181,7 @@ footer{
       <strong>JC CNC Machine</strong>
     </div>
     <nav>
-      <a href="#services">Services</a>
+      <a href="#shop">Shop</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
@@ -202,28 +197,12 @@ footer{
   </div>
 </section>
 
-<section class="section" id="services">
+<section class="section" id="shop">
   <div class="wrap">
-    <h2>Services</h2>
+    <h2>Shop</h2>
     <div class="divider"></div>
 
-    <div class="grid">
-      <div class="card cnc-bg">
-        <div class="content">
-          <h3>CNC Machining</h3>
-          <p>Custom CNC parts and ready-to-ship items.</p>
-          <button class="btn btn-add" onclick="add('cnc-service')">Add to Cart</button>
-        </div>
-      </div>
-
-      <div class="card print-bg">
-        <div class="content">
-          <h3>3D Printing</h3>
-          <p>Functional and prototype 3D printed parts.</p>
-          <button class="btn btn-add" onclick="add('print-service')">Add to Cart</button>
-        </div>
-      </div>
-    </div>
+    <div class="grid" id="products"></div>
   </div>
 </section>
 
@@ -239,19 +218,15 @@ footer{
 
 <script>
 // ===============================
-// PRODUCTS – YOU ADD ITEMS HERE
+// PRODUCTS – ADD YOUR ITEMS HERE
 // ===============================
 const PRODUCTS = [
   /*
   {
-    id: "cnc-service",
-    name: "",
-    price: 0
-  },
-  {
-    id: "print-service",
-    name: "",
-    price: 0
+    id: "item-1",
+    name: "YOUR PRODUCT NAME",
+    price: 0,
+    img: "IMAGE_URL_HERE"
   }
   */
 ];
@@ -260,10 +235,24 @@ const cart = [];
 const count = document.getElementById("count");
 const list = document.getElementById("list");
 const drawer = document.getElementById("drawer");
+const grid = document.getElementById("products");
 
 document.getElementById("cartBtn").onclick = () => {
   drawer.classList.toggle("open");
 };
+
+function renderProducts(){
+  grid.innerHTML = PRODUCTS.map(p=>`
+    <div class="card">
+      <div class="content">
+        <img class="product-img" src="${p.img}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p>$${p.price}</p>
+        <button class="btn btn-add" onclick="add('${p.id}')">Add to Cart</button>
+      </div>
+    </div>
+  `).join("");
+}
 
 function add(id){
   const product = PRODUCTS.find(p => p.id === id);
@@ -281,20 +270,20 @@ function renderCart(){
   list.innerHTML = "";
 
   cart.forEach(p=>{
-    total += p.price || 0;
+    total += p.price;
     list.innerHTML += `
       <div class="cart-item">
-        <strong>${p.name || "Unnamed item"}</strong><br>
-        $${p.price || 0}
+        <strong>${p.name}</strong><br>
+        $${p.price}
       </div>
     `;
   });
 
   list.innerHTML += `<hr><strong>Total: $${total}</strong>`;
 }
+
+renderProducts();
 </script>
 
 </body>
 </html>
-
-
