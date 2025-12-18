@@ -69,16 +69,13 @@ h2 {
   border-radius: 6px;
 }
 
-.card h3 {
-  margin-top: 10px;
-}
-
 .btn {
   display: inline-block;
   background: #b30000;
   color: #ffffff;
   padding: 10px 15px;
-  text-decoration: none;
+  border: none;
+  cursor: pointer;
   border-radius: 4px;
   margin-top: 10px;
 }
@@ -87,30 +84,67 @@ h2 {
   background: #ff0000;
 }
 
-form {
-  display: grid;
-  gap: 15px;
-}
-
-input, textarea, select {
-  padding: 10px;
-  font-size: 16px;
-  width: 100%;
-}
-
 footer {
   background: #b30000;
   color: #ffffff;
   text-align: center;
   padding: 20px;
 }
+
+/* CARRITO */
+#cart {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  background: #ffffff;
+  color: #b30000;
+  padding: 10px 15px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+
+#cart-panel {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  width: 300px;
+  background: #ffffff;
+  border: 2px solid #b30000;
+  border-radius: 8px;
+  padding: 15px;
+  display: none;
+  z-index: 1000;
+}
+
+#cart-panel ul {
+  list-style: none;
+  padding: 0;
+}
+
+#cart-panel li {
+  margin-bottom: 10px;
+}
 </style>
 </head>
 
 <body>
 
+<!-- CARRITO -->
+<div id="cart">🛒 <span id="cart-count">0</span></div>
+
+<div id="cart-panel">
+  <h3>Carrito</h3>
+  <ul id="cart-items"></ul>
+  <p><strong>Total:</strong> $<span id="cart-total">0</span></p>
+  <button class="btn" onclick="checkout()">Finalizar por WhatsApp</button>
+  <button class="btn" onclick="toggleCart()" style="background:#555;">Cerrar</button>
+</div>
+
 <header>
-  <img src="logo.jpg" alt="JC CNC Machine Logo">
+  <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/logo.jpg">
   <h1>JC CNC Machine</h1>
   <p>Fabricación profesional CNC en aluminio y partes automotrices</p>
 </header>
@@ -118,118 +152,76 @@ footer {
 <nav>
   <a href="#productos">Servicios</a>
   <a href="#galeria">Proyectos en Venta</a>
-  <a href="#planos">Subir Plano</a>
-  <a href="#pagos">Pagos</a>
-  <a href="#terminos">Términos</a>
 </nav>
 
-<!-- SERVICIOS -->
-<div class="container" id="productos">
-  <h2>Servicios CNC</h2>
-  <div class="products">
-
-    <div class="card">
-      <h3>Soporte Automotriz CNC</h3>
-      <p>Pieza mecanizada para aplicaciones automotrices.</p>
-      <a class="btn" href="https://wa.me/18133387239" target="_blank">
-        Cotizar por WhatsApp
-      </a>
-    </div>
-
-    <div class="card">
-      <h3>Pieza CNC Personalizada</h3>
-      <p>Fabricación bajo plano (STEP / PDF).</p>
-      <a class="btn" href="#planos">Solicitar Cotización</a>
-    </div>
-
-  </div>
-</div>
-
-<!-- PROYECTOS YA MECANIZADOS -->
 <div class="container" id="galeria">
-  <h2>Proyectos CNC Terminados (En Venta)</h2>
-  <p>Piezas CNC ya mecanizadas, listas para envío inmediato.</p>
+  <h2>Proyectos CNC en Venta</h2>
 
   <div class="products">
 
     <div class="card">
-      <img src="https://via.placeholder.com/400x250?text=Proyecto+CNC+1">
       <h3>Bracket CNC – Aluminio 6061</h3>
       <p>Producción propia · Stock limitado</p>
-      <a class="btn" href="https://wa.me/18133387239" target="_blank">
-        Comprar / Cotizar
-      </a>
+      <button class="btn" onclick="addToCart('Bracket CNC Aluminio 6061', 85)">
+        Agregar al carrito
+      </button>
     </div>
 
     <div class="card">
-      <img src="https://via.placeholder.com/400x250?text=Proyecto+CNC+2">
       <h3>Soporte Automotriz CNC</h3>
       <p>Alta precisión · Listo para envío</p>
-      <a class="btn" href="https://wa.me/18133387239" target="_blank">
-        Comprar / Cotizar
-      </a>
+      <button class="btn" onclick="addToCart('Soporte Automotriz CNC', 120)">
+        Agregar al carrito
+      </button>
     </div>
 
     <div class="card">
-      <img src="https://via.placeholder.com/400x250?text=Proyecto+CNC+3">
       <h3>Adaptador CNC</h3>
       <p>Serie limitada</p>
-      <a class="btn" href="https://wa.me/18133387239" target="_blank">
-        Comprar / Cotizar
-      </a>
+      <button class="btn" onclick="addToCart('Adaptador CNC', 95)">
+        Agregar al carrito
+      </button>
     </div>
 
   </div>
-</div>
-
-<!-- SUBIR PLANOS -->
-<div class="container" id="planos">
-  <h2>Subir Plano CNC</h2>
-  <form>
-    <input type="text" placeholder="Nombre completo" required>
-    <input type="email" placeholder="Email" required>
-    <input type="text" placeholder="Material (Ej: Aluminio 6061)" required>
-    <select>
-      <option>Cantidad</option>
-      <option>1–5</option>
-      <option>6–20</option>
-      <option>Más de 20</option>
-    </select>
-    <input type="file" accept=".pdf,.step,.stp">
-    <textarea rows="4" placeholder="Notas adicionales"></textarea>
-    <button class="btn" type="submit">Enviar Cotización</button>
-  </form>
-</div>
-
-<!-- PAGOS -->
-<div class="container" id="pagos">
-  <h2>Formas de Pago</h2>
-  <ul>
-    <li>Tarjetas de crédito / débito</li>
-    <li>PayPal</li>
-    <li>Zelle</li>
-    <li>Stripe</li>
-  </ul>
-
-  <form action="https://www.paypal.com/donate" method="post" target="_blank">
-    <input type="hidden" name="business" value="ventas@jccncmachine.com">
-    <input type="hidden" name="currency_code" value="USD">
-    <button class="btn" type="submit">Pagar con PayPal</button>
-  </form>
-</div>
-
-<!-- TERMINOS -->
-<div class="container" id="terminos">
-  <h2>Términos y Condiciones</h2>
-  <p><strong>JC CNC Machine</strong> opera bajo las leyes de Florida y EE.UU.</p>
-  <p>Todo trabajo CNC personalizado es <strong>venta final</strong>.</p>
-  <p>Pagos requeridos antes de iniciar fabricación.</p>
-  <p>No nos responsabilizamos por diseños proporcionados por el cliente.</p>
 </div>
 
 <footer>
   <p>© 2025 JC CNC Machine — Florida, USA</p>
 </footer>
 
+<script>
+let cart = [];
+let total = 0;
+
+document.getElementById("cart").onclick = toggleCart;
+
+function toggleCart() {
+  const panel = document.getElementById("cart-panel");
+  panel.style.display = panel.style.display === "block" ? "none" : "block";
+}
+
+function addToCart(name, price) {
+  cart.push({ name, price });
+  total += price;
+
+  document.getElementById("cart-count").innerText = cart.length;
+  document.getElementById("cart-total").innerText = total.toFixed(2);
+
+  const item = document.createElement("li");
+  item.innerText = `${name} - $${price}`;
+  document.getElementById("cart-items").appendChild(item);
+}
+
+function checkout() {
+  let msg = "Pedido JC CNC Machine:%0A";
+  cart.forEach(i => msg += `- ${i.name} ($${i.price})%0A`);
+  msg += `%0ATotal: $${total.toFixed(2)}`;
+
+  window.open("https://wa.me/18133387239?text=" + msg, "_blank");
+}
+</script>
+
 </body>
 </html>
+
