@@ -12,7 +12,7 @@
   --line:#e5e7eb;
   --muted:#6b7280;
   --radius:14px;
-  --shadow:0 10px 25px rgba(0,0,0,.12);
+  --shadow:0 10px 25px rgba(0,0,0,.15);
 }
 *{box-sizing:border-box}
 body{
@@ -53,53 +53,96 @@ nav a{
   margin-left:16px;
 }
 
-/* HERO */
+/* HERO WITH BACKGROUND */
 .hero{
-  background:#0b0b0b;
+  background:
+    linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+    url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png");
+  background-size:cover;
+  background-position:center;
   color:#fff;
-  padding:64px 16px;
+  padding:90px 16px;
 }
 .hero-inner{
   max-width:1200px;
   margin:auto;
 }
-.hero h1{font-size:44px;margin-bottom:10px}
-.hero p{color:#d1d5db;max-width:55ch}
+.hero h1{
+  font-size:46px;
+  margin-bottom:10px;
+}
+.hero p{
+  color:#e5e7eb;
+  max-width:55ch;
+}
 
 /* SECTION */
-.section{padding:56px 16px}
+.section{padding:64px 16px}
 .wrap{max-width:1200px;margin:auto}
-h2{color:#b30000}
+h2{color:var(--red)}
 .divider{
   height:3px;
   background:linear-gradient(90deg,#b30000,transparent);
-  margin:12px 0 26px;
+  margin:12px 0 28px;
   border-radius:999px;
 }
-.meta{font-size:14px;color:#6b7280;line-height:1.55}
+.meta{
+  font-size:14px;
+  color:#6b7280;
+  line-height:1.55;
+}
 
-/* SHOP */
+/* SERVICES */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:22px;
+  gap:24px;
 }
 .card{
-  border:1px solid var(--line);
   border-radius:var(--radius);
-  padding:24px;
   box-shadow:var(--shadow);
-  text-align:center;
+  overflow:hidden;
+  color:#fff;
+  min-height:260px;
+  display:flex;
+  align-items:flex-end;
 }
-.card h3{margin-bottom:8px}
+.card .content{
+  background:linear-gradient(to top,rgba(0,0,0,.8),rgba(0,0,0,.1));
+  padding:24px;
+  width:100%;
+}
+.card h3{margin:0 0 8px}
+.card p{font-size:14px;color:#e5e7eb}
+
+/* BACKGROUNDS */
+.cnc-bg{
+  background:
+    url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png");
+  background-size:cover;
+  background-position:center;
+}
+.print-bg{
+  background:
+    url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/3dprint.png");
+  background-size:cover;
+  background-position:center;
+}
+
+/* BUTTONS */
 .btn{
   display:inline-block;
+  margin-top:10px;
   padding:12px 18px;
   border-radius:12px;
   font-weight:bold;
   cursor:pointer;
 }
-.btn-add{background:#b30000;color:#fff}
+.btn-add{
+  background:#b30000;
+  color:#fff;
+  border:none;
+}
 
 /* CART */
 #cartBtn{
@@ -113,6 +156,7 @@ h2{color:#b30000}
   box-shadow:var(--shadow);
   font-weight:bold;
   cursor:pointer;
+  z-index:999;
 }
 #drawer{
   position:fixed;
@@ -124,6 +168,7 @@ h2{color:#b30000}
   padding:16px;
   transform:translateX(100%);
   transition:.25s;
+  z-index:999;
 }
 #drawer.open{transform:translateX(0)}
 .cart-item{
@@ -143,7 +188,7 @@ footer{
   text-align:center;
 }
 
-/* WHATSAPP */
+/* WHATSAPP SUPPORT */
 #wa{
   position:fixed;
   bottom:18px;
@@ -166,7 +211,7 @@ footer{
       <strong>JC CNC Machine</strong>
     </div>
     <nav>
-      <a href="#shop">Shop</a>
+      <a href="#services">Services</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
@@ -177,26 +222,39 @@ footer{
 <section class="hero">
   <div class="hero-inner">
     <h1>Professional CNC & 3D Printing</h1>
-    <p>Precision manufacturing. Orders reviewed and confirmed after payment.</p>
+    <p>
+      Precision manufacturing services.
+      Orders are reviewed and confirmed after payment.
+    </p>
   </div>
 </section>
 
-<section class="section" id="shop">
+<section class="section" id="services">
   <div class="wrap">
-    <h2>Shop</h2>
+    <h2>Services</h2>
     <div class="divider"></div>
 
     <div class="grid">
-      <div class="card">
-        <h3>CNC Machining</h3>
-        <p class="meta">Custom CNC services and ready-to-ship parts.</p>
-        <button class="btn btn-add" onclick="add('CNC Machining')">Add to Cart</button>
+      <div class="card cnc-bg">
+        <div class="content">
+          <h3>CNC Machining</h3>
+          <p>
+            Aluminum & metal CNC parts, fixtures, brackets,
+            adapters and small production runs.
+          </p>
+          <button class="btn btn-add" onclick="add('CNC Machining')">Add to Cart</button>
+        </div>
       </div>
 
-      <div class="card">
-        <h3>3D Printing</h3>
-        <p class="meta">Functional and prototype 3D printed parts.</p>
-        <button class="btn btn-add" onclick="add('3D Printing')">Add to Cart</button>
+      <div class="card print-bg">
+        <div class="content">
+          <h3>3D Printing</h3>
+          <p>
+            Prototypes, jigs, functional parts and custom prints.
+            STL / STEP files accepted.
+          </p>
+          <button class="btn btn-add" onclick="add('3D Printing')">Add to Cart</button>
+        </div>
       </div>
     </div>
   </div>
@@ -209,12 +267,13 @@ footer{
 
     <p class="meta">
       📧 <strong>Email:</strong> sales@jccncmachine.com<br>
-      💳 <strong>Payments accepted:</strong> Stripe, PayPal, Cash App<br>
-      💬 WhatsApp is for support only
+      💳 <strong>Payments:</strong> Stripe, PayPal, Cash App<br>
+      💬 WhatsApp support only (no orders)
     </p>
 
     <p class="meta" style="font-size:12px">
-      All CNC & 3D printed items are FINAL SALE. Operates under Florida & United States law.
+      All CNC & 3D printed items are FINAL SALE.
+      Operates under Florida & United States law.
     </p>
   </div>
 </section>
@@ -227,7 +286,8 @@ footer{
   <h3>Your Order</h3>
   <div id="list"></div>
   <p class="meta">
-    After submitting your order, payment instructions will be sent by email.
+    After submitting your order, payment instructions
+    will be sent via email.
   </p>
 </div>
 
@@ -239,7 +299,9 @@ const count=document.getElementById("count");
 const list=document.getElementById("list");
 const drawer=document.getElementById("drawer");
 
-document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
+document.getElementById("cartBtn").onclick=()=>{
+  drawer.classList.toggle("open");
+};
 
 function add(item){
   cart.push(item);
@@ -250,6 +312,7 @@ function add(item){
 
 </body>
 </html>
+
 
 
 
