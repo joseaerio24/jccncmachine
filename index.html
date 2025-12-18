@@ -53,7 +53,7 @@ nav a{
   margin-left:16px;
 }
 
-/* HERO – LOGO CLEAN */
+/* HERO */
 .hero{
   background:linear-gradient(to bottom,#0b0b0b,#1a1a1a);
   color:#fff;
@@ -66,18 +66,15 @@ nav a{
 }
 .hero img{
   width:220px;
-  max-width:80%;
   margin-bottom:24px;
 }
 .hero h1{
   font-size:46px;
-  margin-bottom:12px;
 }
 .hero p{
   color:#d1d5db;
   max-width:60ch;
   margin:auto;
-  font-size:16px;
 }
 
 /* SECTION */
@@ -90,11 +87,7 @@ h2{color:var(--red)}
   margin:12px 0 28px;
   border-radius:999px;
 }
-.meta{
-  font-size:14px;
-  color:#6b7280;
-  line-height:1.55;
-}
+.meta{font-size:14px;color:#6b7280}
 
 /* SERVICES */
 .grid{
@@ -116,30 +109,23 @@ h2{color:var(--red)}
   padding:26px;
   width:100%;
 }
-.card h3{margin:0 0 8px}
-.card p{font-size:14px;color:#e5e7eb}
 
 /* BACKGROUNDS */
 .cnc-bg{
-  background:url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png");
-  background-size:cover;
-  background-position:center;
+  background:url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png") center/cover;
 }
 .print-bg{
-  background:url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/3dprint.png");
-  background-size:cover;
-  background-position:center;
+  background:url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/3dprint.png") center/cover;
 }
 
-/* BUTTONS */
+/* BUTTON */
 .btn{
-  display:inline-block;
   margin-top:12px;
   padding:12px 18px;
   border-radius:12px;
   font-weight:bold;
-  cursor:pointer;
   border:none;
+  cursor:pointer;
 }
 .btn-add{
   background:#b30000;
@@ -155,7 +141,6 @@ h2{color:var(--red)}
   color:#b30000;
   padding:10px 14px;
   border-radius:999px;
-  box-shadow:var(--shadow);
   font-weight:bold;
   cursor:pointer;
   z-index:999;
@@ -189,23 +174,6 @@ footer{
   font-size:12px;
   text-align:center;
 }
-
-/* WHATSAPP */
-#wa{
-  position:fixed;
-  bottom:18px;
-  right:18px;
-  background:#25d366;
-  color:#fff;
-  padding:14px 16px;
-  border-radius:999px;
-  font-weight:bold;
-}
-
-@media(max-width:900px){
-  .hero h1{font-size:34px}
-  .hero{padding:90px 16px}
-}
 </style>
 </head>
 
@@ -228,12 +196,9 @@ footer{
 
 <section class="hero">
   <div class="hero-inner">
-    <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png" alt="JC CNC Machine Logo">
+    <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
     <h1>Professional CNC & 3D Printing</h1>
-    <p>
-      Precision manufacturing services.
-      Orders are reviewed and confirmed after payment.
-    </p>
+    <p>Precision manufacturing services. Orders reviewed after payment.</p>
   </div>
 </section>
 
@@ -246,37 +211,19 @@ footer{
       <div class="card cnc-bg">
         <div class="content">
           <h3>CNC Machining</h3>
-          <p>Aluminum & metal CNC parts, fixtures, adapters and small production runs.</p>
-          <button class="btn btn-add" onclick="add('CNC Machining')">Add to Cart</button>
+          <p>Custom CNC parts and ready-to-ship items.</p>
+          <button class="btn btn-add" onclick="add('cnc-service')">Add to Cart</button>
         </div>
       </div>
 
       <div class="card print-bg">
         <div class="content">
           <h3>3D Printing</h3>
-          <p>Prototypes, jigs, functional parts and custom prints.</p>
-          <button class="btn btn-add" onclick="add('3D Printing')">Add to Cart</button>
+          <p>Functional and prototype 3D printed parts.</p>
+          <button class="btn btn-add" onclick="add('print-service')">Add to Cart</button>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="section" id="contact">
-  <div class="wrap">
-    <h2>Payment & Contact</h2>
-    <div class="divider"></div>
-
-    <p class="meta">
-      📧 <strong>Email:</strong> sales@jccncmachine.com<br>
-      💳 <strong>Payments:</strong> Stripe, PayPal, Cash App<br>
-      💬 WhatsApp support only
-    </p>
-
-    <p class="meta" style="font-size:12px">
-      All CNC & 3D printed items are FINAL SALE.
-      Operates under Florida & United States law.
-    </p>
   </div>
 </section>
 
@@ -287,24 +234,26 @@ footer{
 <div id="drawer">
   <h3>Your Order</h3>
   <div id="list"></div>
-  <p class="meta">Payment instructions will be sent via email.</p>
+  <p class="meta">Payment instructions will be sent by email.</p>
 </div>
 
-<a id="wa" href="https://wa.me/18133387239" target="_blank">💬 Support</a>
 <script>
+// ===============================
+// PRODUCTS – YOU ADD ITEMS HERE
+// ===============================
 const PRODUCTS = [
+  /*
   {
-    id: "cnc",
-    name: "CNC Aluminum ",
-    price: ,
-    desc: "6061 Aluminum – Ready to ship",
+    id: "cnc-service",
+    name: "",
+    price: 0
   },
   {
-    id: "3d-prototype",
-    name: "3D Printed Prototype",
-    price: ,
-    desc: "PLA / PETG – Functional prototype",
+    id: "print-service",
+    name: "",
+    price: 0
   }
+  */
 ];
 
 const cart = [];
@@ -318,6 +267,10 @@ document.getElementById("cartBtn").onclick = () => {
 
 function add(id){
   const product = PRODUCTS.find(p => p.id === id);
+  if(!product){
+    alert("Product not configured yet");
+    return;
+  }
   cart.push(product);
   count.textContent = cart.length;
   renderCart();
@@ -325,21 +278,23 @@ function add(id){
 
 function renderCart(){
   let total = 0;
-  list.innerHTML = cart.map(p=>{
-    total += p.price;
-    return `
+  list.innerHTML = "";
+
+  cart.forEach(p=>{
+    total += p.price || 0;
+    list.innerHTML += `
       <div class="cart-item">
-        <strong>${p.name}</strong><br>
-        $${p.price}
+        <strong>${p.name || "Unnamed item"}</strong><br>
+        $${p.price || 0}
       </div>
     `;
-  }).join("");
+  });
 
-  list.innerHTML += `
-    <hr>
-    <strong>Total: $${total}</strong>
-  `;
+  list.innerHTML += `<hr><strong>Total: $${total}</strong>`;
 }
 </script>
+
+</body>
+</html>
 
 
