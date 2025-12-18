@@ -144,78 +144,119 @@ footer {
 </div>
 
 <header>
-  <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/logo.jpg">
+  <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/logo.jpg" alt="JC CNC Machine Logo">
   <h1>JC CNC Machine</h1>
-  <p>Mecanizado CNC profesional en aluminio y fabricación personalizada</p>
+  <p>Mecanizado CNC profesional e impresión 3D para prototipos y piezas personalizadas</p>
 </header>
 
 <nav>
-  <a href="#servicios">Servicios</a>
-  <a href="#galeria">Proyectos en Venta</a>
+  <a href="#servicios">Servicios CNC</a>
+  <a href="#galeria">Proyectos</a>
+  <a href="#impresion3d">Impresión 3D</a>
   <a href="#politicas">Políticas</a>
 </nav>
 
+<!-- SERVICIOS CNC -->
 <div class="container" id="servicios">
-  <h2>Servicios CNC</h2>
-
+  <h2>Servicios de Mecanizado CNC</h2>
   <div class="products">
     <div class="card">
       <h3>Mecanizado CNC en Aluminio</h3>
-      <p>Producción de piezas CNC con alta precisión.</p>
-      <button class="btn" onclick="openWhatsApp('Quiero cotizar un trabajo de mecanizado CNC.')">
+      <p>Piezas de alta precisión para prototipos y producción limitada.</p>
+      <button class="btn" onclick="openWhatsApp('Quiero cotizar un trabajo de mecanizado CNC en aluminio.')">
         Cotizar por WhatsApp
       </button>
     </div>
 
     <div class="card">
-      <h3>Pieza CNC Personalizada</h3>
+      <h3>Piezas CNC Personalizadas</h3>
       <p>Fabricación bajo plano (STEP / PDF).</p>
-      <button class="btn" onclick="openWhatsApp('Tengo un plano CNC para cotizar.')">
+      <button class="btn" onclick="openWhatsApp('Tengo un plano CNC (STEP/PDF) y quiero cotizar.')">
         Solicitar Cotización
       </button>
     </div>
   </div>
 </div>
 
+<!-- PROYECTOS -->
 <div class="container" id="galeria">
   <h2>Proyectos CNC Disponibles</h2>
-
   <div class="products">
+
     <div class="card">
-      <img src="https://via.placeholder.com/600x350?text=CNC+1">
-      <h3>Bracket CNC – Aluminio</h3>
-      <p>Producción propia · Stock limitado</p>
-      <button class="btn" onclick="addToCart('Bracket CNC Aluminio')">
-        Agregar
-      </button>
+      <img src="https://via.placeholder.com/600x350?text=CNC+Proyecto+1">
+      <h3>Bracket CNC</h3>
+      <p>Pieza mecanizada · Stock limitado</p>
+      <button class="btn" onclick="addToCart('Bracket CNC')">Agregar</button>
     </div>
 
     <div class="card">
-      <img src="https://via.placeholder.com/600x350?text=CNC+2">
+      <img src="https://via.placeholder.com/600x350?text=CNC+Proyecto+2">
       <h3>Soporte CNC</h3>
       <p>Alta precisión · Listo para envío</p>
-      <button class="btn" onclick="addToCart('Soporte CNC')">
-        Agregar
-      </button>
+      <button class="btn" onclick="addToCart('Soporte CNC')">Agregar</button>
     </div>
 
     <div class="card">
-      <img src="https://via.placeholder.com/600x350?text=CNC+3">
+      <img src="https://via.placeholder.com/600x350?text=CNC+Proyecto+3">
       <h3>Adaptador CNC</h3>
       <p>Serie limitada</p>
-      <button class="btn" onclick="addToCart('Adaptador CNC')">
-        Agregar
-      </button>
+      <button class="btn" onclick="addToCart('Adaptador CNC')">Agregar</button>
     </div>
+
   </div>
 </div>
 
+<!-- IMPRESIÓN 3D -->
+<div class="container" id="impresion3d">
+  <h2>Impresión 3D – Prototipos y Piezas</h2>
+  <div class="products">
+
+    <div class="card">
+      <h3>¿Qué necesitamos?</h3>
+      <ul>
+        <li>Archivo STL / STEP (si no tienes, te ayudamos)</li>
+        <li>Medidas o referencia</li>
+        <li>Uso de la pieza</li>
+        <li>Cantidad</li>
+      </ul>
+      <button class="btn" onclick="openWhatsApp('Quiero imprimir una pieza 3D. Tengo archivo STL/STEP.')">
+        Cotizar Impresión 3D
+      </button>
+    </div>
+
+    <div class="card">
+      <h3>Aplicaciones</h3>
+      <ul>
+        <li>Prototipos</li>
+        <li>Soportes y plantillas</li>
+        <li>Piezas personalizadas</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Materiales comunes</h3>
+      <ul>
+        <li>PLA</li>
+        <li>PETG</li>
+        <li>ABS / ASA</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- POLÍTICAS -->
 <div class="container" id="politicas">
   <h2>Políticas de Venta (Florida / EE.UU.)</h2>
   <p>
-    Todas las piezas CNC personalizadas son <strong>venta final</strong>.
-    Los productos disponibles están sujetos a confirmación antes de pago.
-    Reclamos deben realizarse dentro de 5 días hábiles posteriores a la entrega.
+    Todas las piezas CNC e impresión 3D fabricadas bajo especificación del cliente son
+    <strong>VENTA FINAL</strong>. Productos disponibles están sujetos a confirmación.
+    Reclamos deben realizarse dentro de <strong>5 días hábiles</strong> posteriores a la entrega.
+  </p>
+  <p>
+    El cliente es responsable del diseño y uso final del producto.
+    JC CNC Machine no se responsabiliza por aplicaciones incorrectas o modificaciones posteriores.
   </p>
 </div>
 
@@ -236,14 +277,13 @@ function toggleCart() {
 function addToCart(name) {
   cart.push(name);
   document.getElementById("cart-count").innerText = cart.length;
-
   const item = document.createElement("li");
   item.innerText = name;
   document.getElementById("cart-items").appendChild(item);
 }
 
 function checkout() {
-  let msg = "Solicitud de productos JC CNC Machine:%0A";
+  let msg = "Solicitud JC CNC Machine:%0A";
   cart.forEach(i => msg += "- " + i + "%0A");
   window.open("https://wa.me/18133387239?text=" + msg, "_blank");
 }
