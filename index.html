@@ -52,10 +52,6 @@ h2{color:#b30000}
   url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/3dprint.png") center/cover;
 }
 
-/* FILTER */
-.filters{margin-bottom:20px}
-.filters button{margin-right:8px}
-
 /* PRODUCTS */
 .grid{
   display:grid;
@@ -82,7 +78,6 @@ h2{color:#b30000}
   border-radius:12px;font-weight:bold;border:none;cursor:pointer
 }
 .btn-add{background:#b30000;color:#fff}
-.btn-secondary{background:#111;color:#fff}
 
 /* CART */
 #cartBtn{
@@ -103,7 +98,6 @@ h2{color:#b30000}
   padding:10px;border-radius:10px;margin-bottom:8px
 }
 .small{font-size:12px;color:#555}
-hr{border:none;border-top:1px solid #ddd;margin:12px 0}
 
 /* FORM */
 .checkout{
@@ -113,14 +107,6 @@ hr{border:none;border-top:1px solid #ddd;margin:12px 0}
 .checkout label{font-size:12px;display:block;margin-top:10px}
 .checkout input,.checkout textarea{
   width:100%;padding:10px;border-radius:10px;border:1px solid #ddd
-}
-
-/* WHATSAPP */
-#wa{
-  position:fixed;bottom:18px;right:18px;
-  background:#25d366;color:#fff;
-  padding:14px 18px;border-radius:999px;
-  font-weight:bold;box-shadow:var(--shadow)
 }
 
 /* FOOTER */
@@ -139,11 +125,6 @@ footer{
       <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
       <strong>JC CNC Machine</strong>
     </div>
-    <nav>
-      <a href="#shop">Shop</a>
-      <a href="#policies">Policies</a>
-      <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">Facebook</a>
-    </nav>
   </div>
 </header>
 
@@ -155,32 +136,11 @@ footer{
   <p>Orders reviewed and confirmed after payment.</p>
 </section>
 
-<section class="section shop-bg" id="shop">
+<section class="section shop-bg">
   <div class="wrap">
     <h2>Shop</h2>
     <div class="divider"></div>
-
-    <div class="filters">
-      <button class="btn btn-add" onclick="filterCat('ALL')">All</button>
-      <button class="btn btn-add" onclick="filterCat('CNC')">CNC</button>
-      <button class="btn btn-add" onclick="filterCat('3D')">3D</button>
-    </div>
-
     <div class="grid" id="products"></div>
-  </div>
-</section>
-
-<section class="section" id="policies">
-  <div class="wrap">
-    <h2>Sales Policy – Florida / USA</h2>
-    <div class="divider"></div>
-    <p class="small">
-      • FINAL SALE on all CNC machined and 3D printed products.<br>
-      • Custom orders are non-refundable.<br>
-      • Products sold AS-IS.<br>
-      • Customer responsible for proper use.<br>
-      • Governed by Florida & USA law.
-    </p>
   </div>
 </section>
 
@@ -195,7 +155,7 @@ footer{
   <div id="list"></div>
 
   <div class="checkout">
-    <form id="orderForm" action="https://formspree.io/f/xpqazkbv" method="POST">
+    <form action="https://formspree.io/f/xpqazkbv" method="POST">
       <label>Name</label>
       <input name="name" required>
 
@@ -208,55 +168,36 @@ footer{
       <label>Shipping Address</label>
       <textarea name="shipping_address" required></textarea>
 
-      <label>Shipping Cost ($)</label>
-      <input id="shipping_cost" name="shipping_cost" type="number" value="0" step="0.01">
-
-      <label>Tax (FL 7%)</label>
-      <input id="tax_amount" name="tax_amount" readonly>
-
-      <input type="hidden" id="order_items" name="order_items">
-      <input type="hidden" id="order_total" name="order_total">
-      <input type="hidden" id="grand_total" name="grand_total">
+      <input type="hidden" name="order_items" id="order_items">
+      <input type="hidden" name="order_total" id="order_total">
 
       <button class="btn btn-add" type="submit" style="width:100%">Submit Order</button>
     </form>
   </div>
 </div>
 
-<a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp 813-338-7239</a>
-
 <script>
-const TAX_RATE = 0.07;
-
 const PRODUCTS = [
   {
     id:"srt-4",
     name:"SRT-4",
-    category:"3D",
     price:25,
     available:true,
     imgs:["srt-1.png","srt-4.png"]
   }
 ];
 
-let currentCat="ALL";
 const cart=[];
 const grid=document.getElementById("products");
 const list=document.getElementById("list");
 const count=document.getElementById("count");
 
-function filterCat(c){currentCat=c;renderProducts();}
-
 function renderProducts(){
-  grid.innerHTML=PRODUCTS.filter(p=>p.available)
-  .filter(p=>currentCat==="ALL"||p.category===currentCat)
-  .map(p=>`
+  grid.innerHTML=PRODUCTS.filter(p=>p.available).map(p=>`
     <div class="card"><div class="content">
-      <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
-      <div class="thumbs">${p.imgs.map(i=>`<img src="${i}" onclick="document.getElementById('img-${p.id}').src='${i}'">`).join("")}</div>
+      <img class="product-img" src="${p.imgs[0]}">
       <h3>${p.name}</h3>
       <p>$${p.price}</p>
-      Qty <input id="q-${p.id}" type="number" value="1" min="1" style="width:60px">
       <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
     </div></div>
   `).join("");
@@ -264,38 +205,24 @@ function renderProducts(){
 
 function add(id){
   const p=PRODUCTS.find(x=>x.id===id);
-  const q=parseInt(document.getElementById(`q-${id}`).value);
   const f=cart.find(x=>x.id===id);
-  f?f.qty+=q:cart.push({...p,qty:q});
+  f?f.qty++:cart.push({...p,qty:1});
   count.textContent=cart.reduce((a,b)=>a+b.qty,0);
   renderCart();
 }
 
 function renderCart(){
-  let subtotal=0;
+  let total=0;
   list.innerHTML="";
   cart.forEach(p=>{
-    subtotal+=p.qty*p.price;
+    total+=p.qty*p.price;
     list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
   });
-
-  const shipping=parseFloat(document.getElementById("shipping_cost").value||0);
-  const tax=(subtotal*TAX_RATE).toFixed(2);
-  const total=(subtotal+shipping+parseFloat(tax)).toFixed(2);
-
-  list.innerHTML+=`<hr>
-    <div class="small">Subtotal: $${subtotal}</div>
-    <div class="small">Shipping: $${shipping}</div>
-    <div class="small">Tax: $${tax}</div>
-    <strong>Total: $${total}</strong>`;
-
-  document.getElementById("tax_amount").value=tax;
+  list.innerHTML+=`<strong>Total: $${total}</strong>`;
   document.getElementById("order_items").value=cart.map(p=>`${p.name} x${p.qty}`).join(", ");
   document.getElementById("order_total").value=total;
-  document.getElementById("grand_total").value=total;
 }
 
-document.getElementById("shipping_cost").addEventListener("input",renderCart);
 document.getElementById("cartBtn").onclick=()=>document.getElementById("drawer").classList.toggle("open");
 
 renderProducts();
