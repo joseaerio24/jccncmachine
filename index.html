@@ -82,36 +82,67 @@ h2{color:#b30000}
   border-radius:12px;font-weight:bold;border:none;cursor:pointer
 }
 .btn-add{background:#b30000;color:#fff}
+.btn-secondary{background:#111;color:#fff}
+.btn-disabled{background:#666;color:#fff;cursor:not-allowed}
 
 /* CART */
 #cartBtn{
   position:fixed;top:18px;right:18px;
   background:#fff;color:#b30000;
-  padding:10px 14px;border-radius:999px;font-weight:bold;cursor:pointer
+  padding:10px 14px;border-radius:999px;font-weight:bold;cursor:pointer;
+  box-shadow:var(--shadow);
+  z-index:999;
 }
 #drawer{
-  position:fixed;top:0;right:0;width:340px;height:100%;
+  position:fixed;top:0;right:0;width:360px;height:100%;
   background:#fff;box-shadow:-10px 0 25px rgba(0,0,0,.3);
   padding:16px;transform:translateX(100%);
-  transition:.25s
+  transition:.25s;
+  overflow:auto;
+  z-index:999;
 }
 #drawer.open{transform:translateX(0)}
 .cart-item{
   border:1px solid var(--line);
   padding:10px;border-radius:10px;margin-bottom:8px
 }
+.small{font-size:12px;color:#555;line-height:1.4}
+hr{border:none;border-top:1px solid #ddd;margin:12px 0}
+
+/* CHECKOUT FORM */
+.checkout{
+  margin-top:12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px;
+}
+.checkout label{display:block;font-size:12px;color:#444;margin:10px 0 4px}
+.checkout input,.checkout textarea{
+  width:100%;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:14px;
+}
+.checkout textarea{min-height:80px;resize:vertical}
 
 /* WHATSAPP */
 #wa{
   position:fixed;bottom:18px;right:18px;
   background:#25d366;color:#fff;
-  padding:14px 18px;border-radius:999px;font-weight:bold
+  padding:14px 18px;border-radius:999px;font-weight:bold;
+  box-shadow:var(--shadow);
+  z-index:999;
 }
 
 /* FOOTER */
 footer{
   background:#0b0b0b;color:#cbd5e1;
   padding:22px;font-size:12px;text-align:center
+}
+
+@media(max-width:450px){
+  #drawer{width:92vw}
 }
 </style>
 </head>
@@ -121,13 +152,13 @@ footer{
 <header>
   <div class="header-inner">
     <div class="brand">
-      <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
+      <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png" alt="Logo">
       <strong>JC CNC Machine</strong>
     </div>
     <nav>
       <a href="#shop">Shop</a>
       <a href="#policies">Policies</a>
-      <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">Facebook</a>
+      <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank" rel="noopener">Facebook</a>
     </nav>
   </div>
 </header>
@@ -135,7 +166,7 @@ footer{
 <div id="cartBtn">🛒 Cart (<span id="count">0</span>)</div>
 
 <section class="hero">
-  <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
+  <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png" alt="JC CNC Machine">
   <h1>Professional CNC & 3D Printing</h1>
   <p>Orders reviewed and confirmed after payment.</p>
 </section>
@@ -159,7 +190,7 @@ footer{
   <div class="wrap">
     <h2>Sales Policy – Florida / USA</h2>
     <div class="divider"></div>
-    <p>
+    <p class="small">
       • All CNC machined and 3D printed products are FINAL SALE.<br>
       • Custom and made-to-order items are non-refundable.<br>
       • Products are sold AS-IS unless stated otherwise.<br>
@@ -175,16 +206,53 @@ footer{
   sales@jccncmachine.com
 </footer>
 
+<!-- CART DRAWER -->
 <div id="drawer">
   <h3>Your Order</h3>
   <div id="list"></div>
+
+  <div class="checkout">
+    <h4 style="margin:0 0 6px">Checkout (Send Order)</h4>
+    <p class="small" style="margin:0 0 8px">
+      Fill out shipping info and submit. Your order will be emailed to us automatically.
+    </p>
+
+    <!-- Formspree -->
+    <form id="orderForm" action="https://formspree.io/f/xpqazkbv" method="POST">
+      <label>Full Name</label>
+      <input name="name" required placeholder="John Doe">
+
+      <label>Email</label>
+      <input name="email" type="email" required placeholder="you@email.com">
+
+      <label>Phone</label>
+      <input name="phone" placeholder="813-xxx-xxxx">
+
+      <label>Shipping Address</label>
+      <textarea name="shipping_address" required placeholder="Street, City, State, ZIP"></textarea>
+
+      <label>Notes (optional)</label>
+      <textarea name="notes" placeholder="Color, special request, etc."></textarea>
+
+      <!-- These get filled by JS -->
+      <input type="hidden" name="order_items" id="order_items">
+      <input type="hidden" name="order_total" id="order_total">
+
+      <button type="submit" class="btn btn-add" style="width:100%">Submit Order</button>
+      <button type="button" class="btn btn-secondary" style="width:100%;margin-top:8px" onclick="clearCart()">
+        Clear Cart
+      </button>
+
+      <p id="status" class="small" style="margin:10px 0 0"></p>
+    </form>
+  </div>
 </div>
 
-<a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp 813-338-7239</a>
+<a id="wa" href="https://wa.me/18133387239" target="_blank" rel="noopener">💬 WhatsApp 813-338-7239</a>
 
 <script>
 // ===============================
-// PRODUCTS (SOLO DISPONIBLES)
+// PRODUCTS (SOLO available:true se muestra)
 // ===============================
 const PRODUCTS = [
   {
@@ -194,16 +262,24 @@ const PRODUCTS = [
     price:25,
     available:true,
     imgs:["srt-1.png","srt-4.png"]
-  }
+  },
+  // Ejemplo (apagado):
+  // { id:"cnc-adapter", name:"CNC Adapter", category:"CNC", price:95, available:false, imgs:["img/a.jpg"] }
 ];
 
-// ===============================
 let currentCat="ALL";
 const cart=[];
 const grid=document.getElementById("products");
 const list=document.getElementById("list");
 const count=document.getElementById("count");
 const drawer=document.getElementById("drawer");
+const cartBtn=document.getElementById("cartBtn");
+
+// Form
+const orderForm=document.getElementById("orderForm");
+const orderItems=document.getElementById("order_items");
+const orderTotal=document.getElementById("order_total");
+const statusEl=document.getElementById("status");
 
 cartBtn.onclick=()=>drawer.classList.toggle("open");
 
@@ -224,40 +300,129 @@ function renderProducts(){
     .map(p=>`
       <div class="card">
         <div class="content">
-          <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
+          <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}" alt="${p.name}">
           <div class="thumbs">
-            ${p.imgs.map(i=>`<img src="${i}" onclick="changeImg('${p.id}','${i}')">`).join("")}
+            ${p.imgs.map(i=>`
+              <img src="${i}" alt="" onclick="changeImg('${p.id}','${i}')">
+            `).join("")}
           </div>
           <h3>${p.name}</h3>
           <p>$${p.price}</p>
-          Qty <input type="number" min="1" value="1" id="q-${p.id}" style="width:60px">
+          Qty <input type="number" min="1" value="1" id="q-${p.id}" style="width:70px">
           <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
         </div>
       </div>
     `).join("");
+
+  if(grid.innerHTML.trim()===""){
+    grid.innerHTML = `<p>No products available right now.</p>`;
+  }
 }
 
 function add(id){
   const p=PRODUCTS.find(x=>x.id===id);
-  const q=parseInt(document.getElementById(`q-${id}`).value);
+  if(!p) return;
+
+  const qEl=document.getElementById(`q-${id}`);
+  const q=Math.max(1, parseInt(qEl?.value || "1", 10));
+
   const f=cart.find(x=>x.id===id);
-  f?f.qty+=q:cart.push({...p,qty:q});
-  count.textContent=cart.reduce((a,b)=>a+b.qty,0);
+  if(f){ f.qty += q; }
+  else{ cart.push({...p,qty:q}); }
+
+  count.textContent = cart.reduce((a,b)=>a+b.qty,0);
   renderCart();
 }
 
-function renderCart(){
-  let t=0;list.innerHTML="";
-  cart.forEach(p=>{
-    t+=p.qty*p.price;
-    list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
-  });
-  list.innerHTML+=`<hr><strong>Total: $${t}</strong>`;
+function removeOne(id){
+  const idx = cart.findIndex(x=>x.id===id);
+  if(idx<0) return;
+  cart[idx].qty -= 1;
+  if(cart[idx].qty<=0) cart.splice(idx,1);
+  count.textContent = cart.reduce((a,b)=>a+b.qty,0);
+  renderCart();
 }
 
+function clearCart(){
+  cart.length=0;
+  count.textContent="0";
+  renderCart();
+  statusEl.textContent="";
+}
+
+function renderCart(){
+  let t=0;
+  list.innerHTML="";
+
+  if(cart.length===0){
+    list.innerHTML = `<p class="small">Your cart is empty.</p>`;
+    orderItems.value = "";
+    orderTotal.value = "0";
+    return;
+  }
+
+  cart.forEach(p=>{
+    const line = p.qty * p.price;
+    t += line;
+
+    list.innerHTML += `
+      <div class="cart-item">
+        <strong>${p.name}</strong><br>
+        Qty: ${p.qty} — $${line}
+        <div style="margin-top:6px">
+          <button class="btn btn-secondary" style="padding:6px 10px" onclick="removeOne('${p.id}')">-1</button>
+        </div>
+      </div>
+    `;
+  });
+
+  list.innerHTML += `<hr><strong>Total: $${t}</strong>`;
+
+  // Fill hidden fields for Formspree
+  orderItems.value = cart.map(p => `${p.name} x ${p.qty} ($${p.price} ea)`).join(" | ");
+  orderTotal.value = String(t);
+}
+
+// Form submit (AJAX) so you don't leave the page
+orderForm.addEventListener("submit", async (e)=>{
+  e.preventDefault();
+
+  if(cart.length===0){
+    statusEl.textContent = "Add a product to the cart before submitting.";
+    return;
+  }
+
+  // Make sure hidden fields are updated
+  renderCart();
+
+  statusEl.textContent = "Sending...";
+
+  try{
+    const formData = new FormData(orderForm);
+
+    const res = await fetch(orderForm.action, {
+      method: "POST",
+      body: formData,
+      headers: { "Accept": "application/json" }
+    });
+
+    if(res.ok){
+      statusEl.textContent = "Order sent! We will contact you soon.";
+      orderForm.reset();
+      clearCart();
+    }else{
+      statusEl.textContent = "Error sending order. Please try again or contact us on WhatsApp.";
+    }
+  }catch(err){
+    statusEl.textContent = "Network error. Please try again or contact us on WhatsApp.";
+  }
+});
+
 renderProducts();
+renderCart();
 </script>
 
 </body>
 </html>
+
 
