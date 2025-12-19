@@ -1,275 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JC CNC Machine | CNC & 3D Printing</title>
-
-<style>
-:root{
-  --red:#b30000;
-  --dark:#0b0b0b;
-  --line:#e5e7eb;
-  --muted:#6b7280;
-  --radius:14px;
-  --shadow:0 10px 25px rgba(0,0,0,.15);
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#fff;
-  color:#111;
-}
-a{text-decoration:none}
-
-/* HEADER */
-header{
-  background:linear-gradient(90deg,#b30000,#ff0000);
-  color:#fff;
-  padding:18px 16px;
-}
-.header-inner{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.brand img{
-  height:42px;
-  background:#fff;
-  padding:6px;
-  border-radius:10px;
-}
-nav a{
-  color:#fff;
-  font-weight:bold;
-  margin-left:16px;
-}
-
-/* HERO */
-.hero{
-  background:
-    linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
-    url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png");
-  background-size:cover;
-  background-position:center;
-  color:#fff;
-  padding:120px 16px;
-  text-align:center;
-}
-.hero-inner{
-  max-width:900px;
-  margin:auto;
-}
-.hero img{
-  width:220px;
-  margin-bottom:24px;
-}
-.hero h1{font-size:46px}
-.hero p{
-  color:#d1d5db;
-  max-width:60ch;
-  margin:auto;
-}
-
-/* SECTION */
-.section{padding:64px 16px}
-.wrap{max-width:1200px;margin:auto}
-h2{color:var(--red)}
-.divider{
-  height:3px;
-  background:linear-gradient(90deg,#b30000,transparent);
-  margin:12px 0 28px;
-  border-radius:999px;
-}
-.meta{font-size:14px;color:#6b7280;line-height:1.6}
-
-/* SHOP */
-.shop-bg{
-  background:
-    linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.95)),
-    url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/3dprint.png");
-  background-size:cover;
-  background-position:center;
-}
-
-/* PRODUCTS */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
-}
-.card{
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  background:#000;
-  color:#fff;
-}
-.card .content{padding:20px}
-.product-img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  border-radius:10px;
-  margin-bottom:10px;
-}
-
-/* THUMBNAILS */
-.thumbs{
-  display:flex;
-  gap:6px;
-  margin-bottom:10px;
-}
-.thumbs img{
-  width:50px;
-  height:50px;
-  object-fit:cover;
-  border-radius:6px;
-  cursor:pointer;
-  border:1px solid #444;
-}
-
-/* BUTTON */
-.btn{
-  margin-top:10px;
-  padding:12px 18px;
-  border-radius:12px;
-  font-weight:bold;
-  border:none;
-  cursor:pointer;
-}
-.btn-add{
-  background:#b30000;
-  color:#fff;
-}
-
-/* CART */
-#cartBtn{
-  position:fixed;
-  top:18px;
-  right:18px;
-  background:#fff;
-  color:#b30000;
-  padding:10px 14px;
-  border-radius:999px;
-  font-weight:bold;
-  cursor:pointer;
-  z-index:999;
-}
-#drawer{
-  position:fixed;
-  top:0;right:0;
-  width:340px;
-  height:100%;
-  background:#fff;
-  box-shadow:-10px 0 25px rgba(0,0,0,.3);
-  padding:16px;
-  transform:translateX(100%);
-  transition:.25s;
-  z-index:999;
-}
-#drawer.open{transform:translateX(0)}
-.cart-item{
-  border:1px solid var(--line);
-  padding:10px;
-  border-radius:10px;
-  margin-bottom:8px;
-  font-size:14px;
-}
-
-/* WHATSAPP */
-#wa{
-  position:fixed;
-  bottom:18px;
-  right:18px;
-  background:#25d366;
-  color:#fff;
-  padding:14px 18px;
-  border-radius:999px;
-  font-weight:bold;
-  box-shadow:var(--shadow);
-}
-
-/* FOOTER */
-footer{
-  background:#0b0b0b;
-  color:#cbd5e1;
-  padding:22px;
-  font-size:12px;
-  text-align:center;
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <div class="header-inner">
-    <div class="brand">
-      <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
-      <strong>JC CNC Machine</strong>
-    </div>
-    <nav>
-      <a href="#shop">Shop</a>
-      <a href="#policies">Policies</a>
-      <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">Facebook</a>
-    </nav>
-  </div>
-</header>
-
-<div id="cartBtn">🛒 Cart (<span id="count">0</span>)</div>
-
-<section class="hero">
-  <div class="hero-inner">
-    <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
-    <h1>Professional CNC & 3D Printing</h1>
-    <p>Precision manufacturing services. Orders reviewed and confirmed after payment.</p>
-  </div>
-</section>
-
-<section class="section shop-bg" id="shop">
-  <div class="wrap">
-    <h2>Shop</h2>
-    <div class="divider"></div>
-    <div class="grid" id="products"></div>
-  </div>
-</section>
-
-<section class="section" id="policies">
-  <div class="wrap">
-    <h2>Sales Policy – Florida / USA</h2>
-    <div class="divider"></div>
-    <p class="meta">
-      • All CNC machined and 3D printed parts are FINAL SALE.<br>
-      • Custom orders are non-refundable.<br>
-      • Items sold AS-IS.<br>
-      • Customer responsible for application and installation.<br>
-      • Operates under Florida & United States law.
-    </p>
-  </div>
-</section>
-
-<footer>
-  © 2025 JC CNC Machine — Tampa, Florida<br>
-  sales@jccncmachine.com
-</footer>
-
-<div id="drawer">
-  <h3>Your Order</h3>
-  <div id="list"></div>
-  <p class="meta">Payment instructions will be sent via email.</p>
-</div>
-
-<a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp Support</a>
-
 <script>
+// ===============================
+// PRODUCTS – MULTI IMAGE + INFO
+// ===============================
 const PRODUCTS = [
 
   {
@@ -281,10 +13,9 @@ const PRODUCTS = [
     details: [
       "Material: Aluminum 6061",
       "Process: CNC Machining",
-      "Finish: As-machined",
-      "Tolerance: ±0.005 in"
+      "Tolerance: ±0.005 in",
+      "Finish: As-machined"
     ],
-    notes: "Final sale. No returns on custom machined parts.",
     imgs: [
       "https://tusitio.com/bracket-1.jpg",
       "https://tusitio.com/bracket-2.jpg",
@@ -293,26 +24,41 @@ const PRODUCTS = [
   },
 
   {
+    id: "cnc-adapter-02",
+    name: "CNC Machined Adapter",
+    price: 95,
+    available: false,   // ⛔ APAGADO
+    desc: "Custom CNC machined adapter.",
+    details: [
+      "Material: Aluminum",
+      "Process: CNC Machining"
+    ],
+    imgs: [
+      "https://tusitio.com/adapter-1.jpg",
+      "https://tusitio.com/adapter-2.jpg"
+    ]
+  },
+
+  {
     id: "3d-jig-01",
     name: "3D Printed Assembly Jig",
     price: 45,
-    available: false,
-    desc: "Functional 3D printed jig for assembly and testing.",
+    available: true,
+    desc: "Functional 3D printed jig for assembly.",
     details: [
       "Material: PETG",
       "Process: FDM 3D Printing",
       "Layer height: 0.28 mm"
     ],
-    notes: "Sold as-is. Not for structural load.",
     imgs: [
       "https://tusitio.com/jig-1.jpg",
-      "https://tusitio.com/jig-2.jpg"
+      "https://tusitio.com/jig-2.jpg",
+      "https://tusitio.com/jig-3.jpg"
     ]
   }
 
 ];
 
-</script>
 // ===============================
 // CART LOGIC
 // ===============================
@@ -326,10 +72,14 @@ document.getElementById("cartBtn").onclick = () => {
   drawer.classList.toggle("open");
 };
 
+// ===============================
+// RENDER PRODUCTS
+// ===============================
 function renderProducts(){
   grid.innerHTML = PRODUCTS.map(p => `
     <div class="card">
       <div class="content">
+
         <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
 
         <div class="thumbs">
@@ -339,19 +89,40 @@ function renderProducts(){
         </div>
 
         <h3>${p.name}</h3>
-        <p>$${p.price}</p>
-        <button class="btn btn-add" onclick="add('${p.id}')">Add to Cart</button>
+        <p class="meta">${p.desc}</p>
+
+        <ul class="meta">
+          ${p.details.map(d => `<li>${d}</li>`).join("")}
+        </ul>
+
+        <p><strong>$${p.price}</strong></p>
+
+        ${
+          p.available
+          ? `<button class="btn btn-add" onclick="add('${p.id}')">Add to Cart</button>`
+          : `<button class="btn btn-add" disabled style="opacity:.5;cursor:not-allowed">
+               Sold Out
+             </button>`
+        }
+
       </div>
     </div>
   `).join("");
 }
 
+// ===============================
+// IMAGE SWITCH
+// ===============================
 function changeImg(id, img){
   document.getElementById(`img-${id}`).src = img;
 }
 
+// ===============================
+// CART FUNCTIONS
+// ===============================
 function add(id){
   const product = PRODUCTS.find(p => p.id === id);
+  if(!product || !product.available) return;
   cart.push(product);
   count.textContent = cart.length;
   renderCart();
@@ -374,6 +145,4 @@ function renderCart(){
 renderProducts();
 </script>
 
-</body>
-</html>
 
