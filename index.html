@@ -270,45 +270,49 @@ footer{
 <a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp Support</a>
 
 <script>
-// ===============================
-// PRODUCTS – MULTI IMAGE SUPPORT
-// ===============================
 const PRODUCTS = [
 
   {
-    id: "3D Printing",
-    name: "SRT-4, PETG Material ",
-    price: 25,
+    id: "cnc-bracket-01",
+    name: "CNC Aluminum Bracket",
+    price: 120,
+    available: true,
+    desc: "Precision CNC machined aluminum bracket.",
+    details: [
+      "Material: Aluminum 6061",
+      "Process: CNC Machining",
+      "Finish: As-machined",
+      "Tolerance: ±0.005 in"
+    ],
+    notes: "Final sale. No returns on custom machined parts.",
     imgs: [
-      "srt-4.png",
-      "srt-1.png",
+      "https://tusitio.com/bracket-1.jpg",
+      "https://tusitio.com/bracket-2.jpg",
       "https://tusitio.com/bracket-3.jpg"
     ]
   },
 
   {
-    id: "cnc",
-    name: "CNC Machined",
-    price: 0,
-    imgs: [
-      "https://tusitio.com/adapter-1.jpg",
-      "https://tusitio.com/adapter-2.jpg"
-    ]
-  },
-
-  {
-    id: "3d",
-    name: "3D Printed",
-    price: 0,
+    id: "3d-jig-01",
+    name: "3D Printed Assembly Jig",
+    price: 45,
+    available: false,
+    desc: "Functional 3D printed jig for assembly and testing.",
+    details: [
+      "Material: PETG",
+      "Process: FDM 3D Printing",
+      "Layer height: 0.28 mm"
+    ],
+    notes: "Sold as-is. Not for structural load.",
     imgs: [
       "https://tusitio.com/jig-1.jpg",
-      "https://tusitio.com/jig-2.jpg",
-      "https://tusitio.com/jig-3.jpg"
+      "https://tusitio.com/jig-2.jpg"
     ]
   }
 
 ];
 
+</script>
 // ===============================
 // CART LOGIC
 // ===============================
