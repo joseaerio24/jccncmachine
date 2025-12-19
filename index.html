@@ -91,7 +91,7 @@ h2{color:var(--red)}
 }
 .meta{font-size:14px;color:#6b7280;line-height:1.6}
 
-/* SHOP BG */
+/* SHOP */
 .shop-bg{
   background:
     linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.95)),
@@ -121,7 +121,7 @@ h2{color:var(--red)}
   margin-bottom:10px;
 }
 
-/* THUMBNAILS */
+/* THUMBS */
 .thumbs{
   display:flex;
   gap:6px;
@@ -136,7 +136,7 @@ h2{color:var(--red)}
   border:1px solid #444;
 }
 
-/* BUTTONS */
+/* BUTTON */
 .btn{
   margin-top:10px;
   padding:12px 18px;
@@ -148,10 +148,6 @@ h2{color:var(--red)}
 .btn-add{
   background:#b30000;
   color:#fff;
-}
-.btn-disabled{
-  background:#555;
-  cursor:not-allowed;
 }
 
 /* CART */
@@ -198,7 +194,6 @@ h2{color:var(--red)}
   padding:14px 18px;
   border-radius:999px;
   font-weight:bold;
-  box-shadow:var(--shadow);
 }
 
 /* FOOTER */
@@ -254,7 +249,6 @@ footer{
       • All CNC machined and 3D printed parts are FINAL SALE.<br>
       • Custom orders are non-refundable.<br>
       • Items sold AS-IS.<br>
-      • Customer responsible for application and installation.<br>
       • Operates under Florida & United States law.
     </p>
   </div>
@@ -268,47 +262,40 @@ footer{
 <div id="drawer">
   <h3>Your Order</h3>
   <div id="list"></div>
-  <p class="meta">Payment instructions will be sent via email.</p>
 </div>
 
 <a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp 813-338-7239</a>
 
 <script>
 // ===============================
-// PRODUCTS (EDIT HERE)
+// PRODUCTS
 // ===============================
 const PRODUCTS = [
- {
-    id: "srt-4",
-    name: "SRT-4",
-    price: 25,
-    available: true,   // ✅ SE MUESTRA
+  {
+    id: "cnc-bracket-01",
+    name: "CNC Aluminum Bracket",
+    price: 120,
+    available: true,
+    desc: "Precision CNC machined aluminum bracket.",
+    details: [
+      "Material: Aluminum 6061",
+      "Tolerance: ±0.005 in",
+      "Finish: As-machined"
+    ],
     imgs: [
-      "img/srt1.jpg",
-      "img/srt2.jpg"
+      "https://tusitio.com/bracket-1.jpg",
+      "https://tusitio.com/bracket-2.jpg"
     ]
   },
-
   {
-    id: "cnc-adapter",
+    id: "cnc-adapter-02",
     name: "CNC Machined Adapter",
     price: 95,
-    available: false,  // ❌ NO SE MUESTRA
-    imgs: [
-      "img/adapter1.jpg"
-    ]
-  },
-
-  {
-    id: "3d-jig",
-    name: "3D Printed Assembly Jig",
-    price: 45,
-    available: false,   // ❌ NO SE MUESTRA
-    imgs: [
-      "img/jig1.jpg"
-    ]
+    available: false,
+    desc: "Currently unavailable.",
+    details: [],
+    imgs: []
   }
-
 ];
 
 // ===============================
@@ -325,62 +312,40 @@ document.getElementById("cartBtn").onclick = () => {
 };
 
 function renderProducts(){
-  grid.innerHTML = PRODUCTS.map(p => `
-    <div class="card">
-      <div class="content">
+  grid.innerHTML = PRODUCTS
+    .filter(p => p.available === true)
+    .map(p => `
+      <div class="card">
+        <div class="content">
+          <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
 
-        <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
+          <div class="thumbs">
+            ${p.imgs.map(img => `
+              <img src="${img}" onclick="document.getElementById('img-${p.id}').src='${img}'">
+            `).join("")}
+          </div>
 
-        <div class="thumbs">
-          ${p.imgs.map(img => `
-            <img src="${img}" onclick="changeImg('${p.id}','${img}')">
-          `).join("")}
+          <h3>${p.name}</h3>
+          <p class="meta">${p.desc}</p>
+
+          <ul class="meta">
+            ${p.details.map(d => `<li>${d}</li>`).join("")}
+          </ul>
+
+          <p><strong>$${p.price}</strong></p>
+          <button class="btn btn-add" onclick="add('${p.id}')">Add to Cart</button>
         </div>
-
-        <h3>${p.name}</h3>
-        <p class="meta">${p.desc}</p>
-
-        <ul class="meta">
-          ${p.details.map(d => `<li>${d}</li>`).join("")}
-        </ul>
-
-        <p><strong>$${p.price}</strong></p>
-
-        ${
-          p.available
-          ? `<button class="btn btn-add" onclick="add('${p.id}')">Add to Cart</button>`
-          : `<button class="btn btn-disabled" disabled>Sold Out</button>`
-        }
-
       </div>
-    </div>
-  `).join("");
-}
-
-function changeImg(id, img){
-  document.getElementById(`img-${id}`).src = img;
+    `).join("");
 }
 
 function add(id){
   const product = PRODUCTS.find(p => p.id === id);
-  if(!product || !product.available) return;
   cart.push(product);
   count.textContent = cart.length;
-  renderCart();
-}
-
-function renderCart(){
-  let total = 0;
-  list.innerHTML = "";
-  cart.forEach(p=>{
-    total += p.price;
-    list.innerHTML += `
-      <div class="cart-item">
-        <strong>${p.name}</strong><br>
-        $${p.price}
-      </div>`;
-  });
-  list.innerHTML += `<hr><strong>Total: $${total}</strong>`;
+  list.innerHTML = cart.map(p=>`
+    <div class="cart-item">${p.name} – $${p.price}</div>
+  `).join("");
 }
 
 renderProducts();
