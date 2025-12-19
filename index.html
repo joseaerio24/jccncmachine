@@ -17,8 +17,14 @@ body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111}
 a{text-decoration:none}
 
 /* HEADER */
-header{background:linear-gradient(90deg,#b30000,#ff0000);color:#fff;padding:18px}
-.header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+header{
+  background:linear-gradient(90deg,#b30000,#ff0000);
+  color:#fff;padding:18px 16px
+}
+.header-inner{
+  max-width:1200px;margin:auto;
+  display:flex;justify-content:space-between;align-items:center
+}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
 nav a{color:#fff;font-weight:bold;margin-left:16px}
@@ -35,7 +41,10 @@ nav a{color:#fff;font-weight:bold;margin-left:16px}
 .section{padding:64px 16px}
 .wrap{max-width:1200px;margin:auto}
 h2{color:#b30000}
-.divider{height:3px;background:linear-gradient(90deg,#b30000,transparent);margin:12px 0 28px;border-radius:999px}
+.divider{
+  height:3px;background:linear-gradient(90deg,#b30000,transparent);
+  margin:12px 0 28px;border-radius:999px
+}
 
 /* SHOP */
 .shop-bg{
@@ -48,40 +57,62 @@ h2{color:#b30000}
 .filters button{margin-right:8px}
 
 /* PRODUCTS */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
-.card{background:#000;color:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px
+}
+.card{
+  background:#000;color:#fff;
+  border-radius:var(--radius);box-shadow:var(--shadow)
+}
 .content{padding:20px}
-.product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
+.product-img{
+  width:100%;height:180px;object-fit:cover;border-radius:10px
+}
 .thumbs{display:flex;gap:6px;margin:8px 0}
-.thumbs img{width:50px;height:50px;object-fit:cover;border-radius:6px;cursor:pointer;border:1px solid #444}
+.thumbs img{
+  width:50px;height:50px;object-fit:cover;
+  border-radius:6px;cursor:pointer;border:1px solid #444
+}
 
 /* BUTTON */
-.btn{margin-top:10px;padding:10px 16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer}
+.btn{
+  margin-top:10px;padding:10px 16px;
+  border-radius:12px;font-weight:bold;border:none;cursor:pointer
+}
 .btn-add{background:#b30000;color:#fff}
 
-/* CART / CHECKOUT */
+/* CART */
 #cartBtn{
   position:fixed;top:18px;right:18px;
   background:#fff;color:#b30000;
   padding:10px 14px;border-radius:999px;font-weight:bold;cursor:pointer
 }
 #drawer{
-  position:fixed;top:0;right:0;width:360px;height:100%;
+  position:fixed;top:0;right:0;width:340px;height:100%;
   background:#fff;box-shadow:-10px 0 25px rgba(0,0,0,.3);
   padding:16px;transform:translateX(100%);
-  transition:.25s;overflow:auto
+  transition:.25s
 }
 #drawer.open{transform:translateX(0)}
-.cart-item{border:1px solid var(--line);padding:10px;border-radius:10px;margin-bottom:8px}
-
-/* FORM */
-input,textarea{width:100%;padding:8px;margin-top:6px}
+.cart-item{
+  border:1px solid var(--line);
+  padding:10px;border-radius:10px;margin-bottom:8px
+}
 
 /* WHATSAPP */
-#wa{position:fixed;bottom:18px;right:18px;background:#25d366;color:#fff;padding:14px 18px;border-radius:999px;font-weight:bold}
+#wa{
+  position:fixed;bottom:18px;right:18px;
+  background:#25d366;color:#fff;
+  padding:14px 18px;border-radius:999px;font-weight:bold
+}
 
 /* FOOTER */
-footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:center}
+footer{
+  background:#0b0b0b;color:#cbd5e1;
+  padding:22px;font-size:12px;text-align:center
+}
 </style>
 </head>
 
@@ -128,7 +159,14 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   <div class="wrap">
     <h2>Sales Policy – Florida / USA</h2>
     <div class="divider"></div>
-    <p>FINAL SALE • Custom orders non-refundable • Sold AS-IS</p>
+    <p>
+      • All CNC machined and 3D printed products are FINAL SALE.<br>
+      • Custom and made-to-order items are non-refundable.<br>
+      • Products are sold AS-IS unless stated otherwise.<br>
+      • Customer is responsible for confirming fitment and application.<br>
+      • JC CNC Machine is not liable for misuse or improper installation.<br>
+      • Sales governed by Florida and United States law.
+    </p>
   </div>
 </section>
 
@@ -137,34 +175,29 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   sales@jccncmachine.com
 </footer>
 
-<!-- CHECKOUT -->
 <div id="drawer">
-  <h3>Checkout</h3>
-
-  <form action="https://formspree.io/f/xpqazkbv" method="POST" onsubmit="prepareOrder()">
-    <input name="name" placeholder="Full Name" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <textarea name="address" placeholder="Shipping Address" required></textarea>
-
-    <input type="hidden" name="order" id="orderField">
-    <input type="hidden" name="total" id="totalField">
-
-    <div id="list"></div>
-    <strong id="totalText"></strong>
-
-    <button class="btn btn-add" type="submit">Submit Order</button>
-  </form>
+  <h3>Your Order</h3>
+  <div id="list"></div>
 </div>
 
 <a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp 813-338-7239</a>
 
 <script>
-const PRODUCTS=[
-  {id:"srt-4",name:"SRT-4",category:"3D",price:25,available:true,imgs:["srt-1.png","srt-4.png"]},
-  {id:"cnc-adapter",name:"CNC Adapter",category:"CNC",price:95,available:false,imgs:["adapter.jpg"]},
-  {id:"3d-jig",name:"3D Assembly Jig",category:"3D",price:45,available:false,imgs:["jig.jpg"]}
+// ===============================
+// PRODUCTS (SOLO DISPONIBLES)
+// ===============================
+const PRODUCTS = [
+  {
+    id:"srt-4",
+    name:"SRT-4",
+    category:"3D",
+    price:25,
+    available:true,
+    imgs:["srt-1.png","srt-4.png"]
+  }
 ];
 
+// ===============================
 let currentCat="ALL";
 const cart=[];
 const grid=document.getElementById("products");
@@ -174,10 +207,14 @@ const drawer=document.getElementById("drawer");
 
 cartBtn.onclick=()=>drawer.classList.toggle("open");
 
-function filterCat(cat){currentCat=cat;renderProducts();}
+function filterCat(cat){
+  currentCat=cat;
+  renderProducts();
+}
 
 function changeImg(id,img){
-  document.getElementById("img-"+id).src=img;
+  const el=document.getElementById("img-"+id);
+  if(el) el.src=img;
 }
 
 function renderProducts(){
@@ -193,7 +230,7 @@ function renderProducts(){
           </div>
           <h3>${p.name}</h3>
           <p>$${p.price}</p>
-          Qty <input type="number" min="1" value="1" id="q-${p.id}">
+          Qty <input type="number" min="1" value="1" id="q-${p.id}" style="width:60px">
           <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
         </div>
       </div>
@@ -206,7 +243,6 @@ function add(id){
   const f=cart.find(x=>x.id===id);
   f?f.qty+=q:cart.push({...p,qty:q});
   count.textContent=cart.reduce((a,b)=>a+b.qty,0);
-  drawer.classList.add("open");
   renderCart();
 }
 
@@ -216,17 +252,7 @@ function renderCart(){
     t+=p.qty*p.price;
     list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
   });
-  document.getElementById("totalText").innerText="Total: $"+t;
-}
-
-function prepareOrder(){
-  let summary="",total=0;
-  cart.forEach(p=>{
-    summary+=`${p.name} x ${p.qty} = $${p.qty*p.price}\n`;
-    total+=p.qty*p.price;
-  });
-  orderField.value=summary;
-  totalField.value="$"+total;
+  list.innerHTML+=`<hr><strong>Total: $${t}</strong>`;
 }
 
 renderProducts();
