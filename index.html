@@ -105,12 +105,12 @@ h2{color:#b30000}
 .small{font-size:12px;color:#555}
 hr{border:none;border-top:1px solid #ddd;margin:12px 0}
 
-/* CHECKOUT */
+/* FORM */
 .checkout{
   margin-top:12px;border:1px solid var(--line);
   border-radius:12px;padding:12px
 }
-.checkout label{display:block;font-size:12px;margin-top:10px}
+.checkout label{font-size:12px;display:block;margin-top:10px}
 .checkout input,.checkout textarea{
   width:100%;padding:10px;border-radius:10px;border:1px solid #ddd
 }
@@ -119,7 +119,8 @@ hr{border:none;border-top:1px solid #ddd;margin:12px 0}
 #wa{
   position:fixed;bottom:18px;right:18px;
   background:#25d366;color:#fff;
-  padding:14px 18px;border-radius:999px;font-weight:bold
+  padding:14px 18px;border-radius:999px;
+  font-weight:bold;box-shadow:var(--shadow)
 }
 
 /* FOOTER */
@@ -174,10 +175,11 @@ footer{
     <h2>Sales Policy – Florida / USA</h2>
     <div class="divider"></div>
     <p class="small">
-      • FINAL SALE<br>
-      • Custom orders non-refundable<br>
-      • Sold AS-IS<br>
-      • Florida & USA law
+      • FINAL SALE on all CNC machined and 3D printed products.<br>
+      • Custom orders are non-refundable.<br>
+      • Products sold AS-IS.<br>
+      • Customer responsible for proper use.<br>
+      • Governed by Florida & USA law.
     </p>
   </div>
 </section>
@@ -187,6 +189,7 @@ footer{
   sales@jccncmachine.com
 </footer>
 
+<!-- CART -->
 <div id="drawer">
   <h3>Your Order</h3>
   <div id="list"></div>
@@ -197,15 +200,25 @@ footer{
       <input name="name" required>
 
       <label>Email</label>
-      <input name="email" type="email" required>
+      <input type="email" name="email" required>
+
+      <label>Phone</label>
+      <input name="phone">
 
       <label>Shipping Address</label>
-      <textarea name="address" required></textarea>
+      <textarea name="shipping_address" required></textarea>
 
-      <input type="hidden" name="order_items" id="order_items">
-      <input type="hidden" name="order_total" id="order_total">
+      <label>Shipping Cost ($)</label>
+      <input id="shipping_cost" name="shipping_cost" type="number" value="0" step="0.01">
 
-      <button class="btn btn-add" style="width:100%">Submit Order</button>
+      <label>Tax (FL 7%)</label>
+      <input id="tax_amount" name="tax_amount" readonly>
+
+      <input type="hidden" id="order_items" name="order_items">
+      <input type="hidden" id="order_total" name="order_total">
+      <input type="hidden" id="grand_total" name="grand_total">
+
+      <button class="btn btn-add" type="submit" style="width:100%">Submit Order</button>
     </form>
   </div>
 </div>
@@ -213,15 +226,17 @@ footer{
 <a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp 813-338-7239</a>
 
 <script>
-// ===============================
-// CONFIG
-// ===============================
-let SHIPPING_COST = 15;
-let TAX_RATE = 0.06;
+const TAX_RATE = 0.07;
 
-// PRODUCTS
 const PRODUCTS = [
-  { id:"srt-4", name:"SRT-4", category:"3D", price:25, available:true, imgs:["srt-1.png","srt-4.png"] }
+  {
+    id:"srt-4",
+    name:"SRT-4",
+    category:"3D",
+    price:25,
+    available:true,
+    imgs:["srt-1.png","srt-4.png"]
+  }
 ];
 
 let currentCat="ALL";
@@ -229,15 +244,8 @@ const cart=[];
 const grid=document.getElementById("products");
 const list=document.getElementById("list");
 const count=document.getElementById("count");
-const drawer=document.getElementById("drawer");
-const orderItems=document.getElementById("order_items");
-const orderTotal=document.getElementById("order_total");
 
-cartBtn.onclick=()=>drawer.classList.toggle("open");
-
-function filterCat(cat){ currentCat=cat; renderProducts(); }
-
-function changeImg(id,img){ document.getElementById("img-"+id).src=img; }
+function filterCat(c){currentCat=c;renderProducts();}
 
 function renderProducts(){
   grid.innerHTML=PRODUCTS.filter(p=>p.available)
@@ -245,19 +253,18 @@ function renderProducts(){
   .map(p=>`
     <div class="card"><div class="content">
       <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
-      <div class="thumbs">
-        ${p.imgs.map(i=>`<img src="${i}" onclick="changeImg('${p.id}','${i}')">`).join("")}
-      </div>
+      <div class="thumbs">${p.imgs.map(i=>`<img src="${i}" onclick="document.getElementById('img-${p.id}').src='${i}'">`).join("")}</div>
       <h3>${p.name}</h3>
       <p>$${p.price}</p>
-      Qty <input type="number" min="1" value="1" id="q-${p.id}">
+      Qty <input id="q-${p.id}" type="number" value="1" min="1" style="width:60px">
       <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
-    </div></div>`).join("");
+    </div></div>
+  `).join("");
 }
 
 function add(id){
   const p=PRODUCTS.find(x=>x.id===id);
-  const q=parseInt(document.getElementById("q-"+id).value);
+  const q=parseInt(document.getElementById(`q-${id}`).value);
   const f=cart.find(x=>x.id===id);
   f?f.qty+=q:cart.push({...p,qty:q});
   count.textContent=cart.reduce((a,b)=>a+b.qty,0);
@@ -269,23 +276,27 @@ function renderCart(){
   list.innerHTML="";
   cart.forEach(p=>{
     subtotal+=p.qty*p.price;
-    list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}</div>`;
+    list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
   });
 
-  const tax=subtotal*TAX_RATE;
-  const total=subtotal+SHIPPING_COST+tax;
+  const shipping=parseFloat(document.getElementById("shipping_cost").value||0);
+  const tax=(subtotal*TAX_RATE).toFixed(2);
+  const total=(subtotal+shipping+parseFloat(tax)).toFixed(2);
 
-  list.innerHTML+=`
-    <hr>
-    Subtotal: $${subtotal.toFixed(2)}<br>
-    Shipping: $${SHIPPING_COST.toFixed(2)}<br>
-    Tax: $${tax.toFixed(2)}<br>
-    <strong>Total: $${total.toFixed(2)}</strong>
-  `;
+  list.innerHTML+=`<hr>
+    <div class="small">Subtotal: $${subtotal}</div>
+    <div class="small">Shipping: $${shipping}</div>
+    <div class="small">Tax: $${tax}</div>
+    <strong>Total: $${total}</strong>`;
 
-  orderItems.value=cart.map(p=>`${p.name} x ${p.qty}`).join(" | ");
-  orderTotal.value=total.toFixed(2);
+  document.getElementById("tax_amount").value=tax;
+  document.getElementById("order_items").value=cart.map(p=>`${p.name} x${p.qty}`).join(", ");
+  document.getElementById("order_total").value=total;
+  document.getElementById("grand_total").value=total;
 }
+
+document.getElementById("shipping_cost").addEventListener("input",renderCart);
+document.getElementById("cartBtn").onclick=()=>document.getElementById("drawer").classList.toggle("open");
 
 renderProducts();
 </script>
