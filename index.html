@@ -182,10 +182,9 @@ footer{
 
 <script>
 // ===============================
-// PRODUCTS – EDIT HERE
+// PRODUCTS
 // ===============================
 const PRODUCTS = [
-
   {
     id:"srt-4",
     name:"SRT-4",
@@ -194,7 +193,6 @@ const PRODUCTS = [
     available:true,
     imgs:["srt-1.png","srt-4.png"]
   },
-
   {
     id:"cnc-adapter",
     name:"CNC Machined Adapter",
@@ -203,7 +201,6 @@ const PRODUCTS = [
     available:false,
     imgs:["img/adapter1.jpg"]
   },
-
   {
     id:"3d-jig",
     name:"3D Printed Assembly Jig",
@@ -212,7 +209,6 @@ const PRODUCTS = [
     available:false,
     imgs:["img/jig1.jpg"]
   }
-
 ];
 
 let currentCat="ALL";
@@ -229,6 +225,11 @@ function filterCat(cat){
   renderProducts();
 }
 
+function changeImg(id,img){
+  const el=document.getElementById("img-"+id);
+  if(el) el.src=img;
+}
+
 function renderProducts(){
   grid.innerHTML=PRODUCTS
     .filter(p=>p.available)
@@ -238,7 +239,9 @@ function renderProducts(){
         <div class="content">
           <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
           <div class="thumbs">
-            ${p.imgs.map(i=>`<img src="${i}" onclick="img-${p.id}.src='${i}'">`).join("")}
+            ${p.imgs.map(i=>`
+              <img src="${i}" onclick="changeImg('${p.id}','${i}')">
+            `).join("")}
           </div>
           <h3>${p.name}</h3>
           <p>$${p.price}</p>
@@ -272,5 +275,4 @@ renderProducts();
 
 </body>
 </html>
-
 
