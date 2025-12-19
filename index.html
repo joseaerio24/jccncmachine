@@ -79,7 +79,7 @@ nav a{
   margin:auto;
 }
 
-/* SECTIONS */
+/* SECTION */
 .section{padding:64px 16px}
 .wrap{max-width:1200px;margin:auto}
 h2{color:var(--red)}
@@ -121,7 +121,7 @@ h2{color:var(--red)}
   margin-bottom:10px;
 }
 
-/* THUMBS */
+/* THUMBNAILS */
 .thumbs{
   display:flex;
   gap:6px;
@@ -194,6 +194,7 @@ h2{color:var(--red)}
   padding:14px 18px;
   border-radius:999px;
   font-weight:bold;
+  box-shadow:var(--shadow);
 }
 
 /* FOOTER */
@@ -249,6 +250,7 @@ footer{
       • All CNC machined and 3D printed parts are FINAL SALE.<br>
       • Custom orders are non-refundable.<br>
       • Items sold AS-IS.<br>
+      • Customer responsible for application and installation.<br>
       • Operates under Florida & United States law.
     </p>
   </div>
@@ -262,39 +264,43 @@ footer{
 <div id="drawer">
   <h3>Your Order</h3>
   <div id="list"></div>
+  <p class="meta">Payment instructions will be sent via email.</p>
 </div>
 
 <a id="wa" href="https://wa.me/18133387239" target="_blank">💬 WhatsApp 813-338-7239</a>
 
 <script>
 // ===============================
-// PRODUCTS
+// PRODUCTS (ONLY available:true SHOW)
 // ===============================
 const PRODUCTS = [
+
   {
     id: "srt-4",
     name: "SRT-4",
     price: 25,
     available: true,
-    imgs: [
-      "img/srt1.jpg",
-      "img/srt2.jpg"
-    ]
+    imgs: ["img/srt1.jpg","img/srt2.jpg"]
   },
+
   {
-    id: "cnc-adapter-02",
+    id: "cnc-adapter",
     name: "CNC Machined Adapter",
     price: 95,
     available: false,
-    desc: "Currently unavailable.",
-    details: [],
-    imgs: []
+    imgs: ["img/adapter1.jpg"]
+  },
+
+  {
+    id: "3d-jig",
+    name: "3D Printed Assembly Jig",
+    price: 45,
+    available: false,
+    imgs: ["img/jig1.jpg"]
   }
+
 ];
 
-// ===============================
-// CART + RENDER
-// ===============================
 const cart = [];
 const count = document.getElementById("count");
 const list = document.getElementById("list");
@@ -312,20 +318,12 @@ function renderProducts(){
       <div class="card">
         <div class="content">
           <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
-
           <div class="thumbs">
-            ${p.imgs.map(img => `
-              <img src="${img}" onclick="document.getElementById('img-${p.id}').src='${img}'">
-            `).join("")}
+            ${p.imgs.map(img =>
+              `<img src="${img}" onclick="document.getElementById('img-${p.id}').src='${img}'">`
+            ).join("")}
           </div>
-
           <h3>${p.name}</h3>
-          <p class="meta">${p.desc}</p>
-
-          <ul class="meta">
-            ${p.details.map(d => `<li>${d}</li>`).join("")}
-          </ul>
-
           <p><strong>$${p.price}</strong></p>
           <button class="btn btn-add" onclick="add('${p.id}')">Add to Cart</button>
         </div>
@@ -337,9 +335,17 @@ function add(id){
   const product = PRODUCTS.find(p => p.id === id);
   cart.push(product);
   count.textContent = cart.length;
-  list.innerHTML = cart.map(p=>`
-    <div class="cart-item">${p.name} – $${p.price}</div>
-  `).join("");
+  renderCart();
+}
+
+function renderCart(){
+  let total = 0;
+  list.innerHTML = "";
+  cart.forEach(p=>{
+    total += p.price;
+    list.innerHTML += `<div class="cart-item"><strong>${p.name}</strong><br>$${p.price}</div>`;
+  });
+  list.innerHTML += `<hr><strong>Total: $${total}</strong>`;
 }
 
 renderProducts();
