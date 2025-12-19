@@ -14,6 +14,7 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111}
+a{text-decoration:none}
 
 /* HEADER */
 header{
@@ -61,17 +62,17 @@ h2{color:#b30000}
 
 /* BUTTON */
 .btn{
-  margin-top:10px;padding:8px 14px;
-  border-radius:10px;font-weight:bold;border:none;cursor:pointer
+  margin-top:10px;padding:10px 16px;
+  border-radius:12px;font-weight:bold;border:none;cursor:pointer
 }
 .btn-add{background:#b30000;color:#fff}
-.btn-sec{background:#111;color:#fff}
+.btn-qty{padding:4px 10px;font-weight:bold}
 
 /* CART */
 #cartBtn{
   position:fixed;top:18px;right:18px;
   background:#fff;color:#b30000;
-  padding:10px 14px;border-radius:999px;font-weight:bold;
+  padding:10px 14px;border-radius:999px;
   box-shadow:var(--shadow);cursor:pointer;z-index:999
 }
 #drawer{
@@ -86,16 +87,6 @@ h2{color:#b30000}
   padding:10px;border-radius:10px;margin-bottom:8px
 }
 .small{font-size:12px;color:#555}
-
-/* FORM */
-.checkout{
-  margin-top:12px;border:1px solid var(--line);
-  border-radius:12px;padding:12px
-}
-.checkout label{font-size:12px;display:block;margin-top:10px}
-.checkout input,.checkout textarea{
-  width:100%;padding:10px;border-radius:10px;border:1px solid #ddd
-}
 
 /* FOOTER */
 footer{
@@ -142,42 +133,27 @@ footer{
   <h3>Your Order</h3>
   <div id="list"></div>
 
-  <!-- PAYMENT METHOD -->
-  <div class="checkout">
-    <h4>Payment Method</h4>
-    <p class="small">
-      Cash App only:<br>
-      <strong>$JCCNC1</strong><br>
-      <a href="https://cash.app/$JCCNC1" target="_blank">
-        https://cash.app/$JCCNC1
-      </a>
-    </p>
-  </div>
+  <p class="small">
+    <strong>Payment Method:</strong><br>
+    Cash App only<br>
+    <a href="https://cash.app/$JCCNC1" target="_blank">$JCCNC1</a>
+  </p>
 
-  <div class="checkout">
-    <form action="https://formspree.io/f/xpqazkbv" method="POST">
-      <label>Name</label>
-      <input name="name" required>
+  <form action="https://formspree.io/f/xpqazkbv" method="POST">
+    <input type="hidden" name="order_items" id="order_items">
+    <input type="hidden" name="order_total" id="order_total">
 
-      <label>Email</label>
-      <input type="email" name="email" required>
+    <label>Name</label>
+    <input name="name" required>
 
-      <label>Phone</label>
-      <input name="phone">
+    <label>Email</label>
+    <input type="email" name="email" required>
 
-      <label>Shipping Address</label>
-      <textarea name="shipping_address" required></textarea>
+    <label>Shipping Address</label>
+    <textarea name="shipping_address" required></textarea>
 
-      <!-- hidden -->
-      <input type="hidden" name="order_items" id="order_items">
-      <input type="hidden" name="order_total" id="order_total">
-      <input type="hidden" name="payment_method" value="Cash App - $JCCNC1">
-
-      <button class="btn btn-add" type="submit" style="width:100%">
-        Submit Order
-      </button>
-    </form>
-  </div>
+    <button class="btn btn-add" type="submit" style="width:100%">Submit Order</button>
+  </form>
 </div>
 
 <script>
@@ -203,10 +179,6 @@ function renderProducts(){
         <img class="product-img" src="${p.imgs[0]}">
         <h3>${p.name}</h3>
         <p>$${p.price}</p>
-
-        Qty:
-        <input id="q-${p.id}" type="number" min="1" value="1" style="width:60px">
-
         <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
       </div>
     </div>
@@ -215,25 +187,28 @@ function renderProducts(){
 
 function add(id){
   const p = PRODUCTS.find(x=>x.id===id);
-  const qty = Math.max(1, parseInt(document.getElementById(`q-${id}`).value));
   const f = cart.find(x=>x.id===id);
-  f ? f.qty += qty : cart.push({...p, qty});
-  count.textContent = cart.reduce((a,b)=>a+b.qty,0);
-  renderCart();
+  f ? f.qty++ : cart.push({...p, qty:1});
+  update();
 }
 
-function updateQty(id,delta){
+function plus(id){
+  cart.find(p=>p.id===id).qty++;
+  update();
+}
+
+function minus(id){
   const item = cart.find(p=>p.id===id);
-  if(!item) return;
-  item.qty += delta;
+  item.qty--;
   if(item.qty<=0){
-    cart.splice(cart.indexOf(item),1);
+    const i=cart.indexOf(item);
+    cart.splice(i,1);
   }
-  count.textContent = cart.reduce((a,b)=>a+b.qty,0);
-  renderCart();
+  update();
 }
 
-function renderCart(){
+function update(){
+  count.textContent = cart.reduce((a,b)=>a+b.qty,0);
   let total=0;
   list.innerHTML="";
   cart.forEach(p=>{
@@ -241,11 +216,10 @@ function renderCart(){
     list.innerHTML+=`
       <div class="cart-item">
         <strong>${p.name}</strong><br>
-        $${p.price} × ${p.qty} = $${p.qty*p.price}
-        <div>
-          <button class="btn btn-sec" onclick="updateQty('${p.id}',-1)">−</button>
-          <button class="btn btn-sec" onclick="updateQty('${p.id}',1)">+</button>
-        </div>
+        <button class="btn-qty" onclick="minus('${p.id}')">−</button>
+        ${p.qty}
+        <button class="btn-qty" onclick="plus('${p.id}')">+</button>
+        <br>$${p.qty*p.price}
       </div>`;
   });
   list.innerHTML+=`<strong>Total: $${total}</strong>`;
@@ -262,4 +236,3 @@ renderProducts();
 
 </body>
 </html>
-
