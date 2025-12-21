@@ -17,15 +17,8 @@ body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111}
 a{text-decoration:none;color:inherit}
 
 /* HEADER */
-header{
-  background:#c40000;
-  color:#fff;
-  padding:16px
-}
-.header-inner{
-  max-width:1200px;margin:auto;
-  display:flex;align-items:center;justify-content:space-between
-}
+header{background:#c40000;color:#fff;padding:16px}
+.header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
 .brand{display:flex;align-items:center;gap:10px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
 nav a{margin-left:18px;font-weight:bold}
@@ -52,22 +45,15 @@ h2{color:#b30000}
 }
 
 /* PRODUCTS */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px
-}
-.card{
-  background:#000;color:#fff;
-  border-radius:14px;box-shadow:var(--shadow)
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.card{background:#000;color:#fff;border-radius:14px;box-shadow:var(--shadow)}
 .content{padding:20px}
 .product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
 
 /* BUTTON */
 .btn{padding:10px 16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer}
 .btn-add{background:#b30000;color:#fff}
-.btn-disabled{background:#666;color:#fff;cursor:not-allowed}
+.btn-disabled{background:#777;color:#fff;cursor:not-allowed}
 
 /* CART */
 #cartBtn{
@@ -88,10 +74,7 @@ h2{color:#b30000}
 .small{font-size:12px;color:#555}
 
 /* FOOTER */
-footer{
-  background:#0b0b0b;color:#cbd5e1;
-  padding:22px;font-size:12px;text-align:center
-}
+footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:center}
 </style>
 </head>
 
@@ -119,23 +102,19 @@ footer{
   <p>Orders reviewed and confirmed after payment.</p>
 </section>
 
-<!-- SHOP -->
 <section class="section" id="shop">
   <div class="wrap">
     <h2>Shop</h2>
     <div class="divider"></div>
-
     <div class="filters">
       <button onclick="filterCat('ALL')">All</button>
       <button onclick="filterCat('CNC')">CNC</button>
       <button onclick="filterCat('3D')">3D</button>
     </div>
-
     <div class="grid" id="products"></div>
   </div>
 </section>
 
-<!-- POLICIES -->
 <section class="section" id="policies">
   <div class="wrap">
     <h2>Sales Policy – Florida / USA</h2>
@@ -146,7 +125,7 @@ footer{
       • Products sold AS-IS unless stated otherwise.<br>
       • Customer responsible for fitment and application.<br>
       • JC CNC Machine is not liable for misuse or improper installation.<br>
-      • All sales governed by Florida & United States law.
+      • Sales governed by Florida & United States law.
     </p>
   </div>
 </section>
@@ -188,22 +167,8 @@ footer{
 
 <script>
 const PRODUCTS=[
-  {
-    id:"srt-4",
-    name:"SRT-4",
-    category:"3D",
-    price:25,
-    available:true,
-    img:"srt-1.png"
-  },
-  {
-    id:"future-part",
-    name:"Future CNC Part",
-    category:"CNC",
-    price:0,
-    available:false,
-    img:"placeholder.png"
-  }
+  {id:"srt-4",name:"SRT-4",category:"3D",price:25,available:true,img:"srt-1.png"},
+  {id:"future",name:"Future CNC Part",category:"CNC",price:0,available:false,img:"placeholder.png"}
 ];
 
 let currentCat="ALL";
@@ -211,13 +176,15 @@ const cart=[];
 const grid=document.getElementById("products");
 const list=document.getElementById("list");
 const count=document.getElementById("count");
+const drawer=document.getElementById("drawer");
 const submitBtn=document.getElementById("submitBtn");
+
+document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
 
 function filterCat(c){currentCat=c;renderProducts();}
 
 function renderProducts(){
-  grid.innerHTML=PRODUCTS
-    .filter(p=>p.available)
+  grid.innerHTML=PRODUCTS.filter(p=>p.available)
     .filter(p=>currentCat==="ALL"||p.category===currentCat)
     .map(p=>`
       <div class="card"><div class="content">
@@ -235,6 +202,7 @@ function add(id){
   const q=parseInt(document.getElementById(`q-${id}`).value);
   const f=cart.find(x=>x.id===id);
   f?f.qty+=q:cart.push({...p,qty:q});
+  drawer.classList.add("open");
   update();
 }
 
@@ -259,4 +227,5 @@ update();
 
 </body>
 </html>
+
 
