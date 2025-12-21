@@ -17,11 +17,13 @@ body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111}
 a{text-decoration:none}
 
 /* HEADER */
-header{background:#b30000;color:#fff;padding:18px 16px}
-.header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+header{background:#b30000;color:#fff;padding:18px}
+.header-inner{
+  max-width:1200px;margin:auto;
+  display:flex;justify-content:space-between;align-items:center
+}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
-nav a{color:#fff;font-weight:bold;margin-left:16px}
 
 /* HERO */
 .hero{
@@ -31,24 +33,16 @@ nav a{color:#fff;font-weight:bold;margin-left:16px}
 }
 .hero img{width:220px;margin-bottom:24px}
 
-/* SECTION */
-.section{padding:64px 16px}
-.wrap{max-width:1200px;margin:auto}
-h2{color:#b30000}
-.divider{height:3px;background:#b30000;margin:12px 0 28px;border-radius:999px}
-
-/* FILTERS */
-.filters button{margin-right:8px}
-
 /* PRODUCTS */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
-.card{background:#000;color:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
+.grid{
+  max-width:1200px;margin:40px auto;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;padding:0 16px
+}
+.card{background:#000;color:#fff;border-radius:14px;box-shadow:var(--shadow)}
 .content{padding:20px}
 .product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
-.thumbs{display:flex;gap:6px;margin:8px 0}
-.thumbs img{width:50px;height:50px;border-radius:6px;cursor:pointer;border:1px solid #444}
 
-/* BUTTONS */
 .btn{margin-top:10px;padding:10px 16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer}
 .btn-add{background:#b30000;color:#fff}
 
@@ -68,14 +62,15 @@ h2{color:#b30000}
 }
 #drawer.open{transform:translateX(0)}
 .cart-item{border:1px solid var(--line);padding:10px;border-radius:10px;margin-bottom:8px}
-.small{font-size:12px;color:#555}
 
-/* FOOTER */
-footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:center}
+footer{
+  background:#0b0b0b;color:#cbd5e1;
+  padding:22px;font-size:12px;text-align:center
+}
 </style>
 
-<!-- PAYPAL SMART CHECKOUT -->
-<script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID_LIVE&currency=USD&enable-funding=venmo"></script>
+<!-- ✅ PAYPAL SMART CHECKOUT -->
+<script src="https://www.paypal.com/sdk/js?client-id=PEGA_AQUI_TU_CLIENT_ID_REAL&currency=USD&enable-funding=venmo"></script>
 </head>
 
 <body>
@@ -86,11 +81,6 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
       <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
       <strong>JC CNC Machine</strong>
     </div>
-    <nav>
-      <a href="#shop">Shop</a>
-      <a href="#policies">Policies</a>
-      <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">Facebook</a>
-    </nav>
   </div>
 </header>
 
@@ -102,35 +92,7 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   <p>Orders reviewed and confirmed after payment.</p>
 </section>
 
-<section class="section" id="shop">
-  <div class="wrap">
-    <h2>Shop</h2>
-    <div class="divider"></div>
-
-    <div class="filters">
-      <button class="btn btn-add" onclick="filterCat('ALL')">All</button>
-      <button class="btn btn-add" onclick="filterCat('CNC')">CNC</button>
-      <button class="btn btn-add" onclick="filterCat('3D')">3D</button>
-    </div>
-
-    <div class="grid" id="products"></div>
-  </div>
-</section>
-
-<section class="section" id="policies">
-  <div class="wrap">
-    <h2>Sales Policy – Florida / USA</h2>
-    <div class="divider"></div>
-    <p class="small">
-      • ALL SALES ARE FINAL.<br>
-      • CNC machined and 3D printed products are NON-REFUNDABLE.<br>
-      • Custom or made-to-order items cannot be returned.<br>
-      • Products sold AS-IS.<br>
-      • Customer responsible for fitment and application.<br>
-      • Governed by Florida & United States law.
-    </p>
-  </div>
-</section>
+<div class="grid" id="products"></div>
 
 <footer>
   © 2025 JC CNC Machine — Tampa, Florida
@@ -141,31 +103,18 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   <h3>Your Order</h3>
   <div id="list"></div>
   <div id="paypal-button-container"></div>
-
-  <div id="completeMsg" style="display:none">
-    <hr>
-    <p class="small">
-      ✅ <strong>ORDER COMPLETED</strong><br><br>
-      Payment received successfully.<br>
-      <strong>Total:</strong> $<span id="finalTotal"></span>
-    </p>
-  </div>
 </div>
 
 <script>
-const PRODUCTS=[
-  {
-    id:"srt-4",
-    name:"SRT-4",
-    category:"3D",
-    price:25,
-    imgs:["srt-1.png","srt-4.png"]
-  }
-];
+const PRODUCTS=[{
+  id:"srt-4",
+  name:"SRT-4",
+  price:25,
+  img:"srt-1.png"
+}];
 
-let currentCat="ALL";
-let cart=[];
-let cartTotal=0;
+let cart=null;
+let total=0;
 
 const grid=document.getElementById("products");
 const list=document.getElementById("list");
@@ -173,73 +122,51 @@ const count=document.getElementById("count");
 
 cartBtn.onclick=()=>drawer.classList.toggle("open");
 
-function filterCat(cat){
-  currentCat=cat;
-  renderProducts();
-}
+grid.innerHTML=PRODUCTS.map(p=>`
+  <div class="card"><div class="content">
+    <img class="product-img" src="${p.img}">
+    <h3>${p.name}</h3>
+    <p>$${p.price}</p>
+    Qty:
+    <input id="qty" type="number" min="1" value="1" style="width:70px">
+    <button class="btn btn-add" onclick="add()">Add</button>
+  </div></div>
+`).join("");
 
-function renderProducts(){
-  grid.innerHTML=PRODUCTS
-    .filter(p=>currentCat==="ALL"||p.category===currentCat)
-    .map(p=>`
-      <div class="card"><div class="content">
-        <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
-        <div class="thumbs">
-          ${p.imgs.map(i=>`<img src="${i}" onclick="document.getElementById('img-${p.id}').src='${i}'">`).join("")}
-        </div>
-        <h3>${p.name}</h3>
-        <p>$${p.price}</p>
-        Qty:
-        <input id="q-${p.id}" type="number" min="1" value="1" style="width:70px">
-        <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
-      </div></div>
-    `).join("");
-}
-
-function add(id){
-  const p=PRODUCTS.find(x=>x.id===id);
-  const q=parseInt(document.getElementById("q-"+id).value);
-  cart=[{...p,qty:q}];
+function add(){
+  const q=parseInt(document.getElementById("qty").value);
+  cart={...PRODUCTS[0],qty:q};
   update();
 }
 
 function update(){
-  cartTotal=0;
-  list.innerHTML="";
-  cart.forEach(p=>{
-    cartTotal+=p.qty*p.price;
-    list.innerHTML+=`
-      <div class="cart-item">
-        ${p.name} × ${p.qty}<br>
-        $${(p.qty*p.price).toFixed(2)}
-      </div>`;
-  });
-  list.innerHTML+=`<strong>Total: $${cartTotal.toFixed(2)}</strong>`;
-  count.textContent=cart.length;
+  total=cart.qty*cart.price;
+  list.innerHTML=`
+    <div class="cart-item">
+      ${cart.name} × ${cart.qty}<br>
+      $${total.toFixed(2)}
+    </div>
+    <strong>Total: $${total.toFixed(2)}</strong>
+  `;
+  count.textContent=1;
   renderPayPal();
 }
 
 function renderPayPal(){
-  const container=document.getElementById("paypal-button-container");
-  container.innerHTML="";
-  if(cartTotal<=0) return;
-
+  document.getElementById("paypal-button-container").innerHTML="";
   paypal.Buttons({
     createOrder:(data,actions)=>{
       return actions.order.create({
-        purchase_units:[{amount:{value:cartTotal.toFixed(2)}}]
+        purchase_units:[{amount:{value:total.toFixed(2)}}]
       });
     },
     onApprove:(data,actions)=>{
       return actions.order.capture().then(()=>{
-        document.getElementById("finalTotal").textContent=cartTotal.toFixed(2);
-        document.getElementById("completeMsg").style.display="block";
+        alert("Payment successful!");
       });
     }
   }).render("#paypal-button-container");
 }
-
-renderProducts();
 </script>
 
 </body>
