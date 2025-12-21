@@ -15,17 +15,12 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111}
 
-/* HEADER */
 header{background:#b30000;color:#fff;padding:18px 16px}
-.header-inner{
-  max-width:1200px;margin:auto;
-  display:flex;justify-content:space-between;align-items:center
-}
+.header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
 nav a{color:#fff;font-weight:bold;margin-left:16px}
 
-/* HERO */
 .hero{
   background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
   url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png") center/cover;
@@ -33,40 +28,22 @@ nav a{color:#fff;font-weight:bold;margin-left:16px}
 }
 .hero img{width:220px;margin-bottom:24px}
 
-/* SECTION */
 .section{padding:64px 16px}
 .wrap{max-width:1200px;margin:auto}
 h2{color:#b30000}
 .divider{height:3px;background:#b30000;margin:12px 0 28px}
 
-/* PRODUCTS */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px
-}
-.card{
-  background:#000;color:#fff;
-  border-radius:14px;box-shadow:var(--shadow)
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.card{background:#000;color:#fff;border-radius:14px;box-shadow:var(--shadow)}
 .content{padding:20px}
 .product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
 .thumbs{display:flex;gap:6px;margin:8px 0}
-.thumbs img{
-  width:50px;height:50px;
-  object-fit:cover;border-radius:6px;
-  cursor:pointer;border:1px solid #444
-}
+.thumbs img{width:50px;height:50px;border-radius:6px;cursor:pointer;border:1px solid #444}
 
-/* BUTTONS */
-.btn{
-  margin-top:10px;padding:10px 16px;
-  border-radius:12px;font-weight:bold;border:none;cursor:pointer
-}
+.btn{margin-top:10px;padding:10px 16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer}
 .btn-add{background:#b30000;color:#fff}
 .btn-disabled{background:#666;color:#fff;cursor:not-allowed}
 
-/* CART */
 #cartBtn{
   position:fixed;top:18px;right:18px;
   background:#fff;color:#b30000;
@@ -81,11 +58,10 @@ h2{color:#b30000}
   transition:.25s;overflow:auto;z-index:999
 }
 #drawer.open{transform:translateX(0)}
-.cart-item{
-  border:1px solid var(--line);
-  padding:10px;border-radius:10px;margin-bottom:8px
-}
+.cart-item{border:1px solid var(--line);padding:10px;border-radius:10px;margin-bottom:8px}
 .small{font-size:12px;color:#555}
+
+footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:center}
 </style>
 </head>
 
@@ -99,6 +75,7 @@ h2{color:#b30000}
     </div>
     <nav>
       <a href="#shop">Shop</a>
+      <a href="#policies">Policies</a>
       <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">Facebook</a>
     </nav>
   </div>
@@ -120,12 +97,26 @@ h2{color:#b30000}
   </div>
 </section>
 
+<section class="section" id="policies">
+  <div class="wrap">
+    <h2>Sales Policy – Florida / USA</h2>
+    <div class="divider"></div>
+    <p class="small">
+      • ALL SALES ARE FINAL.<br>
+      • CNC machined and 3D printed products are NON-REFUNDABLE.<br>
+      • Custom and made-to-order items cannot be returned.<br>
+      • Products sold AS-IS.<br>
+      • Customer is responsible for fitment and application.<br>
+      • Sales governed by Florida and United States law.
+    </p>
+  </div>
+</section>
+
 <footer>
   © 2025 JC CNC Machine — Tampa, Florida<br>
   sales@jccncmachine.com
 </footer>
 
-<!-- CART -->
 <div id="drawer">
   <h3>Your Order</h3>
   <div id="list"></div>
@@ -133,16 +124,15 @@ h2{color:#b30000}
   <div id="paymentInfo" style="display:none">
     <hr>
     <p class="small">
-      <strong>Status:</strong> PENDING PAYMENT<br>
-      <strong>Shipping:</strong> PENDING ADDRESS (TBD)<br><br>
+      <strong>Status:</strong> PENDING PAYMENT<br><br>
 
-      <strong>Payment Methods:</strong><br><br>
-
-      💵 <strong>Cash App</strong><br>
-      <a href="https://cash.app/$JCCNC1" target="_blank">https://cash.app/$JCCNC1</a><br><br>
+      <strong>Payment Method:</strong><br><br>
 
       💳 <strong>PayPal</strong><br>
       <img src="paypal-qr.png" style="max-width:200px;border-radius:12px;border:1px solid #ddd"><br><br>
+
+      💵 Cash App: 
+      <a href="https://cash.app/$JCCNC1" target="_blank">https://cash.app/$JCCNC1</a><br><br>
 
       <strong>Order ID:</strong> <span id="orderIdText"></span><br>
       <em>Please include Order ID in the payment note.</em>
@@ -152,7 +142,7 @@ h2{color:#b30000}
   <form id="orderForm" action="https://formspree.io/f/xpqazkbv" method="POST">
     <input name="name" placeholder="Full Name" required>
     <input name="email" type="email" placeholder="Email" required>
-    <textarea name="shipping_address" placeholder="Shipping Address" required></textarea>
+    <textarea name="shipping_address" id="shipAddr" placeholder="Shipping Address" required></textarea>
 
     <input type="hidden" name="order_items" id="order_items">
     <input type="hidden" name="order_total" id="order_total">
@@ -165,96 +155,78 @@ h2{color:#b30000}
 </div>
 
 <script>
-// ===============================
-// SHIPPING CONFIG (RECOMENDACIÓN #1)
-// ===============================
-let SHIPPING_COST = null;
-let SHIPPING_LABEL = "PENDING ADDRESS (TBD)";
+const PRODUCTS=[{
+  id:"srt-4",
+  name:"SRT-4",
+  price:25,
+  imgs:["srt-1.png","srt-4.png"]
+}];
 
-// PRODUCTS
-const PRODUCTS = [
-  {
-    id:"srt-4",
-    name:"SRT-4",
-    category:"3D",
-    price:25,
-    available:true,
-    imgs:["srt-1.png","srt-4.png"]
-  }
-];
+let cart=[];
+let SHIPPING_COST=null;
+let SHIPPING_LABEL="PENDING ADDRESS (TBD)";
 
-const cart=[];
-const grid=document.getElementById("products");
+const grid=products;
 const list=document.getElementById("list");
 const count=document.getElementById("count");
 const submitBtn=document.getElementById("submitBtn");
 
 cartBtn.onclick=()=>drawer.classList.toggle("open");
 
-function changeImg(id,img){
-  document.getElementById("img-"+id).src=img;
-}
-
 function renderProducts(){
   grid.innerHTML=PRODUCTS.map(p=>`
-    <div class="card">
-      <div class="content">
-        <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
-        <div class="thumbs">
-          ${p.imgs.map(i=>`<img src="${i}" onclick="changeImg('${p.id}','${i}')">`).join("")}
-        </div>
-        <h3>${p.name}</h3>
-        <p>$${p.price}</p>
-        Qty <input id="q-${p.id}" type="number" min="1" value="1">
-        <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
-      </div>
-    </div>
+    <div class="card"><div class="content">
+      <img class="product-img" src="${p.imgs[0]}">
+      <div class="thumbs">${p.imgs.map(i=>`<img src="${i}">`).join("")}</div>
+      <h3>${p.name}</h3>
+      <p>$${p.price}</p>
+      <button class="btn btn-add" onclick="add()">Add</button>
+    </div></div>
   `).join("");
 }
 
-function add(id){
-  const p=PRODUCTS.find(x=>x.id===id);
-  const q=parseInt(document.getElementById(`q-${id}`).value);
-  const f=cart.find(x=>x.id===id);
-  f?f.qty+=q:cart.push({...p,qty:q});
+function add(){
+  cart=[{...PRODUCTS[0],qty:1}];
   update();
 }
 
+function calcShipping(addr){
+  addr=addr.toLowerCase();
+  if(addr.includes("fl")||addr.includes("florida")){
+    SHIPPING_COST=10; SHIPPING_LABEL="$10 FLAT (FL)";
+  }else if(addr.match(/\d{5}/)){
+    SHIPPING_COST=15; SHIPPING_LABEL="$15 FLAT (USA)";
+  }else{
+    SHIPPING_COST=null; SHIPPING_LABEL="PENDING ADDRESS (TBD)";
+  }
+}
+
 function update(){
-  let subtotal=0;
-  list.innerHTML="";
+  let subtotal=25;
+  const addr=document.getElementById("shipAddr").value||"";
+  calcShipping(addr);
 
-  cart.forEach(p=>{
-    subtotal+=p.qty*p.price;
-    list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
-  });
+  const total=SHIPPING_COST===null?"TBD":"$"+(subtotal+SHIPPING_COST);
 
-  const totalText = SHIPPING_COST === null
-    ? "TBD"
-    : "$" + (subtotal + SHIPPING_COST);
-
-  list.innerHTML+=`
+  list.innerHTML=`
+    <div class="cart-item">SRT-4 × 1<br>$25</div>
     <hr>
-    <div class="small">Subtotal: $${subtotal}</div>
+    <div class="small">Subtotal: $25</div>
     <div class="small">Shipping: ${SHIPPING_LABEL}</div>
-    <strong>Total: ${totalText}</strong>
+    <strong>Total: ${total}</strong>
   `;
 
-  count.textContent=cart.reduce((a,b)=>a+b.qty,0);
-  submitBtn.disabled=cart.length===0;
-  submitBtn.className=cart.length?"btn btn-add":"btn btn-disabled";
-
-  order_items.value=cart.map(p=>`${p.name} x${p.qty}`).join(", ");
-  order_total.value=totalText;
+  count.textContent=1;
+  submitBtn.disabled=false;
+  submitBtn.className="btn btn-add";
+  order_items.value="SRT-4 x1";
+  order_total.value=total;
 }
 
 orderForm.addEventListener("submit",async e=>{
   e.preventDefault();
-  if(cart.length===0)return;
-
-  const id="JC-"+Date.now();
-  order_id.value=id;
-  orderIdText.textContent=id;
+  order_id.value="JC-"+Date.now();
+  orderIdText.textContent=order_id.value;
 
   const res=await fetch(orderForm.action,{
     method:"POST",
@@ -265,11 +237,10 @@ orderForm.addEventListener("submit",async e=>{
   if(res.ok){
     paymentInfo.style.display="block";
     status.textContent="Order received. Proceed with payment.";
-    cart.length=0;update();orderForm.reset();
   }
 });
 
-renderProducts();update();
+renderProducts();
 </script>
 
 </body>
