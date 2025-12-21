@@ -14,7 +14,6 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111}
-a{text-decoration:none}
 
 /* HEADER */
 header{
@@ -23,11 +22,9 @@ header{
 }
 .header-inner{
   max-width:1200px;margin:auto;
-  display:flex;justify-content:space-between;align-items:center
+  display:flex;align-items:center;gap:12px
 }
-.brand{display:flex;align-items:center;gap:12px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
-nav a{color:#fff;font-weight:bold;margin-left:16px}
 
 /* HERO */
 .hero{
@@ -37,26 +34,9 @@ nav a{color:#fff;font-weight:bold;margin-left:16px}
 }
 .hero img{width:220px;margin-bottom:24px}
 
-/* SECTION */
+/* SHOP */
 .section{padding:64px 16px}
 .wrap{max-width:1200px;margin:auto}
-h2{color:#b30000}
-.divider{
-  height:3px;background:linear-gradient(90deg,#b30000,transparent);
-  margin:12px 0 28px;border-radius:999px
-}
-
-/* SHOP */
-.shop-bg{
-  background:linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.95)),
-  url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/3dprint.png") center/cover;
-}
-
-/* FILTER */
-.filters{margin-bottom:20px}
-.filters button{margin-right:8px}
-
-/* PRODUCTS */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -67,14 +47,7 @@ h2{color:#b30000}
   border-radius:var(--radius);box-shadow:var(--shadow)
 }
 .content{padding:20px}
-.product-img{
-  width:100%;height:180px;object-fit:cover;border-radius:10px
-}
-.thumbs{display:flex;gap:6px;margin:8px 0}
-.thumbs img{
-  width:50px;height:50px;object-fit:cover;
-  border-radius:6px;cursor:pointer;border:1px solid #444
-}
+.product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
 
 /* BUTTON */
 .btn{
@@ -83,66 +56,41 @@ h2{color:#b30000}
 }
 .btn-add{background:#b30000;color:#fff}
 .btn-secondary{background:#111;color:#fff}
-.btn-disabled{background:#666;color:#fff;cursor:not-allowed}
 
 /* CART */
 #cartBtn{
   position:fixed;top:18px;right:18px;
   background:#fff;color:#b30000;
-  padding:10px 14px;border-radius:999px;font-weight:bold;cursor:pointer;
-  box-shadow:var(--shadow);
-  z-index:999;
+  padding:10px 14px;border-radius:999px;font-weight:bold;
+  box-shadow:var(--shadow);cursor:pointer;z-index:999
 }
 #drawer{
   position:fixed;top:0;right:0;width:360px;height:100%;
   background:#fff;box-shadow:-10px 0 25px rgba(0,0,0,.3);
   padding:16px;transform:translateX(100%);
-  transition:.25s;
-  overflow:auto;
-  z-index:999;
+  transition:.25s;overflow:auto;z-index:999
 }
 #drawer.open{transform:translateX(0)}
 .cart-item{
   border:1px solid var(--line);
   padding:10px;border-radius:10px;margin-bottom:8px
 }
-.small{font-size:12px;color:#555;line-height:1.4}
-hr{border:none;border-top:1px solid #ddd;margin:12px 0}
+.small{font-size:12px;color:#555}
 
-/* CHECKOUT FORM */
+/* FORM */
 .checkout{
-  margin-top:12px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:12px;
+  margin-top:12px;border:1px solid var(--line);
+  border-radius:12px;padding:12px
 }
-.checkout label{display:block;font-size:12px;color:#444;margin:10px 0 4px}
+.checkout label{font-size:12px;display:block;margin-top:10px}
 .checkout input,.checkout textarea{
-  width:100%;
-  padding:10px;
-  border:1px solid #ddd;
-  border-radius:10px;
-  font-size:14px;
-}
-.checkout textarea{min-height:80px;resize:vertical}
-
-/* WHATSAPP */
-#wa{
-  position:fixed;bottom:18px;right:18px;
-  background:#25d366;color:#fff;
-  padding:14px 18px;border-radius:999px;font-weight:bold;
-  box-shadow:var(--shadow);
-  z-index:999;
+  width:100%;padding:10px;border-radius:10px;border:1px solid #ddd
 }
 
 /* FOOTER */
 footer{
   background:#0b0b0b;color:#cbd5e1;
   padding:22px;font-size:12px;text-align:center
-}
-
-@media(max-width:450px){
-  #drawer{width:92vw}
 }
 </style>
 </head>
@@ -152,52 +100,24 @@ footer{
 <header>
   <div class="header-inner">
     <div class="brand">
-      <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png" alt="Logo">
+      <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
       <strong>JC CNC Machine</strong>
     </div>
-    <nav>
-      <a href="#shop">Shop</a>
-      <a href="#policies">Policies</a>
-      <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank" rel="noopener">Facebook</a>
-    </nav>
   </div>
 </header>
 
 <div id="cartBtn">🛒 Cart (<span id="count">0</span>)</div>
 
 <section class="hero">
-  <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png" alt="JC CNC Machine">
+  <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
   <h1>Professional CNC & 3D Printing</h1>
   <p>Orders reviewed and confirmed after payment.</p>
 </section>
 
-<section class="section shop-bg" id="shop">
+<section class="section">
   <div class="wrap">
     <h2>Shop</h2>
-    <div class="divider"></div>
-
-    <div class="filters">
-      <button class="btn btn-add" onclick="filterCat('ALL')">All</button>
-      <button class="btn btn-add" onclick="filterCat('CNC')">CNC</button>
-      <button class="btn btn-add" onclick="filterCat('3D')">3D</button>
-    </div>
-
     <div class="grid" id="products"></div>
-  </div>
-</section>
-
-<section class="section" id="policies">
-  <div class="wrap">
-    <h2>Sales Policy – Florida / USA</h2>
-    <div class="divider"></div>
-    <p class="small">
-      • All CNC machined and 3D printed products are FINAL SALE.<br>
-      • Custom and made-to-order items are non-refundable.<br>
-      • Products are sold AS-IS unless stated otherwise.<br>
-      • Customer is responsible for confirming fitment and application.<br>
-      • JC CNC Machine is not liable for misuse or improper installation.<br>
-      • Sales governed by Florida and United States law.
-    </p>
   </div>
 </section>
 
@@ -206,31 +126,32 @@ footer{
   sales@jccncmachine.com
 </footer>
 
-<!-- CART DRAWER -->
+<!-- CART -->
 <div id="drawer">
   <h3>Your Order</h3>
   <div id="list"></div>
 
-  <!-- 🔹 PAYMENT METHOD ADDED (NO LOGIC CHANGE) -->
-  <hr>
-  <p class="small">
-    <strong>Payment Method:</strong><br>
-    Cash App only<br>
-    <a href="https://cash.app/$JCCNC1" target="_blank" rel="noopener">
-      https://cash.app/$JCCNC1
-    </a><br><br>
-    Please send payment and then submit your order form.
-  </p>
+  <!-- 🔒 PAYMENT (HIDDEN INITIALLY) -->
+  <div id="paymentInfo" style="display:none">
+    <hr>
+    <p class="small">
+      <strong>Payment Method:</strong><br>
+      Cash App only<br>
+      <a href="https://cash.app/$JCCNC1" target="_blank">
+        https://cash.app/$JCCNC1
+      </a><br><br>
+      <strong>Order ID:</strong> <span id="orderIdText"></span><br><br>
+      Please include the Order ID in the payment note.
+    </p>
+  </div>
 
   <div class="checkout">
-    <h4 style="margin:0 0 6px">Checkout (Send Order)</h4>
-
     <form id="orderForm" action="https://formspree.io/f/xpqazkbv" method="POST">
-      <label>Full Name</label>
+      <label>Name</label>
       <input name="name" required>
 
       <label>Email</label>
-      <input name="email" type="email" required>
+      <input type="email" name="email" required>
 
       <label>Phone</label>
       <input name="phone">
@@ -238,92 +159,92 @@ footer{
       <label>Shipping Address</label>
       <textarea name="shipping_address" required></textarea>
 
-      <label>Notes</label>
-      <textarea name="notes"></textarea>
-
       <input type="hidden" name="order_items" id="order_items">
       <input type="hidden" name="order_total" id="order_total">
+      <input type="hidden" name="order_id" id="order_id">
 
-      <button type="submit" class="btn btn-add" style="width:100%">Submit Order</button>
-      <button type="button" class="btn btn-secondary" style="width:100%;margin-top:8px" onclick="clearCart()">Clear Cart</button>
-
-      <p id="status" class="small"></p>
+      <button class="btn btn-add" type="submit" style="width:100%">Submit Order</button>
     </form>
+    <p id="status" class="small"></p>
   </div>
 </div>
 
-<a id="wa" href="https://wa.me/18133387239" target="_blank" rel="noopener">
-💬 WhatsApp 813-338-7239
-</a>
-
 <script>
-/* === TU MISMO JS, SIN CAMBIOS === */
 const PRODUCTS = [
-  { id:"srt-4", name:"SRT-4", category:"3D", price:25, available:true, imgs:["srt-1.png","srt-4.png"] }
+  {
+    id:"srt-4",
+    name:"SRT-4",
+    price:25,
+    available:true,
+    imgs:["srt-1.png"]
+  }
 ];
 
-let currentCat="ALL";
 const cart=[];
 const grid=document.getElementById("products");
 const list=document.getElementById("list");
 const count=document.getElementById("count");
-const drawer=document.getElementById("drawer");
-const cartBtn=document.getElementById("cartBtn");
-const orderItems=document.getElementById("order_items");
-const orderTotal=document.getElementById("order_total");
-
-cartBtn.onclick=()=>drawer.classList.toggle("open");
-
-function filterCat(c){currentCat=c;renderProducts();}
-function changeImg(id,img){const el=document.getElementById("img-"+id);if(el)el.src=img;}
 
 function renderProducts(){
-  grid.innerHTML=PRODUCTS.filter(p=>p.available)
-  .filter(p=>currentCat==="ALL"||p.category===currentCat)
-  .map(p=>`
-    <div class="card"><div class="content">
-      <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
-      <div class="thumbs">${p.imgs.map(i=>`<img src="${i}" onclick="changeImg('${p.id}','${i}')">`).join("")}</div>
-      <h3>${p.name}</h3>
-      <p>$${p.price}</p>
-      Qty <input id="q-${p.id}" type="number" min="1" value="1" style="width:70px">
-      <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
-    </div></div>`).join("");
+  grid.innerHTML=PRODUCTS.filter(p=>p.available).map(p=>`
+    <div class="card">
+      <div class="content">
+        <img class="product-img" src="${p.imgs[0]}">
+        <h3>${p.name}</h3>
+        <p>$${p.price}</p>
+        Qty <input id="q-${p.id}" type="number" value="1" min="1" style="width:60px">
+        <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
+      </div>
+    </div>
+  `).join("");
 }
 
 function add(id){
   const p=PRODUCTS.find(x=>x.id===id);
-  const q=Math.max(1,parseInt(document.getElementById(`q-${id}`).value));
+  const q=parseInt(document.getElementById(`q-${id}`).value);
   const f=cart.find(x=>x.id===id);
   f?f.qty+=q:cart.push({...p,qty:q});
   update();
 }
 
-function removeOne(id){
-  const i=cart.findIndex(x=>x.id===id);
-  if(i<0)return;
-  cart[i].qty--;
-  if(cart[i].qty<=0)cart.splice(i,1);
-  update();
-}
-
-function clearCart(){cart.length=0;update();}
-
 function update(){
-  count.textContent=cart.reduce((a,b)=>a+b.qty,0);
-  let t=0;list.innerHTML="";
+  let total=0;
+  list.innerHTML="";
   cart.forEach(p=>{
-    t+=p.qty*p.price;
-    list.innerHTML+=`
-      <div class="cart-item">
-        ${p.name} × ${p.qty}<br>$${p.qty*p.price}
-        <button class="btn btn-secondary" onclick="removeOne('${p.id}')">-1</button>
-      </div>`;
+    total+=p.qty*p.price;
+    list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
   });
-  list.innerHTML+=`<hr><strong>Total: $${t}</strong>`;
-  orderItems.value=cart.map(p=>`${p.name} x ${p.qty}`).join(", ");
-  orderTotal.value=t;
+  list.innerHTML+=`<strong>Total: $${total}</strong>`;
+  count.textContent=cart.reduce((a,b)=>a+b.qty,0);
+  document.getElementById("order_items").value=cart.map(p=>`${p.name} x${p.qty}`).join(", ");
+  document.getElementById("order_total").value=total;
 }
+
+document.getElementById("cartBtn").onclick=
+  ()=>document.getElementById("drawer").classList.toggle("open");
+
+document.getElementById("orderForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(cart.length===0)return;
+
+  const orderId="JC-"+Date.now();
+  document.getElementById("order_id").value=orderId;
+  document.getElementById("orderIdText").textContent=orderId;
+
+  const res=await fetch(e.target.action,{
+    method:"POST",
+    body:new FormData(e.target),
+    headers:{Accept:"application/json"}
+  });
+
+  if(res.ok){
+    document.getElementById("paymentInfo").style.display="block";
+    document.getElementById("status").textContent="Order sent. Proceed with payment.";
+    cart.length=0;
+    update();
+    e.target.reset();
+  }
+});
 
 renderProducts();
 update();
