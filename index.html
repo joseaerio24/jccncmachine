@@ -50,19 +50,13 @@ h2{color:#b30000}
   border-radius:14px;box-shadow:var(--shadow)
 }
 .content{padding:20px}
-.product-img{
-  width:100%;height:180px;
-  object-fit:cover;border-radius:10px
-}
-.thumbs{
-  display:flex;gap:6px;margin:8px 0
-}
+.product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
+.thumbs{display:flex;gap:6px;margin:8px 0}
 .thumbs img{
   width:50px;height:50px;
   object-fit:cover;
   border-radius:6px;
-  cursor:pointer;
-  border:1px solid #444
+  cursor:pointer;border:1px solid #444
 }
 
 /* BUTTONS */
@@ -157,13 +151,26 @@ footer{
   <h3>Your Order</h3>
   <div id="list"></div>
 
+  <!-- 🔑 PAYMENT INFO -->
   <div id="paymentInfo" style="display:none">
     <hr>
     <p class="small">
-      <strong>Status:</strong> PENDING PAYMENT<br>
-      <strong>Payment:</strong> Cash App<br>
-      <a href="https://cash.app/$JCCNC1" target="_blank">https://cash.app/$JCCNC1</a><br><br>
-      <strong>Order ID:</strong> <span id="orderIdText"></span>
+      <strong>Status:</strong> PENDING PAYMENT<br><br>
+
+      <strong>Payment Methods:</strong><br><br>
+
+      💵 <strong>Cash App</strong><br>
+      <a href="https://cash.app/$JCCNC1" target="_blank">
+        https://cash.app/$JCCNC1
+      </a><br><br>
+
+      💳 <strong>PayPal</strong><br>
+      Scan QR to pay via PayPal<br><br>
+
+      <img src="paypal-qr.png" style="max-width:200px;border-radius:12px;border:1px solid #ddd"><br><br>
+
+      <strong>Order ID:</strong> <span id="orderIdText"></span><br><br>
+      <em>Please include Order ID in the payment note.</em>
     </p>
   </div>
 
@@ -185,9 +192,7 @@ footer{
 </div>
 
 <script>
-// ===============================
-// PRODUCTS (1 ACTIVO + 20 APAGADOS)
-// ===============================
+// PRODUCTS
 const PRODUCTS = [
   {
     id:"srt-4",
@@ -196,15 +201,7 @@ const PRODUCTS = [
     price:25,
     available:true,
     imgs:["srt-1.png","srt-4.png"]
-  },
-  ...Array.from({length:20},(_,i)=>({
-    id:`future-${i+1}`,
-    name:`Future Product ${i+1}`,
-    category:"CNC",
-    price:0,
-    available:false,
-    imgs:["placeholder.png"]
-  }))
+  }
 ];
 
 const cart=[];
@@ -216,12 +213,11 @@ const submitBtn=document.getElementById("submitBtn");
 cartBtn.onclick=()=>drawer.classList.toggle("open");
 
 function changeImg(id,img){
-  const el=document.getElementById("img-"+id);
-  if(el) el.src=img;
+  document.getElementById("img-"+id).src=img;
 }
 
 function renderProducts(){
-  grid.innerHTML=PRODUCTS.filter(p=>p.available).map(p=>`
+  grid.innerHTML=PRODUCTS.map(p=>`
     <div class="card">
       <div class="content">
         <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
@@ -286,4 +282,3 @@ renderProducts();update();
 
 </body>
 </html>
-
