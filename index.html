@@ -21,6 +21,7 @@ header{background:#b30000;color:#fff;padding:18px 16px}
 .header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
+nav a{color:#fff;font-weight:bold;margin-left:16px}
 
 /* HERO */
 .hero{
@@ -36,21 +37,17 @@ header{background:#b30000;color:#fff;padding:18px 16px}
 h2{color:#b30000}
 .divider{height:3px;background:#b30000;margin:12px 0 28px;border-radius:999px}
 
-/* FILTERS */
-.filters button{margin-right:8px}
-
 /* PRODUCTS */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
 .card{background:#000;color:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
 .content{padding:20px}
 .product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
 .thumbs{display:flex;gap:6px;margin:8px 0}
-.thumbs img{width:50px;height:50px;object-fit:cover;border-radius:6px;cursor:pointer;border:1px solid #444}
+.thumbs img{width:50px;height:50px;border-radius:6px;cursor:pointer;border:1px solid #444}
 
 /* BUTTONS */
 .btn{margin-top:10px;padding:10px 16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer}
 .btn-add{background:#b30000;color:#fff}
-.btn-disabled{background:#666;color:#fff;cursor:not-allowed}
 
 /* CART */
 #cartBtn{
@@ -74,10 +71,8 @@ h2{color:#b30000}
 footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:center}
 </style>
 
-<!-- PAYPAL SDK -->
-<script 
-src="https://www.paypal.com/sdk/js?client-id=BAA44K6qayuFimLSgC3w-qQ_OzlmKLrdSpD9u5Vyd_mpTabZ-kw22lIKMAAfhWhOpfWKSZC1dWAegqmkD4&components=hosted-buttons&enable-funding=venmo&currency=USD">
-</script>
+<!-- PAYPAL SMART CHECKOUT -->
+<script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID_LIVE&currency=USD"></script>
 </head>
 
 <body>
@@ -88,6 +83,11 @@ src="https://www.paypal.com/sdk/js?client-id=BAA44K6qayuFimLSgC3w-qQ_OzlmKLrdSpD
       <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
       <strong>JC CNC Machine</strong>
     </div>
+    <nav>
+      <a href="#shop">Shop</a>
+      <a href="#policies">Policies</a>
+      <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">Facebook</a>
+    </nav>
   </div>
 </header>
 
@@ -99,22 +99,15 @@ src="https://www.paypal.com/sdk/js?client-id=BAA44K6qayuFimLSgC3w-qQ_OzlmKLrdSpD
   <p>Orders reviewed and confirmed after payment.</p>
 </section>
 
-<section class="section">
+<section class="section" id="shop">
   <div class="wrap">
     <h2>Shop</h2>
     <div class="divider"></div>
-
-    <div class="filters">
-      <button class="btn btn-add" onclick="filterCat('ALL')">All</button>
-      <button class="btn btn-add" onclick="filterCat('CNC')">CNC</button>
-      <button class="btn btn-add" onclick="filterCat('3D')">3D</button>
-    </div>
-
     <div class="grid" id="products"></div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="policies">
   <div class="wrap">
     <h2>Sales Policy – Florida / USA</h2>
     <div class="divider"></div>
@@ -123,8 +116,8 @@ src="https://www.paypal.com/sdk/js?client-id=BAA44K6qayuFimLSgC3w-qQ_OzlmKLrdSpD
       • CNC machined and 3D printed products are NON-REFUNDABLE.<br>
       • Custom or made-to-order items cannot be returned.<br>
       • Products sold AS-IS.<br>
-      • Customer is responsible for fitment and application.<br>
-      • Sales governed by Florida & United States law.
+      • Customer responsible for fitment and application.<br>
+      • Governed by Florida & United States law.
     </p>
   </div>
 </section>
@@ -138,17 +131,14 @@ src="https://www.paypal.com/sdk/js?client-id=BAA44K6qayuFimLSgC3w-qQ_OzlmKLrdSpD
   <h3>Your Order</h3>
   <div id="list"></div>
 
-  <div id="paymentInfo" style="display:none">
+  <div id="paypal-button-container"></div>
+
+  <div id="completeMsg" style="display:none">
     <hr>
     <p class="small">
-      <strong>Step 1: Pay Securely</strong><br><br>
-
-      <div id="paypal-container-RA9AZ5QCZLC9Q"></div><br>
-
-      💵 Cash App:<br>
-      <a href="https://cash.app/$JCCNC1" target="_blank">https://cash.app/$JCCNC1</a><br><br>
-
-      <strong>Order ID:</strong> <span id="orderIdText"></span>
+      ✅ <strong>ORDER COMPLETED</strong><br><br>
+      You have successfully completed your purchase.<br>
+      <strong>Total:</strong> $<span id="finalTotal"></span>
     </p>
   </div>
 </div>
@@ -158,44 +148,34 @@ const PRODUCTS=[
   {
     id:"srt-4",
     name:"SRT-4",
-    category:"3D",
     price:25,
     imgs:["srt-1.png","srt-4.png"]
   }
 ];
 
-let currentCat="ALL";
 let cart=[];
+let cartTotal=0;
+
 const grid=document.getElementById("products");
 const list=document.getElementById("list");
 const count=document.getElementById("count");
 
 cartBtn.onclick=()=>drawer.classList.toggle("open");
 
-function filterCat(cat){
-  currentCat=cat;
-  renderProducts();
-}
-
-function changeImg(id,img){
-  document.getElementById("img-"+id).src=img;
-}
-
 function renderProducts(){
-  grid.innerHTML=PRODUCTS
-    .filter(p=>currentCat==="ALL"||p.category===currentCat)
-    .map(p=>`
-      <div class="card"><div class="content">
-        <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
-        <div class="thumbs">
-          ${p.imgs.map(i=>`<img src="${i}" onclick="changeImg('${p.id}','${i}')">`).join("")}
-        </div>
-        <h3>${p.name}</h3>
-        <p>$${p.price}</p>
-        Qty: <input id="q-${p.id}" type="number" min="1" value="1" style="width:70px">
-        <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
-      </div></div>
-    `).join("");
+  grid.innerHTML=PRODUCTS.map(p=>`
+    <div class="card"><div class="content">
+      <img class="product-img" src="${p.imgs[0]}">
+      <div class="thumbs">
+        ${p.imgs.map(i=>`<img src="${i}" onclick="document.querySelector('.product-img').src='${i}'">`).join("")}
+      </div>
+      <h3>${p.name}</h3>
+      <p>$${p.price}</p>
+      Qty:
+      <input id="q-${p.id}" type="number" min="1" value="1" style="width:70px">
+      <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
+    </div></div>
+  `).join("");
 }
 
 function add(id){
@@ -206,23 +186,34 @@ function add(id){
 }
 
 function update(){
-  let total=0;
+  cartTotal=0;
   list.innerHTML="";
   cart.forEach(p=>{
-    total+=p.qty*p.price;
+    cartTotal+=p.qty*p.price;
     list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
   });
-  list.innerHTML+=`<strong>Total: $${total}</strong>`;
+  list.innerHTML+=`<strong>Total: $${cartTotal.toFixed(2)}</strong>`;
   count.textContent=cart.length;
+  renderPayPal();
+}
 
-  if(cart.length){
-    paymentInfo.style.display="block";
-    if(!window.pp){
-      paypal.HostedButtons({hostedButtonId:"RA9AZ5QCZLC9Q"})
-      .render("#paypal-container-RA9AZ5QCZLC9Q");
-      window.pp=true;
+function renderPayPal(){
+  document.getElementById("paypal-button-container").innerHTML="";
+  paypal.Buttons({
+    createOrder:(data,actions)=>{
+      return actions.order.create({
+        purchase_units:[{
+          amount:{value:cartTotal.toFixed(2)}
+        }]
+      });
+    },
+    onApprove:(data,actions)=>{
+      return actions.order.capture().then(()=>{
+        document.getElementById("finalTotal").textContent=cartTotal.toFixed(2);
+        document.getElementById("completeMsg").style.display="block";
+      });
     }
-  }
+  }).render("#paypal-button-container");
 }
 
 renderProducts();
@@ -230,6 +221,5 @@ renderProducts();
 
 </body>
 </html>
-
 
 
