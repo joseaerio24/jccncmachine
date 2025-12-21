@@ -14,34 +14,68 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111}
+a{text-decoration:none;color:inherit}
 
-/* HEADER / HERO / SHOP — SIN CAMBIOS */
-header{background:linear-gradient(90deg,#b30000,#ff0000);color:#fff;padding:18px 16px}
-.header-inner{max-width:1200px;margin:auto;display:flex;align-items:center;gap:12px}
+/* HEADER */
+header{
+  background:#c40000;
+  color:#fff;
+  padding:16px
+}
+.header-inner{
+  max-width:1200px;margin:auto;
+  display:flex;align-items:center;justify-content:space-between
+}
+.brand{display:flex;align-items:center;gap:10px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
+nav a{margin-left:18px;font-weight:bold}
+
+/* HERO */
 .hero{
   background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
   url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png") center/cover;
   color:#fff;padding:120px 16px;text-align:center
 }
-.hero img{width:220px;margin-bottom:24px}
+.hero img{width:220px;margin-bottom:20px}
 
+/* SECTION */
 .section{padding:64px 16px}
 .wrap{max-width:1200px;margin:auto}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
-.card{background:#000;color:#fff;border-radius:14px;box-shadow:var(--shadow)}
+h2{color:#b30000}
+.divider{height:3px;background:#b30000;margin:10px 0 24px}
+
+/* FILTERS */
+.filters button{
+  background:#b30000;color:#fff;border:none;
+  padding:8px 14px;border-radius:999px;
+  margin-right:6px;cursor:pointer
+}
+
+/* PRODUCTS */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px
+}
+.card{
+  background:#000;color:#fff;
+  border-radius:14px;box-shadow:var(--shadow)
+}
 .content{padding:20px}
 .product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
 
-.btn{margin-top:10px;padding:10px 16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer}
+/* BUTTON */
+.btn{padding:10px 16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer}
 .btn-add{background:#b30000;color:#fff}
-.btn-disabled{background:#777;color:#fff;cursor:not-allowed}
+.btn-disabled{background:#666;color:#fff;cursor:not-allowed}
 
+/* CART */
 #cartBtn{
   position:fixed;top:18px;right:18px;
   background:#fff;color:#b30000;
-  padding:10px 14px;border-radius:999px;font-weight:bold;
-  box-shadow:var(--shadow);cursor:pointer;z-index:999
+  padding:10px 14px;border-radius:999px;
+  font-weight:bold;box-shadow:var(--shadow);
+  cursor:pointer;z-index:999
 }
 #drawer{
   position:fixed;top:0;right:0;width:360px;height:100%;
@@ -52,7 +86,12 @@ header{background:linear-gradient(90deg,#b30000,#ff0000);color:#fff;padding:18px
 #drawer.open{transform:translateX(0)}
 .cart-item{border:1px solid var(--line);padding:10px;border-radius:10px;margin-bottom:8px}
 .small{font-size:12px;color:#555}
-footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:center}
+
+/* FOOTER */
+footer{
+  background:#0b0b0b;color:#cbd5e1;
+  padding:22px;font-size:12px;text-align:center
+}
 </style>
 </head>
 
@@ -64,6 +103,11 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
       <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
       <strong>JC CNC Machine</strong>
     </div>
+    <nav>
+      <a href="#shop">Shop</a>
+      <a href="#policies">Policies</a>
+      <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">Facebook</a>
+    </nav>
   </div>
 </header>
 
@@ -75,10 +119,35 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   <p>Orders reviewed and confirmed after payment.</p>
 </section>
 
-<section class="section">
+<!-- SHOP -->
+<section class="section" id="shop">
   <div class="wrap">
     <h2>Shop</h2>
+    <div class="divider"></div>
+
+    <div class="filters">
+      <button onclick="filterCat('ALL')">All</button>
+      <button onclick="filterCat('CNC')">CNC</button>
+      <button onclick="filterCat('3D')">3D</button>
+    </div>
+
     <div class="grid" id="products"></div>
+  </div>
+</section>
+
+<!-- POLICIES -->
+<section class="section" id="policies">
+  <div class="wrap">
+    <h2>Sales Policy – Florida / USA</h2>
+    <div class="divider"></div>
+    <p class="small">
+      • All CNC machined and 3D printed products are FINAL SALE.<br>
+      • Custom or made-to-order items are non-refundable.<br>
+      • Products sold AS-IS unless stated otherwise.<br>
+      • Customer responsible for fitment and application.<br>
+      • JC CNC Machine is not liable for misuse or improper installation.<br>
+      • All sales governed by Florida & United States law.
+    </p>
   </div>
 </section>
 
@@ -95,54 +164,70 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   <div id="paymentInfo" style="display:none">
     <hr>
     <p class="small">
-      <strong>Status:</strong> <span id="orderStatus">PENDING PAYMENT</span><br><br>
+      <strong>Status:</strong> PENDING PAYMENT<br><br>
       <strong>Payment Method:</strong><br>
       Cash App only<br>
       <a href="https://cash.app/$JCCNC1" target="_blank">https://cash.app/$JCCNC1</a><br><br>
-      <strong>Order ID:</strong> <span id="orderIdText"></span><br>
-      Include Order ID in payment note.
+      <strong>Order ID:</strong> <span id="orderIdText"></span>
     </p>
   </div>
 
-  <div class="checkout">
-    <form id="orderForm" action="https://formspree.io/f/xpqazkbv" method="POST">
-      <input name="name" placeholder="Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <textarea name="shipping_address" placeholder="Shipping Address" required></textarea>
+  <form id="orderForm" action="https://formspree.io/f/xpqazkbv" method="POST">
+    <input name="name" placeholder="Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <textarea name="shipping_address" placeholder="Shipping Address" required></textarea>
 
-      <!-- Hidden fields -->
-      <input type="hidden" name="order_items" id="order_items">
-      <input type="hidden" name="order_total" id="order_total">
-      <input type="hidden" name="order_id" id="order_id">
-      <input type="hidden" name="order_status" value="PENDING PAYMENT">
+    <input type="hidden" name="order_items" id="order_items">
+    <input type="hidden" name="order_total" id="order_total">
+    <input type="hidden" name="order_id" id="order_id">
+    <input type="hidden" name="order_status" value="PENDING PAYMENT">
 
-      <button id="submitBtn" class="btn btn-disabled" disabled>Submit Order</button>
-    </form>
-    <p id="status" class="small"></p>
-  </div>
+    <button id="submitBtn" class="btn btn-disabled" disabled>Submit Order</button>
+  </form>
 </div>
 
 <script>
 const PRODUCTS=[
-  {id:"srt-4",name:"SRT-4",price:25,available:true,imgs:["srt-1.png","srt-4.png"]}
+  {
+    id:"srt-4",
+    name:"SRT-4",
+    category:"3D",
+    price:25,
+    available:true,
+    img:"srt-1.png"
+  },
+  {
+    id:"future-part",
+    name:"Future CNC Part",
+    category:"CNC",
+    price:0,
+    available:false,
+    img:"placeholder.png"
+  }
 ];
 
+let currentCat="ALL";
 const cart=[];
 const grid=document.getElementById("products");
 const list=document.getElementById("list");
 const count=document.getElementById("count");
 const submitBtn=document.getElementById("submitBtn");
 
+function filterCat(c){currentCat=c;renderProducts();}
+
 function renderProducts(){
-  grid.innerHTML=PRODUCTS.filter(p=>p.available).map(p=>`
-    <div class="card"><div class="content">
-      <img class="product-img" src="${p.imgs[0]}">
-      <h3>${p.name}</h3>
-      <p>$${p.price}</p>
-      Qty <input id="q-${p.id}" type="number" value="1" min="1">
-      <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
-    </div></div>
-  `).join("");
+  grid.innerHTML=PRODUCTS
+    .filter(p=>p.available)
+    .filter(p=>currentCat==="ALL"||p.category===currentCat)
+    .map(p=>`
+      <div class="card"><div class="content">
+        <img class="product-img" src="${p.img}">
+        <h3>${p.name}</h3>
+        <p>$${p.price}</p>
+        Qty <input id="q-${p.id}" type="number" min="1" value="1">
+        <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
+      </div></div>
+    `).join("");
 }
 
 function add(id){
@@ -162,41 +247,11 @@ function update(){
   });
   list.innerHTML+=`<strong>Total: $${total}</strong>`;
   count.textContent=cart.reduce((a,b)=>a+b.qty,0);
-
-  document.getElementById("order_items").value=
-    cart.map(p=>`${p.name} x${p.qty}`).join(", ");
-  document.getElementById("order_total").value=total;
-
-  // 🔐 Enable / disable submit
-  submitBtn.disabled = cart.length===0;
-  submitBtn.className = cart.length===0 ? "btn btn-disabled" : "btn btn-add";
+  submitBtn.disabled=cart.length===0;
+  submitBtn.className=cart.length===0?"btn btn-disabled":"btn btn-add";
+  order_items.value=cart.map(p=>`${p.name} x${p.qty}`).join(", ");
+  order_total.value=total;
 }
-
-document.getElementById("cartBtn").onclick=
-  ()=>document.getElementById("drawer").classList.toggle("open");
-
-document.getElementById("orderForm").addEventListener("submit",async e=>{
-  e.preventDefault();
-  if(cart.length===0)return;
-
-  const orderId="JC-"+Date.now();
-  document.getElementById("order_id").value=orderId;
-  document.getElementById("orderIdText").textContent=orderId;
-
-  const res=await fetch(e.target.action,{
-    method:"POST",
-    body:new FormData(e.target),
-    headers:{Accept:"application/json"}
-  });
-
-  if(res.ok){
-    document.getElementById("paymentInfo").style.display="block";
-    document.getElementById("status").textContent="Order received. Check email for payment instructions.";
-    cart.length=0;
-    update();
-    e.target.reset();
-  }
-});
 
 renderProducts();
 update();
@@ -204,5 +259,4 @@ update();
 
 </body>
 </html>
-
 
