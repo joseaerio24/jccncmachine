@@ -151,7 +151,6 @@ footer{
   <h3>Your Order</h3>
   <div id="list"></div>
 
-  <!-- 🔑 PAYMENT INFO -->
   <div id="paymentInfo" style="display:none">
     <hr>
     <p class="small">
@@ -160,17 +159,12 @@ footer{
       <strong>Payment Methods:</strong><br><br>
 
       💵 <strong>Cash App</strong><br>
-      <a href="https://cash.app/$JCCNC1" target="_blank">
-        https://cash.app/$JCCNC1
-      </a><br><br>
+      <a href="https://cash.app/$JCCNC1" target="_blank">https://cash.app/$JCCNC1</a><br><br>
 
       💳 <strong>PayPal</strong><br>
-      Scan QR to pay via PayPal<br><br>
-
       <img src="paypal-qr.png" style="max-width:200px;border-radius:12px;border:1px solid #ddd"><br><br>
 
-      <strong>Order ID:</strong> <span id="orderIdText"></span><br><br>
-      <em>Please include Order ID in the payment note.</em>
+      <strong>Order ID:</strong> <span id="orderIdText"></span>
     </p>
   </div>
 
@@ -179,8 +173,6 @@ footer{
     <input name="email" type="email" placeholder="Email" required>
     <textarea name="shipping_address" placeholder="Shipping Address" required></textarea>
 
-    <input type="hidden" name="_replyto" id="customer_email">
-    <input type="hidden" name="_subject" value="Order Received – JC CNC Machine">
     <input type="hidden" name="order_items" id="order_items">
     <input type="hidden" name="order_total" id="order_total">
     <input type="hidden" name="order_id" id="order_id">
@@ -192,7 +184,9 @@ footer{
 </div>
 
 <script>
-// PRODUCTS
+// ===============================
+// PRODUCTS (10 TOTAL)
+// ===============================
 const PRODUCTS = [
   {
     id:"srt-4",
@@ -201,7 +195,17 @@ const PRODUCTS = [
     price:25,
     available:true,
     imgs:["srt-1.png","srt-4.png"]
-  }
+  },
+
+  { id:"p2", name:"Future Product 2", category:"CNC", price:0, available:false, imgs:["placeholder.png"] },
+  { id:"p3", name:"Future Product 3", category:"CNC", price:0, available:false, imgs:["placeholder.png"] },
+  { id:"p4", name:"Future Product 4", category:"3D",  price:0, available:false, imgs:["placeholder.png"] },
+  { id:"p5", name:"Future Product 5", category:"3D",  price:0, available:false, imgs:["placeholder.png"] },
+  { id:"p6", name:"Future Product 6", category:"CNC", price:0, available:false, imgs:["placeholder.png"] },
+  { id:"p7", name:"Future Product 7", category:"CNC", price:0, available:false, imgs:["placeholder.png"] },
+  { id:"p8", name:"Future Product 8", category:"3D",  price:0, available:false, imgs:["placeholder.png"] },
+  { id:"p9", name:"Future Product 9", category:"3D",  price:0, available:false, imgs:["placeholder.png"] },
+  { id:"p10",name:"Future Product 10",category:"CNC",price:0, available:false, imgs:["placeholder.png"] }
 ];
 
 const cart=[];
@@ -217,7 +221,7 @@ function changeImg(id,img){
 }
 
 function renderProducts(){
-  grid.innerHTML=PRODUCTS.map(p=>`
+  grid.innerHTML=PRODUCTS.filter(p=>p.available).map(p=>`
     <div class="card">
       <div class="content">
         <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
@@ -262,7 +266,6 @@ orderForm.addEventListener("submit",async e=>{
   const id="JC-"+Date.now();
   order_id.value=id;
   orderIdText.textContent=id;
-  customer_email.value=orderForm.email.value;
 
   const res=await fetch(orderForm.action,{
     method:"POST",
@@ -282,3 +285,4 @@ renderProducts();update();
 
 </body>
 </html>
+
