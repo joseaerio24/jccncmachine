@@ -99,7 +99,6 @@ h2{color:#b30000}
     </div>
     <nav>
       <a href="#shop">Shop</a>
-      <a href="#policies">Policies</a>
       <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">Facebook</a>
     </nav>
   </div>
@@ -135,7 +134,7 @@ h2{color:#b30000}
     <hr>
     <p class="small">
       <strong>Status:</strong> PENDING PAYMENT<br>
-      <strong>Shipping:</strong> PENDING ADDRESS<br><br>
+      <strong>Shipping:</strong> PENDING ADDRESS (TBD)<br><br>
 
       <strong>Payment Methods:</strong><br><br>
 
@@ -145,7 +144,8 @@ h2{color:#b30000}
       💳 <strong>PayPal</strong><br>
       <img src="paypal-qr.png" style="max-width:200px;border-radius:12px;border:1px solid #ddd"><br><br>
 
-      <strong>Order ID:</strong> <span id="orderIdText"></span>
+      <strong>Order ID:</strong> <span id="orderIdText"></span><br>
+      <em>Please include Order ID in the payment note.</em>
     </p>
   </div>
 
@@ -157,7 +157,6 @@ h2{color:#b30000}
     <input type="hidden" name="order_items" id="order_items">
     <input type="hidden" name="order_total" id="order_total">
     <input type="hidden" name="order_id" id="order_id">
-    <input type="hidden" name="shipping_status" value="PENDING ADDRESS">
 
     <button id="submitBtn" class="btn btn-disabled" disabled>Submit Order</button>
   </form>
@@ -166,9 +165,11 @@ h2{color:#b30000}
 </div>
 
 <script>
-// SHIPPING CONFIG
-let SHIPPING_COST = 0;
-let SHIPPING_LABEL = "PENDING ADDRESS";
+// ===============================
+// SHIPPING CONFIG (RECOMENDACIÓN #1)
+// ===============================
+let SHIPPING_COST = null;
+let SHIPPING_LABEL = "PENDING ADDRESS (TBD)";
 
 // PRODUCTS
 const PRODUCTS = [
@@ -228,13 +229,15 @@ function update(){
     list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
   });
 
-  const total=subtotal+SHIPPING_COST;
+  const totalText = SHIPPING_COST === null
+    ? "TBD"
+    : "$" + (subtotal + SHIPPING_COST);
 
   list.innerHTML+=`
     <hr>
     <div class="small">Subtotal: $${subtotal}</div>
     <div class="small">Shipping: ${SHIPPING_LABEL}</div>
-    <strong>Total: $${total}</strong>
+    <strong>Total: ${totalText}</strong>
   `;
 
   count.textContent=cart.reduce((a,b)=>a+b.qty,0);
@@ -242,7 +245,7 @@ function update(){
   submitBtn.className=cart.length?"btn btn-add":"btn btn-disabled";
 
   order_items.value=cart.map(p=>`${p.name} x${p.qty}`).join(", ");
-  order_total.value=total;
+  order_total.value=totalText;
 }
 
 orderForm.addEventListener("submit",async e=>{
@@ -271,3 +274,4 @@ renderProducts();update();
 
 </body>
 </html>
+
