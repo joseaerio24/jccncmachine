@@ -18,7 +18,7 @@ a{text-decoration:none}
 
 /* HEADER */
 header{
-  background:linear-gradient(90deg,#b30000,#ff0000);
+  background:#b30000;
   color:#fff;padding:18px 16px
 }
 .header-inner{
@@ -43,6 +43,11 @@ nav a{color:#fff;font-weight:bold;margin-left:16px}
 h2{color:#b30000}
 .divider{height:3px;background:#b30000;margin:12px 0 28px;border-radius:999px}
 
+/* FILTERS */
+.filters button{
+  margin-right:8px
+}
+
 /* PRODUCTS */
 .grid{
   display:grid;
@@ -57,8 +62,13 @@ h2{color:#b30000}
 .product-img{
   width:100%;height:180px;object-fit:cover;border-radius:10px
 }
+.thumbs{display:flex;gap:6px;margin:8px 0}
+.thumbs img{
+  width:50px;height:50px;object-fit:cover;
+  border-radius:6px;cursor:pointer;border:1px solid #444
+}
 
-/* BUTTON */
+/* BUTTONS */
 .btn{
   margin-top:10px;padding:10px 16px;
   border-radius:12px;font-weight:bold;border:none;cursor:pointer
@@ -71,8 +81,9 @@ h2{color:#b30000}
 #cartBtn{
   position:fixed;top:18px;right:18px;
   background:#fff;color:#b30000;
-  padding:10px 14px;border-radius:999px;font-weight:bold;
-  box-shadow:var(--shadow);cursor:pointer;z-index:999
+  padding:10px 14px;border-radius:999px;
+  font-weight:bold;cursor:pointer;
+  box-shadow:var(--shadow);z-index:999
 }
 #drawer{
   position:fixed;top:0;right:0;width:360px;height:100%;
@@ -86,16 +97,6 @@ h2{color:#b30000}
   padding:10px;border-radius:10px;margin-bottom:8px
 }
 .small{font-size:12px;color:#555}
-
-/* FORM */
-.checkout{
-  margin-top:12px;border:1px solid var(--line);
-  border-radius:12px;padding:12px
-}
-.checkout label{font-size:12px;display:block;margin-top:10px}
-.checkout input,.checkout textarea{
-  width:100%;padding:10px;border-radius:10px;border:1px solid #ddd
-}
 
 /* FOOTER */
 footer{
@@ -133,6 +134,13 @@ footer{
   <div class="wrap">
     <h2>Shop</h2>
     <div class="divider"></div>
+
+    <div class="filters">
+      <button class="btn btn-add" onclick="filterCat('ALL')">All</button>
+      <button class="btn btn-add" onclick="filterCat('CNC')">CNC</button>
+      <button class="btn btn-add" onclick="filterCat('3D')">3D</button>
+    </div>
+
     <div class="grid" id="products"></div>
   </div>
 </section>
@@ -144,9 +152,9 @@ footer{
     <p class="small">
       • All CNC machined and 3D printed products are FINAL SALE.<br>
       • Custom or made-to-order items are non-refundable.<br>
-      • Products sold AS-IS unless stated otherwise.<br>
+      • Products sold AS-IS.<br>
       • Customer responsible for fitment and application.<br>
-      • Sales governed by Florida & United States law.
+      • Governed by Florida & United States law.
     </p>
   </div>
 </section>
@@ -156,7 +164,7 @@ footer{
   sales@jccncmachine.com
 </footer>
 
-<!-- CART -->
+<!-- CART DRAWER -->
 <div id="drawer">
   <h3>Your Order</h3>
   <div id="list"></div>
@@ -168,53 +176,85 @@ footer{
       <strong>Payment Method:</strong><br>
       Cash App only<br>
       <a href="https://cash.app/$JCCNC1" target="_blank">https://cash.app/$JCCNC1</a><br><br>
-      <strong>Order ID:</strong> <span id="orderIdText"></span><br>
-      Please include the Order ID in the payment note.
+      <strong>Order ID:</strong> <span id="orderIdText"></span>
     </p>
   </div>
 
-  <div class="checkout">
-    <form id="orderForm" action="https://formspree.io/f/xpqazkbv" method="POST">
-      <input name="name" placeholder="Full Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <textarea name="shipping_address" placeholder="Shipping Address" required></textarea>
+  <form id="orderForm" action="https://formspree.io/f/xpqazkbv" method="POST">
+    <input name="name" placeholder="Full Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <textarea name="shipping_address" placeholder="Shipping Address" required></textarea>
 
-      <input type="hidden" name="order_items" id="order_items">
-      <input type="hidden" name="order_total" id="order_total">
-      <input type="hidden" name="order_id" id="order_id">
-      <input type="hidden" name="order_status" value="PENDING PAYMENT">
+    <input type="hidden" name="order_items" id="order_items">
+    <input type="hidden" name="order_total" id="order_total">
+    <input type="hidden" name="order_id" id="order_id">
+    <input type="hidden" name="order_status" value="PENDING PAYMENT">
 
-      <button id="submitBtn" class="btn btn-disabled" disabled>Submit Order</button>
-    </form>
-    <p id="status" class="small"></p>
-  </div>
+    <button id="submitBtn" class="btn btn-disabled" disabled>Submit Order</button>
+  </form>
+
+  <p id="status" class="small"></p>
 </div>
 
 <script>
-const PRODUCTS=[
-  {id:"srt-4",name:"SRT-4",price:25,available:true,img:"srt-1.png"},
-  {id:"future",name:"Future Product",price:0,available:false,img:"placeholder.png"}
+// ===============================
+// PRODUCTS (TU FORMATO)
+// ===============================
+const PRODUCTS = [
+  {
+    id:"srt-4",
+    name:"SRT-4",
+    category:"3D",
+    price:25,
+    available:true,
+    imgs:["srt-1.png","srt-4.png"]
+  },
+  {
+    id:"future",
+    name:"Future Product",
+    category:"CNC",
+    price:0,
+    available:false,
+    imgs:["placeholder.png"]
+  }
 ];
 
+let currentCat="ALL";
 const cart=[];
 const grid=document.getElementById("products");
 const list=document.getElementById("list");
 const count=document.getElementById("count");
-const drawer=document.getElementById("drawer");
 const submitBtn=document.getElementById("submitBtn");
 
-document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
+// Cart toggle
+cartBtn.onclick=()=>drawer.classList.toggle("open");
+
+function filterCat(cat){
+  currentCat=cat;
+  renderProducts();
+}
+
+function changeImg(id,img){
+  const el=document.getElementById("img-"+id);
+  if(el) el.src=img;
+}
 
 function renderProducts(){
-  grid.innerHTML=PRODUCTS.filter(p=>p.available).map(p=>`
-    <div class="card"><div class="content">
-      <img class="product-img" src="${p.img}">
-      <h3>${p.name}</h3>
-      <p>$${p.price}</p>
-      Qty <input id="q-${p.id}" type="number" value="1" min="1">
-      <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
-    </div></div>
-  `).join("");
+  grid.innerHTML=PRODUCTS
+    .filter(p=>p.available)
+    .filter(p=>currentCat==="ALL"||p.category===currentCat)
+    .map(p=>`
+      <div class="card"><div class="content">
+        <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
+        <div class="thumbs">
+          ${p.imgs.map(i=>`<img src="${i}" onclick="changeImg('${p.id}','${i}')">`).join("")}
+        </div>
+        <h3>${p.name}</h3>
+        <p>$${p.price}</p>
+        Qty <input id="q-${p.id}" type="number" min="1" value="1" style="width:70px">
+        <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
+      </div></div>
+    `).join("");
 }
 
 function add(id){
