@@ -31,18 +31,23 @@ nav a{color:#fff;font-weight:bold;margin-left:16px}
 .section{padding:64px 16px}
 .wrap{max-width:1200px;margin:auto}
 h2{color:#b30000}
-.divider{height:3px;background:#b30000;margin:12px 0 28px}
+.divider{height:3px;background:#b30000;margin:12px 0 18px}
+
+/* FILTERS */
+.filters{margin-bottom:20px}
+.filters button{
+  background:#b30000;color:#fff;border:none;
+  padding:8px 14px;border-radius:999px;
+  margin-right:6px;font-weight:bold;cursor:pointer
+}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
 .card{background:#000;color:#fff;border-radius:14px;box-shadow:var(--shadow)}
 .content{padding:20px}
 .product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
-.thumbs{display:flex;gap:6px;margin:8px 0}
-.thumbs img{width:50px;height:50px;border-radius:6px;cursor:pointer;border:1px solid #444}
 
 .btn{margin-top:10px;padding:10px 16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer}
 .btn-add{background:#b30000;color:#fff}
-.btn-disabled{background:#666;color:#fff;cursor:not-allowed}
 
 #cartBtn{
   position:fixed;top:18px;right:18px;
@@ -61,6 +66,13 @@ h2{color:#b30000}
 .cart-item{border:1px solid var(--line);padding:10px;border-radius:10px;margin-bottom:8px}
 .small{font-size:12px;color:#555}
 
+.success{
+  background:#e6ffe6;
+  border:1px solid #22c55e;
+  padding:14px;border-radius:10px;
+  color:#065f46;font-weight:bold
+}
+
 footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:center}
 </style>
 </head>
@@ -75,7 +87,6 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
     </div>
     <nav>
       <a href="#shop">Shop</a>
-      <a href="#policies">Policies</a>
       <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">Facebook</a>
     </nav>
   </div>
@@ -93,22 +104,15 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   <div class="wrap">
     <h2>Shop</h2>
     <div class="divider"></div>
-    <div class="grid" id="products"></div>
-  </div>
-</section>
 
-<section class="section" id="policies">
-  <div class="wrap">
-    <h2>Sales Policy – Florida / USA</h2>
-    <div class="divider"></div>
-    <p class="small">
-      • ALL SALES ARE FINAL.<br>
-      • CNC machined and 3D printed products are NON-REFUNDABLE.<br>
-      • Custom and made-to-order items cannot be returned.<br>
-      • Products sold AS-IS.<br>
-      • Customer is responsible for fitment and application.<br>
-      • Sales governed by Florida and United States law.
-    </p>
+    <!-- FILTER BUTTONS -->
+    <div class="filters">
+      <button onclick="filterProducts('ALL')">All</button>
+      <button onclick="filterProducts('CNC')">CNC</button>
+      <button onclick="filterProducts('3D')">3D</button>
+    </div>
+
+    <div class="grid" id="products"></div>
   </div>
 </section>
 
@@ -121,78 +125,65 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   <h3>Your Order</h3>
   <div id="list"></div>
 
-  <div id="paymentInfo" style="display:none">
-    <hr>
-    <p class="small">
-      <strong>Status:</strong> PENDING PAYMENT<br><br>
+  <form id="orderForm">
+    <input id="name" placeholder="Full Name" required>
+    <input id="email" type="email" placeholder="Email" required>
+    <textarea id="shipAddr" placeholder="Shipping Address" required></textarea>
 
-      <strong>Payment Method:</strong><br><br>
-
-      💳 <strong>PayPal</strong><br>
-      <img src="paypal-qr.png" style="max-width:200px;border-radius:12px;border:1px solid #ddd"><br><br>
-
-      💵 Cash App: 
-      <a href="https://cash.app/$JCCNC1" target="_blank">https://cash.app/$JCCNC1</a><br><br>
-
-      <strong>Order ID:</strong> <span id="orderIdText"></span><br>
-      <em>Please include Order ID in the payment note.</em>
-    </p>
-  </div>
-
-  <form id="orderForm" action="https://formspree.io/f/xpqazkbv" method="POST">
-    <input name="name" placeholder="Full Name" required>
-    <input name="email" type="email" placeholder="Email" required>
-    <textarea name="shipping_address" id="shipAddr" placeholder="Shipping Address" required></textarea>
-
-    <input type="hidden" name="order_items" id="order_items">
-    <input type="hidden" name="order_total" id="order_total">
-    <input type="hidden" name="order_id" id="order_id">
-
-    <button id="submitBtn" class="btn btn-disabled" disabled>Submit Order</button>
+    <button id="submitBtn" class="btn btn-add" type="submit">Complete Order</button>
   </form>
 
-  <p id="status" class="small"></p>
+  <div id="status"></div>
 </div>
 
 <script>
-const PRODUCTS=[{
-  id:"srt-4",
-  name:"SRT-4",
-  price:25,
-  imgs:["srt-1.png","srt-4.png"]
-}];
+const PRODUCTS=[
+  {id:"srt-4",name:"SRT-4",price:25,category:"3D",img:"srt-1.png"},
+  {id:"cnc-1",name:"CNC Adapter",price:45,category:"CNC",img:"srt-4.png"}
+];
 
 let cart=[];
 let SHIPPING_COST=null;
 let SHIPPING_LABEL="PENDING ADDRESS (TBD)";
+let activeFilter="ALL";
 
-const grid=products;
+const grid=document.getElementById("products");
 const list=document.getElementById("list");
 const count=document.getElementById("count");
-const submitBtn=document.getElementById("submitBtn");
+const status=document.getElementById("status");
 
 cartBtn.onclick=()=>drawer.classList.toggle("open");
 
-function renderProducts(){
-  grid.innerHTML=PRODUCTS.map(p=>`
-    <div class="card"><div class="content">
-      <img class="product-img" src="${p.imgs[0]}">
-      <div class="thumbs">${p.imgs.map(i=>`<img src="${i}">`).join("")}</div>
-      <h3>${p.name}</h3>
-      <p>$${p.price}</p>
-      <button class="btn btn-add" onclick="add()">Add</button>
-    </div></div>
-  `).join("");
+function filterProducts(cat){
+  activeFilter=cat;
+  renderProducts();
 }
 
-function add(){
-  cart=[{...PRODUCTS[0],qty:1}];
+function renderProducts(){
+  grid.innerHTML=PRODUCTS
+    .filter(p=>activeFilter==="ALL"||p.category===activeFilter)
+    .map(p=>`
+      <div class="card">
+        <div class="content">
+          <img class="product-img" src="${p.img}">
+          <h3>${p.name}</h3>
+          <p>$${p.price}</p>
+          <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
+        </div>
+      </div>
+    `).join("");
+}
+
+function add(id){
+  const p=PRODUCTS.find(x=>x.id===id);
+  const f=cart.find(x=>x.id===id);
+  f?f.qty++:cart.push({...p,qty:1});
   update();
 }
 
 function calcShipping(addr){
   addr=addr.toLowerCase();
-  if(addr.includes("fl")||addr.includes("florida")){
+  if(addr.includes("fl")){
     SHIPPING_COST=10; SHIPPING_LABEL="$10 FLAT (FL)";
   }else if(addr.match(/\d{5}/)){
     SHIPPING_COST=15; SHIPPING_LABEL="$15 FLAT (USA)";
@@ -202,43 +193,40 @@ function calcShipping(addr){
 }
 
 function update(){
-  let subtotal=25;
-  const addr=document.getElementById("shipAddr").value||"";
-  calcShipping(addr);
+  let subtotal=0;
+  list.innerHTML="";
+  cart.forEach(p=>{
+    subtotal+=p.qty*p.price;
+    list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
+  });
 
+  calcShipping(shipAddr.value||"");
   const total=SHIPPING_COST===null?"TBD":"$"+(subtotal+SHIPPING_COST);
 
-  list.innerHTML=`
-    <div class="cart-item">SRT-4 × 1<br>$25</div>
+  list.innerHTML+=`
     <hr>
-    <div class="small">Subtotal: $25</div>
+    <div class="small">Subtotal: $${subtotal}</div>
     <div class="small">Shipping: ${SHIPPING_LABEL}</div>
     <strong>Total: ${total}</strong>
   `;
-
-  count.textContent=1;
-  submitBtn.disabled=false;
-  submitBtn.className="btn btn-add";
-  order_items.value="SRT-4 x1";
-  order_total.value=total;
+  count.textContent=cart.reduce((a,b)=>a+b.qty,0);
 }
 
-orderForm.addEventListener("submit",async e=>{
+shipAddr.addEventListener("input",update);
+
+orderForm.onsubmit=e=>{
   e.preventDefault();
-  order_id.value="JC-"+Date.now();
-  orderIdText.textContent=order_id.value;
-
-  const res=await fetch(orderForm.action,{
-    method:"POST",
-    body:new FormData(orderForm),
-    headers:{Accept:"application/json"}
-  });
-
-  if(res.ok){
-    paymentInfo.style.display="block";
-    status.textContent="Order received. Proceed with payment.";
-  }
-});
+  update();
+  status.innerHTML=`
+    <div class="success">
+      ✅ ORDER COMPLETED<br>
+      Total Paid: ${document.querySelector("strong").innerText.replace("Total: ","")}<br>
+      Shipping Included
+    </div>
+  `;
+  cart=[];
+  update();
+};
 
 renderProducts();
 </script>
