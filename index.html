@@ -34,9 +34,12 @@ header{
 }
 .hero img{width:220px;margin-bottom:24px}
 
-/* SHOP */
+/* SECTION */
 .section{padding:64px 16px}
 .wrap{max-width:1200px;margin:auto}
+h2{color:#b30000}
+
+/* PRODUCTS */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -47,7 +50,14 @@ header{
   border-radius:var(--radius);box-shadow:var(--shadow)
 }
 .content{padding:20px}
-.product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
+.product-img{
+  width:100%;height:180px;object-fit:cover;border-radius:10px
+}
+.thumbs{display:flex;gap:6px;margin:8px 0}
+.thumbs img{
+  width:50px;height:50px;object-fit:cover;
+  border-radius:6px;cursor:pointer;border:1px solid #444
+}
 
 /* BUTTON */
 .btn{
@@ -55,7 +65,6 @@ header{
   border-radius:12px;font-weight:bold;border:none;cursor:pointer
 }
 .btn-add{background:#b30000;color:#fff}
-.btn-secondary{background:#111;color:#fff}
 
 /* CART */
 #cartBtn{
@@ -114,10 +123,26 @@ footer{
   <p>Orders reviewed and confirmed after payment.</p>
 </section>
 
+<!-- SHOP -->
 <section class="section">
   <div class="wrap">
     <h2>Shop</h2>
     <div class="grid" id="products"></div>
+  </div>
+</section>
+
+<!-- SALES POLICY -->
+<section class="section" id="policies">
+  <div class="wrap">
+    <h2>Sales Policy – Florida & USA</h2>
+    <p class="small">
+      • All CNC machined and 3D printed products are FINAL SALE.<br>
+      • Custom and made-to-order items are non-refundable.<br>
+      • Products are sold AS-IS unless otherwise stated.<br>
+      • Customer is responsible for verifying fitment and application.<br>
+      • JC CNC Machine is not liable for misuse or improper installation.<br>
+      • Sales are governed by Florida law and applicable U.S. regulations.
+    </p>
   </div>
 </section>
 
@@ -131,7 +156,7 @@ footer{
   <h3>Your Order</h3>
   <div id="list"></div>
 
-  <!-- 🔒 PAYMENT (HIDDEN INITIALLY) -->
+  <!-- PAYMENT (SHOWN AFTER SUBMIT) -->
   <div id="paymentInfo" style="display:none">
     <hr>
     <p class="small">
@@ -140,8 +165,8 @@ footer{
       <a href="https://cash.app/$JCCNC1" target="_blank">
         https://cash.app/$JCCNC1
       </a><br><br>
-      <strong>Order ID:</strong> <span id="orderIdText"></span><br><br>
-      Please include the Order ID in the payment note.
+      <strong>Order ID:</strong> <span id="orderIdText"></span><br>
+      Include this Order ID in the payment note.
     </p>
   </div>
 
@@ -176,7 +201,14 @@ const PRODUCTS = [
     name:"SRT-4",
     price:25,
     available:true,
-    imgs:["srt-1.png"]
+    imgs:["srt-1.png","srt-4.png"]
+  },
+  {
+    id:"future-item",
+    name:"Future Product",
+    price:0,
+    available:false,
+    imgs:["placeholder.png"]
   }
 ];
 
@@ -189,7 +221,12 @@ function renderProducts(){
   grid.innerHTML=PRODUCTS.filter(p=>p.available).map(p=>`
     <div class="card">
       <div class="content">
-        <img class="product-img" src="${p.imgs[0]}">
+        <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
+        <div class="thumbs">
+          ${p.imgs.map(i=>`
+            <img src="${i}" onclick="document.getElementById('img-${p.id}').src='${i}'">
+          `).join("")}
+        </div>
         <h3>${p.name}</h3>
         <p>$${p.price}</p>
         Qty <input id="q-${p.id}" type="number" value="1" min="1" style="width:60px">
@@ -212,11 +249,13 @@ function update(){
   list.innerHTML="";
   cart.forEach(p=>{
     total+=p.qty*p.price;
-    list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
+    list.innerHTML+=`
+      <div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
   });
   list.innerHTML+=`<strong>Total: $${total}</strong>`;
   count.textContent=cart.reduce((a,b)=>a+b.qty,0);
-  document.getElementById("order_items").value=cart.map(p=>`${p.name} x${p.qty}`).join(", ");
+  document.getElementById("order_items").value=
+    cart.map(p=>`${p.name} x${p.qty}`).join(", ");
   document.getElementById("order_total").value=total;
 }
 
@@ -239,7 +278,7 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
 
   if(res.ok){
     document.getElementById("paymentInfo").style.display="block";
-    document.getElementById("status").textContent="Order sent. Proceed with payment.";
+    document.getElementById("status").textContent="Order received. Proceed with payment.";
     cart.length=0;
     update();
     e.target.reset();
@@ -252,5 +291,4 @@ update();
 
 </body>
 </html>
-
 
