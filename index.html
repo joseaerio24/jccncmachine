@@ -50,11 +50,19 @@ h2{color:#b30000}
   border-radius:14px;box-shadow:var(--shadow)
 }
 .content{padding:20px}
-.product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
-.thumbs{display:flex;gap:6px;margin:8px 0}
+.product-img{
+  width:100%;height:180px;
+  object-fit:cover;border-radius:10px
+}
+.thumbs{
+  display:flex;gap:6px;margin:8px 0
+}
 .thumbs img{
-  width:50px;height:50px;border-radius:6px;
-  cursor:pointer;border:1px solid #444
+  width:50px;height:50px;
+  object-fit:cover;
+  border-radius:6px;
+  cursor:pointer;
+  border:1px solid #444
 }
 
 /* BUTTONS */
@@ -207,15 +215,25 @@ const submitBtn=document.getElementById("submitBtn");
 
 cartBtn.onclick=()=>drawer.classList.toggle("open");
 
+function changeImg(id,img){
+  const el=document.getElementById("img-"+id);
+  if(el) el.src=img;
+}
+
 function renderProducts(){
   grid.innerHTML=PRODUCTS.filter(p=>p.available).map(p=>`
-    <div class="card"><div class="content">
-      <img class="product-img" src="${p.imgs[0]}">
-      <h3>${p.name}</h3>
-      <p>$${p.price}</p>
-      Qty <input id="q-${p.id}" type="number" min="1" value="1">
-      <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
-    </div></div>
+    <div class="card">
+      <div class="content">
+        <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
+        <div class="thumbs">
+          ${p.imgs.map(i=>`<img src="${i}" onclick="changeImg('${p.id}','${i}')">`).join("")}
+        </div>
+        <h3>${p.name}</h3>
+        <p>$${p.price}</p>
+        Qty <input id="q-${p.id}" type="number" min="1" value="1">
+        <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
+      </div>
+    </div>
   `).join("");
 }
 
