@@ -37,9 +37,6 @@ nav a{color:#fff;font-weight:bold;margin-left:16px}
 h2{color:#b30000}
 .divider{height:3px;background:#b30000;margin:12px 0 28px;border-radius:999px}
 
-/* FILTERS */
-.filters button{margin-right:8px}
-
 /* PRODUCTS */
 .grid{
   display:grid;
@@ -52,11 +49,6 @@ h2{color:#b30000}
 }
 .content{padding:20px}
 .product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
-.thumbs{display:flex;gap:6px;margin:8px 0}
-.thumbs img{
-  width:50px;height:50px;object-fit:cover;
-  border-radius:6px;cursor:pointer;border:1px solid #444
-}
 
 /* BUTTONS */
 .btn{
@@ -97,11 +89,6 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
       <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
       <strong>JC CNC Machine</strong>
     </div>
-    <nav>
-      <a href="#shop">Shop</a>
-      <a href="#policies">Policies</a>
-      <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">Facebook</a>
-    </nav>
   </div>
 </header>
 
@@ -113,33 +100,11 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   <p>Orders reviewed and confirmed after payment.</p>
 </section>
 
-<section class="section" id="shop">
+<section class="section">
   <div class="wrap">
     <h2>Shop</h2>
     <div class="divider"></div>
-
-    <div class="filters">
-      <button class="btn btn-add" onclick="filterCat('ALL')">All</button>
-      <button class="btn btn-add" onclick="filterCat('CNC')">CNC</button>
-      <button class="btn btn-add" onclick="filterCat('3D')">3D</button>
-    </div>
-
     <div class="grid" id="products"></div>
-  </div>
-</section>
-
-<section class="section" id="policies">
-  <div class="wrap">
-    <h2>Sales Policy – Florida / USA</h2>
-    <div class="divider"></div>
-    <p class="small">
-      • ALL SALES ARE FINAL.<br>
-      • CNC machined and 3D printed products are NON-REFUNDABLE.<br>
-      • Custom and made-to-order items cannot be returned.<br>
-      • Products sold AS-IS.<br>
-      • Customer responsible for fitment and application.<br>
-      • Sales governed by Florida & United States law.
-    </p>
   </div>
 </section>
 
@@ -153,34 +118,31 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   <h3>Your Order</h3>
   <div id="list"></div>
 
-  <!-- PAYMENT INFO (SOLO AL FINAL) -->
-  <div id="paymentInfo" style="display:none">
+  <!-- PAYMENT FIRST -->
+  <div id="paymentStep">
     <hr>
     <p class="small">
-      ✅ <strong>ORDER COMPLETED</strong><br><br>
-      You have successfully completed your purchase.<br><br>
+      <strong>Payment Required</strong><br><br>
 
-      <strong>Payment Methods:</strong><br><br>
+      💵 Cash App<br>
+      <a href="https://cash.app/$JCCNC1" target="_blank">https://cash.app/$JCCNC1</a><br><br>
 
-      💵 <strong>Cash App</strong><br>
-      <a href="https://cash.app/$JCCNC1" target="_blank">
-        https://cash.app/$JCCNC1
-      </a><br><br>
+      💳 PayPal (Direct)<br>
+      <a href="https://paypal.me/JCCNCMachine" target="_blank">https://paypal.me/JCCNCMachine</a><br><br>
 
-      💳 <strong>PayPal (Direct)</strong><br>
-      <a href="https://paypal.me/JCCNCMachine" target="_blank">
-        https://paypal.me/JCCNCMachine
-      </a><br><br>
-
-      💳 <strong>PayPal (QR)</strong><br>
+      💳 PayPal (QR)<br>
       <img src="paypal-qr.png" style="max-width:200px;border-radius:12px;border:1px solid #ddd"><br><br>
 
-      <strong>Order ID:</strong> <span id="orderIdText"></span><br>
-      <em>Please include Order ID in the payment note.</em>
+      <strong>Order ID:</strong> <span id="orderIdText"></span><br><br>
+
+      <button class="btn btn-add" onclick="unlockForm()">I HAVE PAID</button>
     </p>
   </div>
 
-  <form id="orderForm" action="https://formspree.io/f/xpqazkbv" method="POST">
+  <!-- ADDRESS AFTER PAYMENT -->
+  <form id="orderForm" style="display:none"
+    action="https://formspree.io/f/xpqazkbv" method="POST">
+
     <input name="name" placeholder="Full Name" required>
     <input type="email" name="email" placeholder="Email" required>
     <textarea name="shipping_address" placeholder="Shipping Address" required></textarea>
@@ -189,112 +151,81 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
     <input type="hidden" name="order_total" id="order_total">
     <input type="hidden" name="order_id" id="order_id">
 
-    <button id="submitBtn" class="btn btn-disabled" disabled>Submit Order</button>
+    <button class="btn btn-add">Submit Order</button>
   </form>
 
-  <p id="status" class="small"></p>
+  <div id="completed" style="display:none">
+    <hr>
+    <p class="small">
+      ✅ <strong>ORDER COMPLETED</strong><br><br>
+      You have successfully completed your purchase.<br>
+      <strong>Total Paid:</strong> $<span id="finalTotal"></span>
+    </p>
+  </div>
 </div>
 
 <script>
-// ===============================
-// PRODUCTS
-// ===============================
-const PRODUCTS = [
-  {
-    id:"srt-4",
-    name:"SRT-4",
-    category:"3D",
-    price:25,
-    available:true,
-    imgs:["srt-1.png","srt-4.png"]
-  },
-  { id:"future-1", name:"Future Product 1", category:"CNC", price:0, available:false, imgs:["placeholder.png"] },
-  { id:"future-2", name:"Future Product 2", category:"3D", price:0, available:false, imgs:["placeholder.png"] }
-];
+const PRODUCTS=[{
+  id:"srt-4",name:"SRT-4",price:25,imgs:["srt-1.png"]
+}];
 
-let currentCat="ALL";
 let cart=[];
 const grid=document.getElementById("products");
 const list=document.getElementById("list");
 const count=document.getElementById("count");
-const submitBtn=document.getElementById("submitBtn");
 
 cartBtn.onclick=()=>drawer.classList.toggle("open");
 
-function filterCat(cat){
-  currentCat=cat;
-  renderProducts();
-}
-
-function changeImg(id,img){
-  document.getElementById("img-"+id).src=img;
-}
-
 function renderProducts(){
-  grid.innerHTML=PRODUCTS
-    .filter(p=>p.available)
-    .filter(p=>currentCat==="ALL"||p.category===currentCat)
-    .map(p=>`
-      <div class="card"><div class="content">
-        <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
-        <div class="thumbs">
-          ${p.imgs.map(i=>`<img src="${i}" onclick="changeImg('${p.id}','${i}')">`).join("")}
-        </div>
-        <h3>${p.name}</h3>
-        <p>$${p.price}</p>
-        <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
-      </div></div>
-    `).join("");
+  grid.innerHTML=PRODUCTS.map(p=>`
+    <div class="card"><div class="content">
+      <img class="product-img" src="${p.imgs[0]}">
+      <h3>${p.name}</h3>
+      <p>$${p.price}</p>
+      <button class="btn btn-add" onclick="add()">Add</button>
+    </div></div>
+  `).join("");
 }
 
-function add(id){
-  const p=PRODUCTS.find(x=>x.id===id);
-  const f=cart.find(x=>x.id===id);
-  f?f.qty++:cart.push({...p,qty:1});
+function add(){
+  cart=[{...PRODUCTS[0],qty:1}];
   update();
 }
 
 function update(){
-  let total=0;
-  list.innerHTML="";
-  cart.forEach(p=>{
-    total+=p.qty*p.price;
-    list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
-  });
-  list.innerHTML+=`<strong>Total: $${total}</strong>`;
-  count.textContent=cart.reduce((a,b)=>a+b.qty,0);
-  submitBtn.disabled=cart.length===0;
-  submitBtn.className=cart.length?"btn btn-add":"btn btn-disabled";
-  order_items.value=cart.map(p=>`${p.name} x${p.qty}`).join(", ");
-  order_total.value=total;
+  let total=25;
+  list.innerHTML=`<div class="cart-item">SRT-4 × 1<br>$25</div><strong>Total: $25</strong>`;
+  count.textContent=1;
+
+  const id="JC-"+Date.now();
+  orderIdText.textContent=id;
+  order_id.value=id;
+  order_items.value="SRT-4 x1";
+  order_total.value=25;
+}
+
+function unlockForm(){
+  paymentStep.style.display="none";
+  orderForm.style.display="block";
 }
 
 orderForm.onsubmit=async e=>{
   e.preventDefault();
-  const id="JC-"+Date.now();
-  order_id.value=id;
-  orderIdText.textContent=id;
-
   const res=await fetch(orderForm.action,{
     method:"POST",
     body:new FormData(orderForm),
     headers:{Accept:"application/json"}
   });
-
   if(res.ok){
-    paymentInfo.style.display="block";
-    status.textContent="Artículo comprado. Ya usted finalizó su compra.";
-    cart=[];
-    update();
-    orderForm.reset();
+    orderForm.style.display="none";
+    completed.style.display="block";
+    finalTotal.textContent=25;
   }
 };
 
 renderProducts();
-update();
 </script>
 
 </body>
 </html>
-
 
