@@ -138,7 +138,7 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
       • Custom and made-to-order items cannot be returned.<br>
       • Products sold AS-IS.<br>
       • Customer responsible for fitment and application.<br>
-      • Governed by Florida & United States law.
+      • Sales governed by Florida & United States law.
     </p>
   </div>
 </section>
@@ -153,7 +153,7 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   <h3>Your Order</h3>
   <div id="list"></div>
 
-  <!-- PAYMENT INFO (SALE SOLO AL FINAL) -->
+  <!-- PAYMENT INFO (SOLO AL FINAL) -->
   <div id="paymentInfo" style="display:none">
     <hr>
     <p class="small">
@@ -162,10 +162,17 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
 
       <strong>Payment Methods:</strong><br><br>
 
-      💵 Cash App<br>
-      <a href="https://cash.app/$JCCNC1" target="_blank">https://cash.app/$JCCNC1</a><br><br>
+      💵 <strong>Cash App</strong><br>
+      <a href="https://cash.app/$JCCNC1" target="_blank">
+        https://cash.app/$JCCNC1
+      </a><br><br>
 
-      💳 PayPal<br>
+      💳 <strong>PayPal (Direct)</strong><br>
+      <a href="https://paypal.me/JCCNCMachine" target="_blank">
+        https://paypal.me/JCCNCMachine
+      </a><br><br>
+
+      💳 <strong>PayPal (QR)</strong><br>
       <img src="paypal-qr.png" style="max-width:200px;border-radius:12px;border:1px solid #ddd"><br><br>
 
       <strong>Order ID:</strong> <span id="orderIdText"></span><br>
@@ -190,7 +197,7 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
 
 <script>
 // ===============================
-// PRODUCTS (1 ACTIVO + 2 DESACTIVADOS)
+// PRODUCTS
 // ===============================
 const PRODUCTS = [
   {
@@ -201,22 +208,8 @@ const PRODUCTS = [
     available:true,
     imgs:["srt-1.png","srt-4.png"]
   },
-  {
-    id:"future-1",
-    name:"Future Product 1",
-    category:"CNC",
-    price:0,
-    available:false,
-    imgs:["placeholder.png"]
-  },
-  {
-    id:"future-2",
-    name:"Future Product 2",
-    category:"3D",
-    price:0,
-    available:false,
-    imgs:["placeholder.png"]
-  }
+  { id:"future-1", name:"Future Product 1", category:"CNC", price:0, available:false, imgs:["placeholder.png"] },
+  { id:"future-2", name:"Future Product 2", category:"3D", price:0, available:false, imgs:["placeholder.png"] }
 ];
 
 let currentCat="ALL";
