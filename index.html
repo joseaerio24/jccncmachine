@@ -18,10 +18,7 @@ a{text-decoration:none}
 
 /* HEADER */
 header{background:#b30000;color:#fff;padding:18px 16px}
-.header-inner{
-  max-width:1200px;margin:auto;
-  display:flex;justify-content:space-between;align-items:center
-}
+.header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
 nav a{color:#fff;font-weight:bold;margin-left:16px}
@@ -44,29 +41,15 @@ h2{color:#b30000}
 .filters button{margin-right:8px}
 
 /* PRODUCTS */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px
-}
-.card{
-  background:#000;color:#fff;
-  border-radius:var(--radius);
-  box-shadow:var(--shadow)
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.card{background:#000;color:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
 .content{padding:20px}
 .product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
 .thumbs{display:flex;gap:6px;margin:8px 0}
-.thumbs img{
-  width:50px;height:50px;
-  border-radius:6px;cursor:pointer;border:1px solid #444
-}
+.thumbs img{width:50px;height:50px;border-radius:6px;cursor:pointer;border:1px solid #444}
 
 /* BUTTONS */
-.btn{
-  margin-top:10px;padding:10px 16px;
-  border-radius:12px;font-weight:bold;border:none;cursor:pointer
-}
+.btn{margin-top:10px;padding:10px 16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer}
 .btn-add{background:#b30000;color:#fff}
 
 /* CART */
@@ -84,21 +67,15 @@ h2{color:#b30000}
   transition:.25s;overflow:auto;z-index:999
 }
 #drawer.open{transform:translateX(0)}
-.cart-item{
-  border:1px solid var(--line);
-  padding:10px;border-radius:10px;margin-bottom:8px
-}
+.cart-item{border:1px solid var(--line);padding:10px;border-radius:10px;margin-bottom:8px}
 .small{font-size:12px;color:#555}
 
 /* FOOTER */
-footer{
-  background:#0b0b0b;color:#cbd5e1;
-  padding:22px;font-size:12px;text-align:center
-}
+footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:center}
 </style>
 
 <!-- PAYPAL SMART CHECKOUT -->
-<script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID_LIVE&currency=USD"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID_LIVE&currency=USD&enable-funding=venmo"></script>
 </head>
 
 <body>
@@ -169,14 +146,13 @@ footer{
     <hr>
     <p class="small">
       ✅ <strong>ORDER COMPLETED</strong><br><br>
-      You have successfully completed your purchase.<br>
+      Payment received successfully.<br>
       <strong>Total:</strong> $<span id="finalTotal"></span>
     </p>
   </div>
 </div>
 
 <script>
-// ================= PRODUCTS =================
 const PRODUCTS=[
   {
     id:"srt-4",
@@ -251,9 +227,7 @@ function renderPayPal(){
   paypal.Buttons({
     createOrder:(data,actions)=>{
       return actions.order.create({
-        purchase_units:[{
-          amount:{value:cartTotal.toFixed(2)}
-        }]
+        purchase_units:[{amount:{value:cartTotal.toFixed(2)}}]
       });
     },
     onApprove:(data,actions)=>{
@@ -270,5 +244,4 @@ renderProducts();
 
 </body>
 </html>
-
 
