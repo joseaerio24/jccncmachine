@@ -54,8 +54,7 @@ h2{color:#b30000}
 .thumbs{display:flex;gap:6px;margin:8px 0}
 .thumbs img{
   width:50px;height:50px;
-  object-fit:cover;
-  border-radius:6px;
+  object-fit:cover;border-radius:6px;
   cursor:pointer;border:1px solid #444
 }
 
@@ -87,12 +86,6 @@ h2{color:#b30000}
   padding:10px;border-radius:10px;margin-bottom:8px
 }
 .small{font-size:12px;color:#555}
-
-/* FOOTER */
-footer{
-  background:#0b0b0b;color:#cbd5e1;
-  padding:22px;font-size:12px;text-align:center
-}
 </style>
 </head>
 
@@ -128,19 +121,6 @@ footer{
   </div>
 </section>
 
-<section class="section" id="policies">
-  <div class="wrap">
-    <h2>Sales Policy – Florida / USA</h2>
-    <div class="divider"></div>
-    <p class="small">
-      • FINAL SALE on all CNC & 3D printed products.<br>
-      • Custom items are non-refundable.<br>
-      • Products sold AS-IS.<br>
-      • Governed by Florida & United States law.
-    </p>
-  </div>
-</section>
-
 <footer>
   © 2025 JC CNC Machine — Tampa, Florida<br>
   sales@jccncmachine.com
@@ -165,8 +145,7 @@ footer{
       💳 <strong>PayPal</strong><br>
       <img src="paypal-qr.png" style="max-width:200px;border-radius:12px;border:1px solid #ddd"><br><br>
 
-      <strong>Order ID:</strong> <span id="orderIdText"></span><br>
-      <em>Please include Order ID in the payment note.</em>
+      <strong>Order ID:</strong> <span id="orderIdText"></span>
     </p>
   </div>
 
@@ -175,7 +154,6 @@ footer{
     <input name="email" type="email" placeholder="Email" required>
     <textarea name="shipping_address" placeholder="Shipping Address" required></textarea>
 
-    <!-- BACKEND INFO -->
     <input type="hidden" name="order_items" id="order_items">
     <input type="hidden" name="order_total" id="order_total">
     <input type="hidden" name="order_id" id="order_id">
@@ -188,6 +166,10 @@ footer{
 </div>
 
 <script>
+// SHIPPING CONFIG
+let SHIPPING_COST = 0;
+let SHIPPING_LABEL = "PENDING ADDRESS";
+
 // PRODUCTS
 const PRODUCTS = [
   {
@@ -213,7 +195,7 @@ function changeImg(id,img){
 }
 
 function renderProducts(){
-  grid.innerHTML=PRODUCTS.filter(p=>p.available).map(p=>`
+  grid.innerHTML=PRODUCTS.map(p=>`
     <div class="card">
       <div class="content">
         <img id="img-${p.id}" class="product-img" src="${p.imgs[0]}">
@@ -238,15 +220,27 @@ function add(id){
 }
 
 function update(){
-  let total=0;list.innerHTML="";
+  let subtotal=0;
+  list.innerHTML="";
+
   cart.forEach(p=>{
-    total+=p.qty*p.price;
+    subtotal+=p.qty*p.price;
     list.innerHTML+=`<div class="cart-item">${p.name} × ${p.qty}<br>$${p.qty*p.price}</div>`;
   });
-  list.innerHTML+=`<strong>Total: $${total}</strong>`;
+
+  const total=subtotal+SHIPPING_COST;
+
+  list.innerHTML+=`
+    <hr>
+    <div class="small">Subtotal: $${subtotal}</div>
+    <div class="small">Shipping: ${SHIPPING_LABEL}</div>
+    <strong>Total: $${total}</strong>
+  `;
+
   count.textContent=cart.reduce((a,b)=>a+b.qty,0);
   submitBtn.disabled=cart.length===0;
   submitBtn.className=cart.length?"btn btn-add":"btn btn-disabled";
+
   order_items.value=cart.map(p=>`${p.name} x${p.qty}`).join(", ");
   order_total.value=total;
 }
