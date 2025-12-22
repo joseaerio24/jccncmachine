@@ -155,7 +155,7 @@ footer{
 <div id="drawer">
   <h3>MY CART</h3>
   <div id="summary">Empty</div>
-  <p class="success" id="addedMsg" style="display:none">✔ Item added to cart</p>
+
   <h3>Total: $<span id="total">0.00</span></h3>
 
   <p id="payNotice" style="color:#b30000;font-size:12px">
@@ -167,6 +167,9 @@ footer{
     <input type="hidden" name="product" id="fProduct">
     <input type="hidden" name="quantity" id="fQty">
     <input type="hidden" name="total" id="fTotal">
+
+    <label><strong>Email</strong></label>
+    <input type="email" name="email" required>
 
     <label><strong>Shipping Address</strong></label>
     <textarea name="shipping_address" required></textarea>
@@ -181,8 +184,8 @@ footer{
 
 <script>
 const PRODUCTS=[
-  {id:"srt-4",name:"SRT-4",price:25,category:"3D",img:"srt-1.png",img2:"srt-4.png",active:true},
-  {id:"yamaha",name:"Yamaha Fuel Tech dashboard",price:80,category:"3D",img:"fusion.dash-3.png",img2:"fusion.dash-2.png",img3:"fusion.dash-1.png",active:true}
+  {id:"srt-4",name:"SRT-4",price:25,category:"3D",img:"srt-1.png",img2:"srt-4.png"},
+  {id:"yamaha",name:"Yamaha Fuel Tech dashboard",price:80,category:"3D",img:"fusion.dash-3.png",img2:"fusion.dash-2.png"}
 ];
 
 let current="ALL";
@@ -196,10 +199,8 @@ function filter(cat){current=cat;render();}
 
 function render(){
   productArea.innerHTML="";
-  PRODUCTS
-    .filter(p=>current==="ALL"||p.category===current)
-    .forEach(p=>{
-      productArea.innerHTML+=`
+  PRODUCTS.filter(p=>current==="ALL"||p.category===current).forEach(p=>{
+    productArea.innerHTML+=`
       <div class="card">
         <img class="product-img" src="${p.img}">
         ${p.img2?`<img class="thumb" src="${p.img2}">`:""}
@@ -209,38 +210,28 @@ function render(){
         <input type="number" min="1" value="1" id="qty-${p.id}">
         <button class="btn" onclick="add('${p.id}')">Add</button>
       </div>`;
-    });
+  });
 }
 
 function add(id){
   const p = PRODUCTS.find(x=>x.id===id);
   const qty = parseInt(document.getElementById(`qty-${id}`).value);
-
   const item = cart.find(i=>i.id===id);
-  if(item){
-    item.qty += qty;
-  }else{
-    cart.push({...p, qty});
-  }
-
-  saveCart();
-  renderCart();
+  if(item){ item.qty+=qty } else { cart.push({...p,qty}) }
+  saveCart(); renderCart();
 }
 
 function removeItem(id){
   cart = cart.filter(i=>i.id!==id);
-  saveCart();
-  renderCart();
+  saveCart(); renderCart();
 }
 
 function renderCart(){
   let total=0;
   summary.innerHTML="";
-
   cart.forEach(i=>{
     const sub=i.qty*i.price;
     total+=sub;
-
     summary.innerHTML+=`
       <div class="cart-item">
         ${i.name}<br>
@@ -248,10 +239,7 @@ function renderCart(){
         <button class="btn btn-disabled" onclick="removeItem('${i.id}')">Remove</button>
       </div>`;
   });
-
-  if(!cart.length){
-    summary.innerHTML="Empty";
-  }
+  if(!cart.length) summary.innerHTML="Empty";
 
   document.getElementById("total").innerText=total.toFixed(2);
   document.getElementById("count").innerText=cart.reduce((s,i)=>s+i.qty,0);
@@ -261,6 +249,8 @@ function renderCart(){
     fQty.value = cart.reduce((s,i)=>s+i.qty,0);
     fTotal.value = total.toFixed(2);
     renderPayPal(total);
+  }else{
+    document.getElementById("paypal-button-container").innerHTML="";
   }
 }
 
@@ -269,24 +259,24 @@ function saveCart(){
 }
 
 function renderPayPal(amount){
-  document.getElementById("paypal-button-container").innerHTML="";
+  const c=document.getElementById("paypal-button-container");
+  c.innerHTML="";
   paypal.Buttons({
     createOrder:(d,a)=>a.order.create({
       purchase_units:[{amount:{value:amount.toFixed(2)}}]
     }),
     onApprove:(d,a)=>a.order.capture().then(()=>{
-      document.getElementById("sendOrderBtn").disabled=false;
-      document.getElementById("sendOrderBtn").classList.remove("btn-disabled");
-      document.getElementById("payNotice").style.display="none";
-      document.getElementById("paypal-button-container").innerHTML =
-        "<p class='success'>Payment confirmed ✔</p>";
+      sendOrderBtn.disabled=false;
+      sendOrderBtn.classList.remove("btn-disabled");
+      payNotice.style.display="none";
+      c.innerHTML="<p class='success'>Payment confirmed ✔</p>";
     })
-  }).render("#paypal-button-container");
+  }).render(c);
 }
 
-render();
-renderCart();
+render(); renderCart();
 </script>
 
 </body>
 </html>
+
