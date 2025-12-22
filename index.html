@@ -168,16 +168,15 @@ footer{
     <input type="hidden" name="quantity" id="fQty">
     <input type="hidden" name="total" id="fTotal">
 
-    <label><strong>Shipping Address</strong></label>
-    <textarea name="shipping_address" required></textarea>
+    <label><strong>Email</strong></label>
+<input type="email" name="customer_email" placeholder="customer@email.com" required>
 
-    <button type="submit" class="btn btn-disabled" id="sendOrderBtn" disabled>
-      Send Order
-    </button>
-  </form>
+<label><strong>Shipping Address</strong></label>
+<textarea name="shipping_address" required></textarea>
 
-  <div id="paypal-button-container"></div>
-</div>
+<button type="submit" class="btn btn-disabled" id="sendOrderBtn" disabled>
+  Send Order
+</button>
 
 <script>
 const PRODUCTS=[
