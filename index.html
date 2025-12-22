@@ -45,8 +45,9 @@ h2{color:#b30000}
 
 /* PRODUCTS */
 .card{
-  background:#000;color:#fff;border-radius:var(--radius);
-  box-shadow:var(--shadow);padding:20px;max-width:420px;margin-bottom:20px
+  background:#000;color:#fff;border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  padding:20px;max-width:420px;margin-bottom:20px
 }
 .product-img{width:100%;border-radius:10px;margin-bottom:8px}
 .thumb{width:100%;border-radius:10px;opacity:.9}
@@ -64,7 +65,7 @@ h2{color:#b30000}
   background:#fff;color:#b30000;
   padding:10px 14px;border-radius:999px;
   font-weight:bold;cursor:pointer;
-  box-shadow:var(--shadow);z-index:999
+  box-shadow:0 10px 25px rgba(0,0,0,.15);z-index:999
 }
 #drawer{
   position:fixed;top:0;right:0;width:360px;height:100%;
@@ -73,12 +74,13 @@ h2{color:#b30000}
   transition:.25s;overflow:auto;z-index:999
 }
 #drawer.open{transform:translateX(0)}
-.cart-item{border-bottom:1px solid var(--line);padding:10px 0}
+.cart-item{border-bottom:1px solid #e5e7eb;padding:10px 0}
 .success{color:green;font-weight:bold}
 
 /* FORM */
 input, textarea{
-  width:100%;margin-top:8px;padding:8px;border-radius:8px;border:1px solid #ccc
+  width:100%;margin-top:8px;padding:8px;
+  border-radius:8px;border:1px solid #ccc
 }
 
 /* FOOTER */
@@ -120,29 +122,12 @@ footer{
   <div class="wrap">
     <h2>Shop</h2>
     <div class="divider"></div>
-
     <div class="filters">
       <button onclick="filter('ALL')">ALL</button>
       <button onclick="filter('CNC')">CNC</button>
       <button onclick="filter('3D')">3D</button>
     </div>
-
     <div id="productArea"></div>
-  </div>
-</section>
-
-<section class="section" id="policies">
-  <div class="wrap">
-    <h2>Sales Policy – Florida / USA</h2>
-    <div class="divider"></div>
-    <p>
-      • ALL SALES ARE FINAL.<br>
-      • CNC & 3D printed products are NON-REFUNDABLE.<br>
-      • Custom or made-to-order items cannot be returned.<br>
-      • Products sold AS-IS.<br>
-      • Customer responsible for fitment and application.<br>
-      • Governed by Florida & United States law.
-    </p>
   </div>
 </section>
 
@@ -155,23 +140,22 @@ footer{
 <div id="drawer">
   <h3>MY CART</h3>
   <div id="summary">Empty</div>
-  <p class="success" id="addedMsg" style="display:none">✔ Item added to cart</p>
   <h3>Total: $<span id="total">0.00</span></h3>
 
   <p id="payNotice" style="color:#b30000;font-size:12px">
     Please complete payment to send order.
   </p>
 
-  <!-- FORMSPREE -->
   <form action="https://formspree.io/f/xpqazkbv" method="POST">
     <input type="hidden" name="product" id="fProduct">
     <input type="hidden" name="quantity" id="fQty">
     <input type="hidden" name="total" id="fTotal">
 
+    <label><strong>Email</strong></label>
+    <input type="email" name="email" id="customerEmail" required>
+
     <label><strong>Shipping Address</strong></label>
     <textarea name="shipping_address" required></textarea>
-    <label><strong>Email</strong></label>
-<input type="email" name="email" id="customerEmail" required>
 
     <button type="submit" class="btn btn-disabled" id="sendOrderBtn" disabled>
       Send Order
@@ -183,107 +167,82 @@ footer{
 
 <script>
 const PRODUCTS=[
-  {id:"srt-4",name:"SRT-4",price:25,category:"3D",img:"srt-1.png",img2:"srt-4.png",active:true},
-  {id:"yamaha",name:"Yamaha Fuel Tech dashboard",price:80,category:"3D",img:"fusion.dash-3.png",img2:"fusion.dash-2.png",img3:"fusion.dash-1.png",active:true}
+  {id:"srt-4",name:"SRT-4",price:25,category:"3D",img:"srt-1.png",img2:"srt-4.png"},
+  {id:"yamaha",name:"Yamaha Fuel Tech dashboard",price:80,category:"3D",img:"fusion.dash-3.png",img2:"fusion.dash-2.png"}
 ];
 
 let current="ALL";
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const productArea=document.getElementById("productArea");
-const drawer=document.getElementById("drawer");
 document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
 
 function filter(cat){current=cat;render();}
 
 function render(){
   productArea.innerHTML="";
-  PRODUCTS
-    .filter(p=>current==="ALL"||p.category===current)
-    .forEach(p=>{
-      productArea.innerHTML+=`
+  PRODUCTS.filter(p=>current==="ALL"||p.category===current).forEach(p=>{
+    productArea.innerHTML+=`
       <div class="card">
         <img class="product-img" src="${p.img}">
         ${p.img2?`<img class="thumb" src="${p.img2}">`:""}
         <h3>${p.name}</h3>
         <p>$${p.price}</p>
-        Qty:
-        <input type="number" min="1" value="1" id="qty-${p.id}">
+        Qty: <input type="number" min="1" value="1" id="qty-${p.id}">
         <button class="btn" onclick="add('${p.id}')">Add</button>
       </div>`;
-    });
+  });
 }
 
 function add(id){
   const p = PRODUCTS.find(x=>x.id===id);
   const qty = parseInt(document.getElementById(`qty-${id}`).value);
-
   const item = cart.find(i=>i.id===id);
-  if(item){
-    item.qty += qty;
-  }else{
-    cart.push({...p, qty});
-  }
-
-  saveCart();
+  if(item){item.qty+=qty}else{cart.push({...p,qty})}
+  localStorage.setItem("cart",JSON.stringify(cart));
   renderCart();
 }
 
 function removeItem(id){
   cart = cart.filter(i=>i.id!==id);
-  saveCart();
+  localStorage.setItem("cart",JSON.stringify(cart));
   renderCart();
 }
 
 function renderCart(){
   let total=0;
   summary.innerHTML="";
-
   cart.forEach(i=>{
     const sub=i.qty*i.price;
     total+=sub;
-
     summary.innerHTML+=`
       <div class="cart-item">
-        ${i.name}<br>
-        Qty: ${i.qty} — $${sub.toFixed(2)}
+        ${i.name}<br>Qty: ${i.qty} — $${sub.toFixed(2)}
         <button class="btn btn-disabled" onclick="removeItem('${i.id}')">Remove</button>
       </div>`;
   });
-
-  if(!cart.length){
-    summary.innerHTML="Empty";
-  }
-
-  document.getElementById("total").innerText=total.toFixed(2);
-  document.getElementById("count").innerText=cart.reduce((s,i)=>s+i.qty,0);
+  if(!cart.length) summary.innerHTML="Empty";
+  totalEl.innerText=total.toFixed(2);
+  count.innerText=cart.reduce((s,i)=>s+i.qty,0);
 
   if(total>0){
-    fProduct.value = cart.map(i=>`${i.name} x${i.qty}`).join(", ");
-    fQty.value = cart.reduce((s,i)=>s+i.qty,0);
-    fTotal.value = total.toFixed(2);
-  if (!document.getElementById("paypal-button-container").hasChildNodes()) {
-  renderPayPal(total);
-}
-
-}
-
-function saveCart(){
-  localStorage.setItem("cart",JSON.stringify(cart));
+    fProduct.value=cart.map(i=>`${i.name} x${i.qty}`).join(", ");
+    fQty.value=cart.reduce((s,i)=>s+i.qty,0);
+    fTotal.value=total.toFixed(2);
+    if(!paypalButtonContainer.hasChildNodes()) renderPayPal(total);
+  }
 }
 
 function renderPayPal(amount){
-  document.getElementById("paypal-button-container").innerHTML="";
   paypal.Buttons({
     createOrder:(d,a)=>a.order.create({
       purchase_units:[{amount:{value:amount.toFixed(2)}}]
     }),
     onApprove:(d,a)=>a.order.capture().then(()=>{
-      document.getElementById("sendOrderBtn").disabled=false;
-      document.getElementById("sendOrderBtn").classList.remove("btn-disabled");
-      document.getElementById("payNotice").style.display="none";
-      document.getElementById("paypal-button-container").innerHTML =
-        "<p class='success'>Payment confirmed ✔</p>";
+      sendOrderBtn.disabled=false;
+      sendOrderBtn.classList.remove("btn-disabled");
+      payNotice.style.display="none";
+      paypalButtonContainer.innerHTML="<p class='success'>Payment confirmed ✔</p>";
     })
   }).render("#paypal-button-container");
 }
@@ -294,3 +253,4 @@ renderCart();
 
 </body>
 </html>
+
