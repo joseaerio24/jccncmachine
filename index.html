@@ -260,10 +260,13 @@ function renderCart(){
   document.getElementById("total").innerText=total.toFixed(2);
   document.getElementById("count").innerText=cart.reduce((s,i)=>s+i.qty,0);
 
-  if(total>0){
-    fProduct.value = cart.map(i=>`${i.name} x${i.qty}`).join(", ");
-    fQty.value = cart.reduce((s,i)=>s+i.qty,0);
-    fTotal.value = total.toFixed(2);
+  if(total > 0){
+  fProduct.value = cart.map(i=>`${i.name} x${i.qty}`).join(", ");
+  fQty.value = cart.reduce((s,i)=>s+i.qty,0);
+  fTotal.value = total.toFixed(2);
+
+  // 🔒 Garantiza que PayPal SIEMPRE se muestre
+  if (!document.getElementById("paypal-button-container").hasChildNodes()) {
     renderPayPal(total);
   }
 }
