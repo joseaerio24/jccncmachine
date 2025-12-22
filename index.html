@@ -2,69 +2,65 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>JC CNC Machine Checkout</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- PAYPAL SMART BUTTONS -->
-<script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID_AQUI&currency=USD&enable-funding=venmo,paylater"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JC CNC Machine | CNC & 3D Printing</title>
 
 <style>
-body{font-family:Arial;margin:20px}
-button{padding:10px 15px;font-size:16px}
-#cart{border:1px solid #ccc;padding:15px;max-width:350px}
+body{margin:0;font-family:Arial,sans-serif}
+#cart{position:fixed;right:0;top:0;width:360px;height:100%;background:#fff;
+box-shadow:-5px 0 20px rgba(0,0,0,.3);padding:16px}
+button{background:#b30000;color:#fff;border:none;padding:8px 14px;cursor:pointer}
 </style>
+
+<!-- PAYPAL SMART CHECKOUT -->
+<script src="https://www.paypal.com/sdk/js?client-id=ATB9x9CWASB9JqMFbkrrebtCCCmh3Q1MYX0nSwxXn6XzphVmq117WpISd1Ch-bHvZJhKw5E3h1jSLgnn&currency=USD&enable-funding=venmo,paylater"></script>
 </head>
 
 <body>
 
-<h2>MY CART</h2>
+<h2>SRT-4</h2>
+<p>$25.00</p>
+Qty:
+<input type="number" id="qty" value="1" min="1">
+<button onclick="add()">Add</button>
 
 <div id="cart">
-  <p><strong>SRT-4</strong></p>
-  Qty:
-  <input type="number" id="qty" value="1" min="1" style="width:60px">
-  <p>Price: $25</p>
-  <p><strong>Total: $<span id="total">25.00</span></strong></p>
+  <h3>MY CART</h3>
+  <div id="summary"></div>
+  <h3>Total: $<span id="total">0.00</span></h3>
+  <div id="paypal-button-container"></div>
 </div>
 
-<br>
-
-<div id="paypal-button-container"></div>
-
 <script>
-const price = 25;
+let price = 25;
+let qty = 1;
 
-function getTotal(){
-  const qty = parseInt(document.getElementById("qty").value);
-  return (qty * price).toFixed(2);
+function add(){
+  qty = parseInt(document.getElementById("qty").value);
+  let total = qty * price;
+  document.getElementById("summary").innerHTML =
+    `SRT-4<br>Qty: ${qty}<br>$${total.toFixed(2)}`;
+  document.getElementById("total").innerText = total.toFixed(2);
+  renderPayPal(total);
 }
 
-document.getElementById("qty").addEventListener("change", ()=>{
-  document.getElementById("total").innerText = getTotal();
-});
-
-paypal.Buttons({
-  style:{
-    layout:"vertical",
-    color:"gold",
-    shape:"rect",
-    label:"paypal"
-  },
-  createOrder: (data, actions) => {
-    return actions.order.create({
-      purchase_units: [{
-        amount: {
-          value: getTotal()
-        }
-      }]
-    });
-  },
-  onApprove: (data, actions) => {
-    return actions.order.capture().then(details => {
-      alert("Payment completed by " + details.payer.name.given_name);
-    });
-  }
-}).render("#paypal-button-container");
+function renderPayPal(amount){
+  document.getElementById("paypal-button-container").innerHTML = "";
+  paypal.Buttons({
+    createOrder:(data,actions)=>{
+      return actions.order.create({
+        purchase_units:[{
+          amount:{value:amount.toFixed(2)}
+        }]
+      });
+    },
+    onApprove:(data,actions)=>{
+      return actions.order.capture().then(()=>{
+        alert("Payment successful");
+      });
+    }
+  }).render("#paypal-button-container");
+}
 </script>
 
 </body>
