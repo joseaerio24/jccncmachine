@@ -18,7 +18,10 @@ a{text-decoration:none}
 
 /* HEADER */
 header{background:#b30000;color:#fff;padding:18px 16px}
-.header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.header-inner{
+  max-width:1200px;margin:auto;
+  display:flex;justify-content:space-between;align-items:center
+}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
 nav a{color:#fff;font-weight:bold;margin-left:16px}
@@ -38,13 +41,23 @@ h2{color:#b30000}
 .divider{height:3px;background:#b30000;margin:12px 0 28px;border-radius:999px}
 
 /* PRODUCTS */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
-.card{background:#000;color:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px
+}
+.card{
+  background:#000;color:#fff;
+  border-radius:var(--radius);box-shadow:var(--shadow)
+}
 .content{padding:20px}
 .product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
 
 /* BUTTONS */
-.btn{margin-top:10px;padding:10px 16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer}
+.btn{
+  margin-top:10px;padding:10px 16px;
+  border-radius:12px;font-weight:bold;border:none;cursor:pointer
+}
 .btn-add{background:#b30000;color:#fff}
 
 /* CART */
@@ -66,13 +79,30 @@ h2{color:#b30000}
 .small{font-size:12px;color:#555}
 
 /* FOOTER */
-footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:center}
+footer{
+  background:#0b0b0b;color:#cbd5e1;
+  padding:22px;font-size:12px;text-align:center
+}
 </style>
 
-<!-- PAYPAL SMART CHECKOUT -->
-<script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID_LIVE&currency=USD&enable-funding=venmo"></script>
-</head>
+<script>
+  // ✅ PON TU CLIENT ID LIVE AQUI
+  const PAYPAL_CLIENT_ID = "PASTE_YOUR_LIVE_CLIENT_ID_HERE";
+</script>
 
+<!-- PayPal SDK (Smart Checkout) -->
+<script>
+  // Carga dinámica del SDK para que solo tengas que editar el Client ID arriba.
+  (function loadPaypal(){
+    const s=document.createElement("script");
+    s.src=`https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(PAYPAL_CLIENT_ID)}&currency=USD&enable-funding=venmo`;
+    s.onload=()=>{ window.__paypalLoaded = true; tryRenderPayPal(); };
+    s.onerror=()=>{ console.error("PayPal SDK failed to load. Check client-id."); };
+    document.head.appendChild(s);
+  })();
+</script>
+
+</head>
 <body>
 
 <header>
@@ -130,17 +160,32 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   <h3>Your Order</h3>
   <div id="list"></div>
 
-  <!-- PAYPAL BUTTON -->
-  <div id="paypal-button-container"></div>
+  <!-- PayPal -->
+  <div id="payWrap" style="display:none">
+    <hr>
+    <div class="small"><strong>Pay with PayPal / Venmo</strong></div>
+    <div id="paypal-button-container" style="margin-top:10px"></div>
+  </div>
+
+  <!-- Completed -->
+  <div id="completeMsg" style="display:none">
+    <hr>
+    <p class="small">
+      ✅ <strong>ORDER COMPLETED</strong><br><br>
+      You have successfully completed your purchase.<br>
+      <strong>Total:</strong> $<span id="finalTotal"></span>
+    </p>
+  </div>
 </div>
 
 <script>
 const PRODUCTS=[
-  {id:"srt-4",name:"SRT-4",price:25,img:"srt-1.png"}
+  {id:"srt-4", name:"SRT-4", price:25, img:"srt-1.png"}
 ];
 
 let cart=[];
 let cartTotal=0;
+let lastRenderedTotal=null;
 
 const grid=document.getElementById("products");
 const list=document.getElementById("list");
@@ -163,51 +208,89 @@ function renderProducts(){
 
 function add(id){
   const p=PRODUCTS.find(x=>x.id===id);
-  const q=parseInt(document.getElementById("q-"+id).value);
-  cart=[{...p,qty:q}];
+  const q=parseInt(document.getElementById("q-"+id).value,10) || 1;
+  cart=[{...p, qty: Math.max(1,q)}];
   update();
 }
 
 function update(){
   cartTotal=0;
   list.innerHTML="";
+  document.getElementById("completeMsg").style.display="none";
+
   cart.forEach(p=>{
-    cartTotal+=p.qty*p.price;
-    list.innerHTML+=`
+    cartTotal += p.qty * p.price;
+    list.innerHTML += `
       <div class="cart-item">
         ${p.name} × ${p.qty}<br>
         $${(p.qty*p.price).toFixed(2)}
       </div>`;
   });
-  list.innerHTML+=`<strong>Total: $${cartTotal.toFixed(2)}</strong>`;
-  count.textContent=cart.length;
-  renderPayPal();
+
+  list.innerHTML += `<strong>Total: $${cartTotal.toFixed(2)}</strong>`;
+  count.textContent = cart.length;
+
+  tryRenderPayPal();
 }
 
-function renderPayPal(){
+function tryRenderPayPal(){
+  const payWrap=document.getElementById("payWrap");
   const container=document.getElementById("paypal-button-container");
+
+  // Solo mostrar PayPal si hay total
+  if(cartTotal <= 0){
+    payWrap.style.display="none";
+    container.innerHTML="";
+    lastRenderedTotal=null;
+    return;
+  }
+
+  // Espera a que cargue el SDK
+  if(!window.__paypalLoaded || typeof paypal === "undefined"){
+    payWrap.style.display="block";
+    container.innerHTML = `<div class="small" style="margin-top:8px;color:#b30000">
+      Loading PayPal... (if this stays, check Client ID)
+    </div>`;
+    return;
+  }
+
+  // Evita re-render innecesario si el total no cambió
+  if(lastRenderedTotal === cartTotal) {
+    payWrap.style.display="block";
+    return;
+  }
+  lastRenderedTotal = cartTotal;
+
+  payWrap.style.display="block";
   container.innerHTML="";
-  if(cartTotal<=0) return;
 
   paypal.Buttons({
+    style: { layout: "vertical" },
     createOrder:(data,actions)=>{
       return actions.order.create({
         purchase_units:[{
-          amount:{value:cartTotal.toFixed(2)}
+          amount:{ value: cartTotal.toFixed(2) }
         }]
       });
     },
     onApprove:(data,actions)=>{
       return actions.order.capture().then(()=>{
-        alert("Payment completed successfully");
+        document.getElementById("finalTotal").textContent = cartTotal.toFixed(2);
+        document.getElementById("completeMsg").style.display="block";
       });
+    },
+    onError:(err)=>{
+      console.error("PayPal error:", err);
+      container.innerHTML = `<div class="small" style="color:#b30000">
+        PayPal error. Check Client ID / PayPal account settings.
+      </div>`;
     }
   }).render("#paypal-button-container");
 }
 
 renderProducts();
+update();
 </script>
 
 </body>
 </html>
-
