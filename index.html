@@ -6,37 +6,110 @@
 <title>JC CNC Machine | CNC & 3D Printing</title>
 
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#fff}
-header{background:#b30000;color:#fff;padding:16px;text-align:center}
-.product{padding:20px;max-width:600px;margin:auto}
-button{background:#b30000;color:#fff;border:none;padding:8px 14px;cursor:pointer}
-#cart{
-  position:fixed;right:0;top:0;width:360px;height:100%;
-  background:#fff;box-shadow:-5px 0 20px rgba(0,0,0,.3);
-  padding:16px
+:root{
+  --red:#b30000;
+  --line:#e5e7eb;
+  --radius:14px;
+  --shadow:0 10px 25px rgba(0,0,0,.15);
 }
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111}
+a{text-decoration:none}
+
+/* HEADER */
+header{background:#b30000;color:#fff;padding:18px 16px}
+.header-inner{max-width:1200px;margin:auto;display:flex;align-items:center}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
+
+/* HERO */
+.hero{
+  background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+  url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png") center/cover;
+  color:#fff;padding:120px 16px;text-align:center
+}
+.hero img{width:220px;margin-bottom:24px}
+
+/* SHOP */
+.section{padding:64px 16px}
+.wrap{max-width:1200px;margin:auto}
+h2{color:#b30000}
+.divider{height:3px;background:#b30000;margin:12px 0 28px;border-radius:999px}
+
+.card{
+  background:#000;color:#fff;
+  border-radius:14px;box-shadow:var(--shadow);
+  padding:20px;max-width:500px
+}
+.product-img{width:100%;border-radius:10px;margin-bottom:10px}
+
+.btn{
+  margin-top:10px;padding:10px 16px;
+  border-radius:12px;font-weight:bold;border:none;cursor:pointer;
+  background:#b30000;color:#fff
+}
+
+/* CART */
+#cartBtn{
+  position:fixed;top:18px;right:18px;
+  background:#fff;color:#b30000;
+  padding:10px 14px;border-radius:999px;
+  font-weight:bold;cursor:pointer;
+  box-shadow:var(--shadow);z-index:999
+}
+#drawer{
+  position:fixed;top:0;right:0;width:360px;height:100%;
+  background:#fff;box-shadow:-10px 0 25px rgba(0,0,0,.3);
+  padding:16px;transform:translateX(100%);
+  transition:.25s;overflow:auto;z-index:999
+}
+#drawer.open{transform:translateX(0)}
+.cart-item{border-bottom:1px solid var(--line);padding:10px 0}
 </style>
 
-<!-- 🔴 REEMPLAZA TU CLIENT ID AQUÍ -->
-<script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID_AQUI&currency=USD&enable-funding=venmo,paylater"></script>
+<!-- ✅ PAYPAL SMART CHECKOUT (EL CORRECTO) -->
+<script src="https://www.paypal.com/sdk/js?client-id=ATB9x9CWASB9JqMFbkrrebtCCCmh3Q1MYX0nSwxXn6XzphVmq117WpISd1Ch-bHvZJhKw5E3h1jSLgnn&currency=USD&enable-funding=venmo,paylater"></script>
 </head>
 
 <body>
 
 <header>
-  <h1>JC CNC Machine</h1>
-  <p>Professional CNC & 3D Printing</p>
+  <div class="header-inner">
+    <div class="brand">
+      <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
+      <strong>JC CNC Machine</strong>
+    </div>
+  </div>
 </header>
 
-<div class="product">
-  <h2>SRT-4</h2>
-  <p><strong>$25.00</strong></p>
-  Qty:
-  <input type="number" id="qty" value="1" min="1" style="width:60px">
-  <button onclick="addToCart()">Add</button>
-</div>
+<div id="cartBtn">🛒 Cart</div>
 
-<div id="cart">
+<section class="hero">
+  <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
+  <h1>Professional CNC & 3D Printing</h1>
+  <p>Orders reviewed and confirmed after payment.</p>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2>Shop</h2>
+    <div class="divider"></div>
+
+    <div class="card">
+      <img class="product-img" src="srt-1.png">
+      <h3>SRT-4</h3>
+      <p>$25.00</p>
+      Qty:
+      <input type="number" id="qty" value="1" min="1" style="width:60px">
+      <br>
+      <button class="btn" onclick="addToCart()">Add</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- CART DRAWER -->
+<div id="drawer">
   <h3>MY CART</h3>
   <div id="summary">Empty</div>
   <h3>Total: $<span id="total">0.00</span></h3>
@@ -45,6 +118,10 @@ button{background:#b30000;color:#fff;border:none;padding:8px 14px;cursor:pointer
 
 <script>
 const PRICE = 25;
+const cartBtn = document.getElementById("cartBtn");
+const drawer = document.getElementById("drawer");
+
+cartBtn.onclick = () => drawer.classList.toggle("open");
 
 function addToCart(){
   const qty = parseInt(document.getElementById("qty").value);
