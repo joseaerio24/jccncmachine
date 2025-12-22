@@ -57,15 +57,21 @@ h2{color:#b30000}
   border-radius:var(--radius);
   box-shadow:var(--shadow);
   padding:20px;
-  max-width:420px
+  max-width:420px;
+  margin-bottom:20px
 }
-.product-img{width:100%;border-radius:10px;margin-bottom:10px}
+.product-img{width:100%;border-radius:10px;margin-bottom:8px}
+.thumb{width:100%;border-radius:10px;opacity:.9}
 
 /* BUTTON */
 .btn{
   margin-top:10px;padding:10px 16px;
   border-radius:12px;font-weight:bold;border:none;cursor:pointer;
   background:#b30000;color:#fff
+}
+.btn-disabled{
+  background:#555;
+  cursor:not-allowed
 }
 
 /* CART */
@@ -85,6 +91,16 @@ h2{color:#b30000}
 #drawer.open{transform:translateX(0)}
 .cart-item{border-bottom:1px solid var(--line);padding:10px 0}
 .success{color:green;font-weight:bold}
+
+/* FORM */
+input, textarea{
+  width:100%;
+  margin-top:8px;
+  padding:8px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-family:Arial
+}
 
 /* FOOTER */
 footer{
@@ -168,6 +184,10 @@ footer{
     <input type="hidden" name="product" id="fProduct">
     <input type="hidden" name="quantity" id="fQty">
     <input type="hidden" name="total" id="fTotal">
+
+    <label><strong>Shipping Address</strong></label>
+    <textarea name="shipping_address" placeholder="Street, City, State, ZIP" required></textarea>
+
     <button type="submit" class="btn">Send Order</button>
   </form>
 
@@ -176,7 +196,23 @@ footer{
 
 <script>
 const PRODUCTS=[
-  {id:"srt-4",name:"SRT-4",price:25,category:"3D",img:"srt-1.png"}
+  {
+    id:"srt-4",
+    name:"SRT-4",
+    price:25,
+    category:"3D",
+    img:"srt-1.png",
+    img2:"srt-4.png",
+    active:true
+  },
+  {
+    id:"future-1",
+    name:"Future CNC Part",
+    price:0,
+    category:"CNC",
+    img:"placeholder.png",
+    active:false
+  }
 ];
 
 let current="ALL";
@@ -199,10 +235,15 @@ function render(){
     productArea.innerHTML+=`
       <div class="card">
         <img class="product-img" src="${p.img}">
+        ${p.img2 ? `<img class="thumb" src="${p.img2}">` : ``}
         <h3>${p.name}</h3>
-        <p>$${p.price}</p>
-        Qty: <input type="number" min="1" value="1" id="qty">
-        <button class="btn" onclick="add(${p.price},'${p.name}')">Add</button>
+        <p>${p.active ? `$${p.price}` : "Coming Soon"}</p>
+        ${p.active ? `
+          Qty: <input type="number" min="1" value="1" id="qty">
+          <button class="btn" onclick="add(${p.price},'${p.name}')">Add</button>
+        ` : `
+          <button class="btn btn-disabled" disabled>Unavailable</button>
+        `}
       </div>`;
   });
 }
