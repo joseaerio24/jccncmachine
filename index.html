@@ -16,14 +16,12 @@
 body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111}
 a{text-decoration:none}
 
-/* HEADER */
 header{background:#b30000;color:#fff;padding:18px 16px}
 .header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
 nav a{color:#fff;font-weight:bold;margin-left:16px}
 
-/* HERO */
 .hero{
   background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
   url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png") center/cover;
@@ -31,23 +29,19 @@ nav a{color:#fff;font-weight:bold;margin-left:16px}
 }
 .hero img{width:220px;margin-bottom:24px}
 
-/* SECTION */
 .section{padding:64px 16px}
 .wrap{max-width:1200px;margin:auto}
 h2{color:#b30000}
 .divider{height:3px;background:#b30000;margin:12px 0 28px;border-radius:999px}
 
-/* PRODUCTS */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
 .card{background:#000;color:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
 .content{padding:20px}
 .product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
 
-/* BUTTONS */
 .btn{margin-top:10px;padding:10px 16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer}
 .btn-add{background:#b30000;color:#fff}
 
-/* CART */
 #cartBtn{
   position:fixed;top:18px;right:18px;
   background:#fff;color:#b30000;
@@ -63,10 +57,8 @@ h2{color:#b30000}
 }
 #drawer.open{transform:translateX(0)}
 .cart-item{border-bottom:1px solid var(--line);padding:10px 0}
-.qty-controls button{padding:4px 10px}
 .small{font-size:12px;color:#555}
 
-/* FOOTER */
 footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:center}
 </style>
 
@@ -131,7 +123,7 @@ footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:c
   <h3>MY CART</h3>
   <div id="list"></div>
   <h3>Total: $<span id="total">0.00</span></h3>
-  <div id="paypal-button-container"></div>
+  <div id="paypal-button-container" style="margin-top:15px;"></div>
 </div>
 
 <script>
@@ -184,7 +176,8 @@ function update(){
 }
 
 function renderPayPal(amount){
-  document.getElementById("paypal-button-container").innerHTML="";
+  const container=document.getElementById("paypal-button-container");
+  container.innerHTML="";
   if(amount<=0) return;
 
   paypal.Buttons({
@@ -203,7 +196,7 @@ function renderPayPal(amount){
         update();
       });
     }
-  }).render("#paypal-button-container");
+  }).render(container);
 }
 
 renderProducts();
@@ -211,3 +204,4 @@ renderProducts();
 
 </body>
 </html>
+
