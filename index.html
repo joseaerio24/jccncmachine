@@ -168,20 +168,16 @@ footer{
     <input type="hidden" name="quantity" id="fQty">
     <input type="hidden" name="total" id="fTotal">
 
-   <label><strong>Email</strong></label>
-<input
-  type="email"
-  name="customer_email"
-  placeholder="customer@email.com"
-  required
->
+    <label><strong>Shipping Address</strong></label>
+    <textarea name="shipping_address" required></textarea>
 
-<label><strong>Shipping Address</strong></label>
-<textarea name="shipping_address" required></textarea>
+    <button type="submit" class="btn btn-disabled" id="sendOrderBtn" disabled>
+      Send Order
+    </button>
+  </form>
 
-<button type="submit" class="btn btn-disabled" id="sendOrderBtn" disabled>
-  Send Order
-</button>
+  <div id="paypal-button-container"></div>
+</div>
 
 <script>
 const PRODUCTS=[
@@ -260,13 +256,10 @@ function renderCart(){
   document.getElementById("total").innerText=total.toFixed(2);
   document.getElementById("count").innerText=cart.reduce((s,i)=>s+i.qty,0);
 
-  if(total > 0){
-  fProduct.value = cart.map(i=>`${i.name} x${i.qty}`).join(", ");
-  fQty.value = cart.reduce((s,i)=>s+i.qty,0);
-  fTotal.value = total.toFixed(2);
-
-  // 🔒 Garantiza que PayPal SIEMPRE se muestre
-  if (!document.getElementById("paypal-button-container").hasChildNodes()) {
+  if(total>0){
+    fProduct.value = cart.map(i=>`${i.name} x${i.qty}`).join(", ");
+    fQty.value = cart.reduce((s,i)=>s+i.qty,0);
+    fTotal.value = total.toFixed(2);
     renderPayPal(total);
   }
 }
