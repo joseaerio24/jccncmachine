@@ -170,6 +170,8 @@ footer{
 
     <label><strong>Shipping Address</strong></label>
     <textarea name="shipping_address" required></textarea>
+    <label><strong>Email</strong></label>
+<input type="email" name="email" id="customerEmail" required>
 
     <button type="submit" class="btn btn-disabled" id="sendOrderBtn" disabled>
       Send Order
@@ -260,8 +262,10 @@ function renderCart(){
     fProduct.value = cart.map(i=>`${i.name} x${i.qty}`).join(", ");
     fQty.value = cart.reduce((s,i)=>s+i.qty,0);
     fTotal.value = total.toFixed(2);
-    renderPayPal(total);
-  }
+  if (!document.getElementById("paypal-button-container").hasChildNodes()) {
+  renderPayPal(total);
+}
+
 }
 
 function saveCart(){
