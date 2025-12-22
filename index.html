@@ -6,7 +6,6 @@
 <title>JC CNC Machine | CNC & 3D Printing</title>
 
 <style>
-/* === (SIN CAMBIOS) === */
 :root{
   --red:#b30000;
   --line:#e5e7eb;
@@ -16,25 +15,35 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111}
 a{text-decoration:none}
+
+/* HEADER */
 header{background:#b30000;color:#fff;padding:18px 16px}
 .header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
 nav a{color:#fff;font-weight:bold;margin-left:16px}
+
+/* HERO */
 .hero{
   background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
   url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png") center/cover;
   color:#fff;padding:120px 16px;text-align:center
 }
 .hero img{width:220px;margin-bottom:24px}
+
+/* SECTION */
 .section{padding:64px 16px}
 .wrap{max-width:1200px;margin:auto}
 h2{color:#b30000}
 .divider{height:3px;background:#b30000;margin:12px 0 28px;border-radius:999px}
+
+/* FILTERS */
 .filters button{
   margin-right:8px;padding:8px 14px;border:none;border-radius:10px;
   background:#b30000;color:#fff;cursor:pointer
 }
+
+/* PRODUCTS */
 .card{
   background:#000;color:#fff;border-radius:14px;
   box-shadow:0 10px 25px rgba(0,0,0,.15);
@@ -42,11 +51,17 @@ h2{color:#b30000}
 }
 .product-img{width:100%;border-radius:10px;margin-bottom:8px}
 .thumb{width:100%;border-radius:10px;opacity:.9}
+
+/* BUTTON */
 .btn{
   margin-top:10px;padding:10px 16px;border-radius:12px;
   font-weight:bold;border:none;cursor:pointer;background:#b30000;color:#fff
 }
-.btn-disabled{background:#555;cursor:not-allowed}
+.btn-remove{
+  background:#555;margin-left:6px
+}
+
+/* CART */
 #cartBtn{
   position:fixed;top:18px;right:18px;
   background:#fff;color:#b30000;
@@ -61,10 +76,13 @@ h2{color:#b30000}
   transition:.25s;overflow:auto;z-index:999
 }
 #drawer.open{transform:translateX(0)}
-.success{color:green;font-weight:bold}
-input, textarea{
-  width:100%;margin-top:8px;padding:8px;border-radius:8px;border:1px solid #ccc
+
+.cart-item{
+  border-bottom:1px solid #ddd;
+  padding:8px 0;
+  font-size:14px
 }
+
 footer{
   background:#0b0b0b;color:#cbd5e1;
   padding:22px;font-size:12px;text-align:center
@@ -95,18 +113,18 @@ footer{
 <section class="hero">
   <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
   <h1>Professional CNC & 3D Printing</h1>
-  <p>Orders reviewed and confirmed after payment.</p>
 </section>
 
 <section class="section" id="shop">
   <div class="wrap">
     <h2>Shop</h2>
     <div class="divider"></div>
+
     <div class="filters">
       <button onclick="filter('ALL')">ALL</button>
-      <button onclick="filter('CNC')">CNC</button>
       <button onclick="filter('3D')">3D</button>
     </div>
+
     <div id="productArea"></div>
   </div>
 </section>
@@ -115,6 +133,7 @@ footer{
   © 2025 JC CNC Machine — Tampa, Florida
 </footer>
 
+<!-- CART -->
 <div id="drawer">
   <h3>MY CART</h3>
   <div id="summary">Empty</div>
@@ -124,46 +143,89 @@ footer{
 
 <script>
 const PRODUCTS=[
-  {id:"srt-4",name:"SRT-4",price:25,category:"3D",img:"srt-1.png",img2:"srt-4.png",active:true},
-  {id:"yamaha",name:"Yamaha Fuel Tech dashboard",price:80,category:"3D",img:"fusion.dash-3.png",img2:"fusion.dash-2.png",active:true}
+  {id:"srt-4",name:"SRT-4",price:25,category:"3D",img:"srt-1.png"},
+  {id:"yamaha",name:"Yamaha Fuel Tech dashboard",price:80,category:"3D",img:"fusion.dash-3.png"}
 ];
 
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let current="ALL";
-document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
 
-function filter(cat){current=cat;render();}
+const productArea=document.getElementById("productArea");
+const drawer=document.getElementById("drawer");
 
-function render(){
+cartBtn.onclick=()=>drawer.classList.toggle("open");
+
+function filter(cat){current=cat;renderProducts();}
+
+function renderProducts(){
   productArea.innerHTML="";
   PRODUCTS.filter(p=>current==="ALL"||p.category===current).forEach(p=>{
     productArea.innerHTML+=`
     <div class="card">
       <img class="product-img" src="${p.img}">
-      ${p.img2?`<img class="thumb" src="${p.img2}">`:""}
       <h3>${p.name}</h3>
       <p>$${p.price}</p>
-
-      <!-- ✅ FIX: qty único -->
       Qty: <input type="number" min="1" value="1" id="qty-${p.id}">
-      <button class="btn" onclick="add(${p.price},'${p.name}','${p.id}')">Add</button>
+      <button class="btn" onclick="addToCart('${p.id}')">Add</button>
     </div>`;
   });
 }
 
-function add(price,name,id){
-  const qty = parseInt(document.getElementById("qty-"+id).value); // ✅ FIX
-  const total = price * qty;
-  summary.innerHTML = `${name}<br>Qty: ${qty}<br>$${total.toFixed(2)}`;
+function addToCart(id){
+  const p = PRODUCTS.find(x=>x.id===id);
+  const qty = parseInt(document.getElementById("qty-"+id).value);
+  const item = cart.find(x=>x.id===id);
+
+  if(item){
+    item.qty += qty;
+  }else{
+    cart.push({...p, qty});
+  }
+  saveCart();
+  renderCart();
+}
+
+function removeItem(id){
+  cart = cart.filter(i=>i.id!==id);
+  saveCart();
+  renderCart();
+}
+
+function renderCart(){
+  let html="", total=0, count=0;
+  cart.forEach(i=>{
+    const sub = i.qty*i.price;
+    total+=sub; count+=i.qty;
+    html+=`
+      <div class="cart-item">
+        ${i.name}<br>
+        Qty: ${i.qty} — $${sub.toFixed(2)}
+        <button class="btn btn-remove" onclick="removeItem('${i.id}')">✖</button>
+      </div>`;
+  });
+  summary.innerHTML = html || "Empty";
   document.getElementById("total").innerText = total.toFixed(2);
+  document.getElementById("count").innerText = count;
+  renderPayPal(total);
+}
+
+function saveCart(){
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function renderPayPal(amount){
+  document.getElementById("paypal-button-container").innerHTML="";
+  if(amount<=0) return;
 
   paypal.Buttons({
     createOrder:(d,a)=>a.order.create({
-      purchase_units:[{amount:{value:total.toFixed(2)}}]
+      purchase_units:[{amount:{value:amount.toFixed(2)}}]
     })
   }).render("#paypal-button-container");
 }
 
-render();
+renderProducts();
+renderCart();
 </script>
 
 </body>
