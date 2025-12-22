@@ -168,12 +168,16 @@ footer{
     <input type="hidden" name="quantity" id="fQty">
     <input type="hidden" name="total" id="fTotal">
 
-   <label><strong>Shipping Address</strong></label>
-<textarea name="shipping_address" required></textarea>
+    <label><strong>Shipping Address</strong></label>
+    <textarea name="shipping_address" required></textarea>
 
-<button type="submit" class="btn btn-disabled" id="sendOrderBtn" disabled>
-  Send Order
-</button>
+    <button type="submit" class="btn btn-disabled" id="sendOrderBtn" disabled>
+      Send Order
+    </button>
+  </form>
+
+  <div id="paypal-button-container"></div>
+</div>
 
 <script>
 const PRODUCTS=[
@@ -284,8 +288,5 @@ render();
 renderCart();
 </script>
 
-
 </body>
 </html>
-
-
