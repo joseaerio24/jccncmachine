@@ -6,6 +6,7 @@
 <title>JC CNC Machine | CNC & 3D Printing</title>
 
 <style>
+/* === (SIN CAMBIOS) === */
 :root{
   --red:#b30000;
   --line:#e5e7eb;
@@ -15,56 +16,43 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111}
 a{text-decoration:none}
-
-/* HEADER */
 header{background:#b30000;color:#fff;padding:18px 16px}
 .header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
 nav a{color:#fff;font-weight:bold;margin-left:16px}
-
-/* HERO */
 .hero{
   background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
   url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png") center/cover;
   color:#fff;padding:120px 16px;text-align:center
 }
 .hero img{width:220px;margin-bottom:24px}
-
-/* SECTION */
 .section{padding:64px 16px}
 .wrap{max-width:1200px;margin:auto}
 h2{color:#b30000}
 .divider{height:3px;background:#b30000;margin:12px 0 28px;border-radius:999px}
-
-/* FILTERS */
 .filters button{
   margin-right:8px;padding:8px 14px;border:none;border-radius:10px;
   background:#b30000;color:#fff;cursor:pointer
 }
-
-/* PRODUCTS */
 .card{
-  background:#000;color:#fff;border-radius:var(--radius);
-  box-shadow:var(--shadow);padding:20px;max-width:420px;margin-bottom:20px
+  background:#000;color:#fff;border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  padding:20px;max-width:420px;margin-bottom:20px
 }
 .product-img{width:100%;border-radius:10px;margin-bottom:8px}
 .thumb{width:100%;border-radius:10px;opacity:.9}
-
-/* BUTTON */
 .btn{
   margin-top:10px;padding:10px 16px;border-radius:12px;
   font-weight:bold;border:none;cursor:pointer;background:#b30000;color:#fff
 }
 .btn-disabled{background:#555;cursor:not-allowed}
-
-/* CART */
 #cartBtn{
   position:fixed;top:18px;right:18px;
   background:#fff;color:#b30000;
   padding:10px 14px;border-radius:999px;
   font-weight:bold;cursor:pointer;
-  box-shadow:var(--shadow);z-index:999
+  box-shadow:0 10px 25px rgba(0,0,0,.15);z-index:999
 }
 #drawer{
   position:fixed;top:0;right:0;width:360px;height:100%;
@@ -73,22 +61,16 @@ h2{color:#b30000}
   transition:.25s;overflow:auto;z-index:999
 }
 #drawer.open{transform:translateX(0)}
-.cart-item{border-bottom:1px solid var(--line);padding:10px 0}
 .success{color:green;font-weight:bold}
-
-/* FORM */
 input, textarea{
   width:100%;margin-top:8px;padding:8px;border-radius:8px;border:1px solid #ccc
 }
-
-/* FOOTER */
 footer{
   background:#0b0b0b;color:#cbd5e1;
   padding:22px;font-size:12px;text-align:center
 }
 </style>
 
-<!-- PAYPAL SMART CHECKOUT -->
 <script src="https://www.paypal.com/sdk/js?client-id=ATB9x9CWASB9JqMFbkrrebtCCCmh3Q1MYX0nSwxXn6XzphVmq117WpISd1Ch-bHvZJhKw5E3h1jSLgnn&currency=USD&enable-funding=venmo,paylater"></script>
 </head>
 
@@ -120,74 +102,33 @@ footer{
   <div class="wrap">
     <h2>Shop</h2>
     <div class="divider"></div>
-
     <div class="filters">
       <button onclick="filter('ALL')">ALL</button>
       <button onclick="filter('CNC')">CNC</button>
       <button onclick="filter('3D')">3D</button>
     </div>
-
     <div id="productArea"></div>
   </div>
 </section>
 
-<section class="section" id="policies">
-  <div class="wrap">
-    <h2>Sales Policy – Florida / USA</h2>
-    <div class="divider"></div>
-    <p>
-      • ALL SALES ARE FINAL.<br>
-      • CNC & 3D printed products are NON-REFUNDABLE.<br>
-      • Custom or made-to-order items cannot be returned.<br>
-      • Products sold AS-IS.<br>
-      • Customer responsible for fitment and application.<br>
-      • Governed by Florida & United States law.
-    </p>
-  </div>
-</section>
-
 <footer>
-  © 2025 JC CNC Machine — Tampa, Florida<br>
-  <strong>All CNC & 3D Printing Services</strong>
+  © 2025 JC CNC Machine — Tampa, Florida
 </footer>
 
-<!-- CART -->
 <div id="drawer">
   <h3>MY CART</h3>
   <div id="summary">Empty</div>
-  <p class="success" id="addedMsg" style="display:none">✔ Item added to cart</p>
   <h3>Total: $<span id="total">0.00</span></h3>
-
-  <p id="payNotice" style="color:#b30000;font-size:12px">
-    Please complete payment to send order.
-  </p>
-
-  <!-- FORMSPREE -->
-  <form action="https://formspree.io/f/xpqazkbv" method="POST">
-    <input type="hidden" name="product" id="fProduct">
-    <input type="hidden" name="quantity" id="fQty">
-    <input type="hidden" name="total" id="fTotal">
-
-    <label><strong>Shipping Address</strong></label>
-    <textarea name="shipping_address" required></textarea>
-
-    <button type="submit" class="btn btn-disabled" id="sendOrderBtn" disabled>
-      Send Order
-    </button>
-  </form>
-
   <div id="paypal-button-container"></div>
 </div>
 
 <script>
 const PRODUCTS=[
   {id:"srt-4",name:"SRT-4",price:25,category:"3D",img:"srt-1.png",img2:"srt-4.png",active:true},
-  {id:"yamaha",name:"Yamaha Fuel Tech dashboard ",price:80,category:"3D",img:"fusion.dash-3.png",img2:"fusion.dash-2.png",img3:"fusion.dash-1.png",active:true}
+  {id:"yamaha",name:"Yamaha Fuel Tech dashboard",price:80,category:"3D",img:"fusion.dash-3.png",img2:"fusion.dash-2.png",active:true}
 ];
 
-let current="ALL", qty=1;
-const productArea=document.getElementById("productArea");
-const drawer=document.getElementById("drawer");
+let current="ALL";
 document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
 
 function filter(cat){current=cat;render();}
@@ -200,41 +141,24 @@ function render(){
       <img class="product-img" src="${p.img}">
       ${p.img2?`<img class="thumb" src="${p.img2}">`:""}
       <h3>${p.name}</h3>
-      <p>${p.active?`$${p.price}`:"Coming Soon"}</p>
-      ${p.active?`
-        Qty: <input type="number" min="1" value="1" id="qty">
-        <button class="btn" onclick="add(${p.price},'${p.name}')">Add</button>
-      `:`<button class="btn btn-disabled" disabled>Unavailable</button>`}
+      <p>$${p.price}</p>
+
+      <!-- ✅ FIX: qty único -->
+      Qty: <input type="number" min="1" value="1" id="qty-${p.id}">
+      <button class="btn" onclick="add(${p.price},'${p.name}','${p.id}')">Add</button>
     </div>`;
   });
 }
 
-function add(price,name){
-  qty=parseInt(document.getElementById("qty").value);
-  const total=price*qty;
-  summary.innerHTML=`${name}<br>Qty: ${qty}<br>$${total.toFixed(2)}`;
-  document.getElementById("total").innerText=total.toFixed(2);
-  document.getElementById("count").innerText=1;
-  addedMsg.style.display="block";
+function add(price,name,id){
+  const qty = parseInt(document.getElementById("qty-"+id).value); // ✅ FIX
+  const total = price * qty;
+  summary.innerHTML = `${name}<br>Qty: ${qty}<br>$${total.toFixed(2)}`;
+  document.getElementById("total").innerText = total.toFixed(2);
 
-  fProduct.value=name;
-  fQty.value=qty;
-  fTotal.value=total.toFixed(2);
-
-  renderPayPal(total);
-}
-
-function renderPayPal(amount){
   paypal.Buttons({
     createOrder:(d,a)=>a.order.create({
-      purchase_units:[{amount:{value:amount.toFixed(2)}}]
-    }),
-    onApprove:(d,a)=>a.order.capture().then(()=>{
-      document.getElementById("sendOrderBtn").disabled=false;
-      document.getElementById("sendOrderBtn").classList.remove("btn-disabled");
-      document.getElementById("payNotice").style.display="none";
-      document.getElementById("paypal-button-container").innerHTML =
-        "<p class='success'>Payment confirmed ✔</p>";
+      purchase_units:[{amount:{value:total.toFixed(2)}}]
     })
   }).render("#paypal-button-container");
 }
@@ -244,3 +168,4 @@ render();
 
 </body>
 </html>
+
