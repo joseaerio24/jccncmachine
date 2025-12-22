@@ -18,10 +18,7 @@ a{text-decoration:none}
 
 /* HEADER */
 header{background:#b30000;color:#fff;padding:18px 16px}
-.header-inner{
-  max-width:1200px;margin:auto;
-  display:flex;justify-content:space-between;align-items:center
-}
+.header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
 nav a{color:#fff;font-weight:bold;margin-left:16px}
@@ -41,23 +38,13 @@ h2{color:#b30000}
 .divider{height:3px;background:#b30000;margin:12px 0 28px;border-radius:999px}
 
 /* PRODUCTS */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px
-}
-.card{
-  background:#000;color:#fff;
-  border-radius:var(--radius);box-shadow:var(--shadow)
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.card{background:#000;color:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
 .content{padding:20px}
 .product-img{width:100%;height:180px;object-fit:cover;border-radius:10px}
 
 /* BUTTONS */
-.btn{
-  margin-top:10px;padding:10px 16px;
-  border-radius:12px;font-weight:bold;border:none;cursor:pointer
-}
+.btn{margin-top:10px;padding:10px 16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer}
 .btn-add{background:#b30000;color:#fff}
 
 /* CART */
@@ -79,16 +66,11 @@ h2{color:#b30000}
 .small{font-size:12px;color:#555}
 
 /* FOOTER */
-footer{
-  background:#0b0b0b;color:#cbd5e1;
-  padding:22px;font-size:12px;text-align:center
-}
+footer{background:#0b0b0b;color:#cbd5e1;padding:22px;font-size:12px;text-align:center}
 </style>
 
-<!-- PAYPAL SDK -->
-<script 
-src="https://www.paypal.com/sdk/js?client-id=BAA44K6qayuFimLSgC3w-qQ_OzlmKLrdSpD9u5Vyd_mpTabZ-kw22lIKMAAfhWhOpfWKSZC1dWAegqmkD4&components=hosted-buttons&enable-funding=venmo&currency=USD">
-</script>
+<!-- PAYPAL SMART CHECKOUT -->
+<script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID_LIVE&currency=USD&enable-funding=venmo"></script>
 </head>
 
 <body>
@@ -123,7 +105,6 @@ src="https://www.paypal.com/sdk/js?client-id=BAA44K6qayuFimLSgC3w-qQ_OzlmKLrdSpD
   </div>
 </section>
 
-<!-- POLICIES -->
 <section class="section" id="policies">
   <div class="wrap">
     <h2>Sales Policy – Florida / USA</h2>
@@ -133,7 +114,7 @@ src="https://www.paypal.com/sdk/js?client-id=BAA44K6qayuFimLSgC3w-qQ_OzlmKLrdSpD
       • CNC machined and 3D printed products are NON-REFUNDABLE.<br>
       • Custom and made-to-order items cannot be returned.<br>
       • Products sold AS-IS.<br>
-      • Customer is responsible for fitment and application.<br>
+      • Customer responsible for fitment and application.<br>
       • Sales governed by Florida and United States law.
     </p>
   </div>
@@ -149,21 +130,8 @@ src="https://www.paypal.com/sdk/js?client-id=BAA44K6qayuFimLSgC3w-qQ_OzlmKLrdSpD
   <h3>Your Order</h3>
   <div id="list"></div>
 
-  <div id="paymentInfo" style="display:none">
-    <hr>
-    <p class="small">
-      <strong>Step 1: Pay Securely</strong><br><br>
-
-      <div id="paypal-container-RA9AZ5QCZLC9Q"></div><br>
-
-      💵 Cash App (manual):<br>
-      <a href="https://cash.app/$JCCNC1" target="_blank">
-        https://cash.app/$JCCNC1
-      </a><br><br>
-
-      <strong>Order ID:</strong> <span id="orderIdText"></span>
-    </p>
-  </div>
+  <!-- PAYPAL BUTTON -->
+  <div id="paypal-button-container"></div>
 </div>
 
 <script>
@@ -172,6 +140,8 @@ const PRODUCTS=[
 ];
 
 let cart=[];
+let cartTotal=0;
+
 const grid=document.getElementById("products");
 const list=document.getElementById("list");
 const count=document.getElementById("count");
@@ -184,6 +154,8 @@ function renderProducts(){
       <img class="product-img" src="${p.img}">
       <h3>${p.name}</h3>
       <p>$${p.price}</p>
+      Qty:
+      <input id="q-${p.id}" type="number" min="1" value="1" style="width:70px">
       <button class="btn btn-add" onclick="add('${p.id}')">Add</button>
     </div></div>
   `).join("");
@@ -191,33 +163,46 @@ function renderProducts(){
 
 function add(id){
   const p=PRODUCTS.find(x=>x.id===id);
-  cart=[{...p,qty:1}];
+  const q=parseInt(document.getElementById("q-"+id).value);
+  cart=[{...p,qty:q}];
   update();
 }
 
 function update(){
-  let total=0;
+  cartTotal=0;
   list.innerHTML="";
   cart.forEach(p=>{
-    total+=p.qty*p.price;
+    cartTotal+=p.qty*p.price;
     list.innerHTML+=`
       <div class="cart-item">
         ${p.name} × ${p.qty}<br>
-        $${p.qty*p.price}
+        $${(p.qty*p.price).toFixed(2)}
       </div>`;
   });
-  list.innerHTML+=`<strong>Total: $${total}</strong>`;
+  list.innerHTML+=`<strong>Total: $${cartTotal.toFixed(2)}</strong>`;
   count.textContent=cart.length;
+  renderPayPal();
+}
 
-  if(cart.length){
-    paymentInfo.style.display="block";
-    if(!window.pp){
-      paypal.HostedButtons({
-        hostedButtonId:"RA9AZ5QCZLC9Q",
-      }).render("#paypal-container-RA9AZ5QCZLC9Q");
-      window.pp=true;
+function renderPayPal(){
+  const container=document.getElementById("paypal-button-container");
+  container.innerHTML="";
+  if(cartTotal<=0) return;
+
+  paypal.Buttons({
+    createOrder:(data,actions)=>{
+      return actions.order.create({
+        purchase_units:[{
+          amount:{value:cartTotal.toFixed(2)}
+        }]
+      });
+    },
+    onApprove:(data,actions)=>{
+      return actions.order.capture().then(()=>{
+        alert("Payment completed successfully");
+      });
     }
-  }
+  }).render("#paypal-button-container");
 }
 
 renderProducts();
@@ -225,5 +210,4 @@ renderProducts();
 
 </body>
 </html>
-
 
