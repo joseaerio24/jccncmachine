@@ -15,36 +15,50 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111}
 a{text-decoration:none}
+
+/* HEADER */
 header{background:#b30000;color:#fff;padding:18px 16px}
 .header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:42px;background:#fff;padding:6px;border-radius:10px}
 nav a{color:#fff;font-weight:bold;margin-left:16px}
+
+/* HERO */
 .hero{
   background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
   url("https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/cnc.png") center/cover;
   color:#fff;padding:120px 16px;text-align:center
 }
 .hero img{width:220px;margin-bottom:24px}
+
+/* SECTION */
 .section{padding:64px 16px}
 .wrap{max-width:1200px;margin:auto}
 h2{color:#b30000}
 .divider{height:3px;background:#b30000;margin:12px 0 28px;border-radius:999px}
+
+/* FILTERS */
 .filters button{
   margin-right:8px;padding:8px 14px;border:none;border-radius:10px;
   background:#b30000;color:#fff;cursor:pointer
 }
+
+/* PRODUCTS */
 .card{
   background:#000;color:#fff;border-radius:var(--radius);
   box-shadow:var(--shadow);padding:20px;max-width:420px;margin-bottom:20px
 }
 .product-img{width:100%;border-radius:10px;margin-bottom:8px}
 .thumb{width:100%;border-radius:10px;opacity:.9;margin-top:6px}
+
+/* BUTTON */
 .btn{
   margin-top:10px;padding:10px 16px;border-radius:12px;
   font-weight:bold;border:none;cursor:pointer;background:#b30000;color:#fff
 }
 .btn-disabled{background:#555;cursor:not-allowed}
+
+/* CART */
 #cartBtn{
   position:fixed;top:18px;right:18px;
   background:#fff;color:#b30000;
@@ -61,9 +75,13 @@ h2{color:#b30000}
 #drawer.open{transform:translateX(0)}
 .cart-item{border-bottom:1px solid var(--line);padding:10px 0}
 .success{color:green;font-weight:bold}
+
+/* FORM */
 input, textarea{
   width:100%;margin-top:8px;padding:8px;border-radius:8px;border:1px solid #ccc
 }
+
+/* FOOTER */
 footer{
   background:#0b0b0b;color:#cbd5e1;
   padding:22px;font-size:12px;text-align:center
@@ -108,6 +126,7 @@ footer{
       <button onclick="filter('3D')">3D</button>
     </div>
 
+    <!-- BACKEND STYLE: EMPTY UNTIL CLICK -->
     <div id="productArea"></div>
   </div>
 </section>
@@ -168,7 +187,7 @@ const PRODUCTS=[
   {id:"SRT-4-plate",name:"Torque Solution Blow Off Valve Block Off Plate",price:15,category:"CNC",images:["BLOW-OFF-PLATE.png"]}
 ];
 
-let current="ALL";
+let current = null; // 👈 NOTHING SHOWN UNTIL CLICK
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const productArea=document.getElementById("productArea");
@@ -179,34 +198,30 @@ const count=document.getElementById("count");
 
 document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
 
-function filter(cat){current=cat;render();}
+function filter(cat){
+  current=cat;
+  render();
+}
 
-/* 🔥 CAMBIO AQUI: PRODUCTOS GUARDADOS POR AREA */
 function render(){
   productArea.innerHTML="";
+  if(!current) return; // 🚫 BACKEND MODE
 
-  const categories = ["CNC","3D"];
-
-  categories.forEach(cat=>{
-    if(current!=="ALL" && current!==cat) return;
-
-    productArea.innerHTML+=`<h3 style="color:#b30000;margin:30px 0 10px">${cat}</h3>`;
-
-    PRODUCTS.filter(p=>p.category===cat).forEach(p=>{
-      productArea.innerHTML+=`
-        <div class="card">
-          <img class="product-img" src="${p.images[0]}">
-          ${p.images.slice(1).map(img=>`<img class="thumb" src="${img}">`).join("")}
-          <h3>${p.name}</h3>
-          <p>$${p.price}</p>
-          Qty:
-          <input type="number" min="1" value="1" id="qty-${p.id}">
-          <button class="btn" onclick="add('${p.id}')">Add</button>
-        </div>`;
-    });
+  PRODUCTS.filter(p=>current==="ALL"||p.category===current).forEach(p=>{
+    productArea.innerHTML+=`
+      <div class="card">
+        <img class="product-img" src="${p.images[0]}">
+        ${p.images.slice(1).map(img=>`<img class="thumb" src="${img}">`).join("")}
+        <h3>${p.name}</h3>
+        <p>$${p.price}</p>
+        Qty:
+        <input type="number" min="1" value="1" id="qty-${p.id}">
+        <button class="btn" onclick="add('${p.id}')">Add</button>
+      </div>`;
   });
 }
 
+/* CART + PAYPAL (UNCHANGED) */
 function add(id){
   const p=PRODUCTS.find(x=>x.id===id);
   const qty=parseInt(document.getElementById(`qty-${id}`).value);
@@ -215,13 +230,11 @@ function add(id){
   localStorage.setItem("cart",JSON.stringify(cart));
   renderCart();
 }
-
 function removeItem(id){
   cart=cart.filter(i=>i.id!==id);
   localStorage.setItem("cart",JSON.stringify(cart));
   renderCart();
 }
-
 function renderCart(){
   let total=0;
   summary.innerHTML="";
@@ -236,10 +249,8 @@ function renderCart(){
       </div>`;
   });
   if(!cart.length) summary.innerHTML="Empty";
-
   totalEl.textContent=total.toFixed(2);
   count.textContent=cart.reduce((s,i)=>s+i.qty,0);
-
   if(total>0){
     fProduct.value=cart.map(i=>`${i.name} x${i.qty}`).join(", ");
     fQty.value=cart.reduce((s,i)=>s+i.qty,0);
@@ -249,7 +260,6 @@ function renderCart(){
     paypalButtonContainer.innerHTML="";
   }
 }
-
 function renderPayPal(amount){
   paypalButtonContainer.innerHTML="";
   paypal.Buttons({
@@ -264,10 +274,10 @@ function renderPayPal(amount){
     })
   }).render(paypalButtonContainer);
 }
-
-render(); renderCart();
+renderCart();
 </script>
 
 </body>
 </html>
+
 
