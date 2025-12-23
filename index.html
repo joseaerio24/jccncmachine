@@ -159,10 +159,14 @@ footer{
     Please complete payment to send order.
   </p>
 
+  <!-- FORMSPREE -->
   <form action="https://formspree.io/f/xpqazkbv" method="POST">
     <input type="hidden" name="product" id="fProduct">
     <input type="hidden" name="quantity" id="fQty">
     <input type="hidden" name="total" id="fTotal">
+
+    <label><strong>Email</strong></label>
+    <input type="email" name="email" required>
 
     <label><strong>Shipping Address</strong></label>
     <textarea name="shipping_address" required></textarea>
@@ -275,4 +279,3 @@ render(); renderCart();
 
 </body>
 </html>
-
