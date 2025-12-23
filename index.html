@@ -88,7 +88,6 @@ footer{
 }
 </style>
 
-<!-- PAYPAL SMART CHECKOUT -->
 <script src="https://www.paypal.com/sdk/js?client-id=ATB9x9CWASB9JqMFbkrrebtCCCmh3Q1MYX0nSwxXn6XzphVmq117WpISd1Ch-bHvZJhKw5E3h1jSLgnn&currency=USD&enable-funding=venmo,paylater"></script>
 </head>
 
@@ -151,18 +150,15 @@ footer{
   <strong>All CNC & 3D Printing Services</strong>
 </footer>
 
-<!-- CART -->
 <div id="drawer">
   <h3>MY CART</h3>
   <div id="summary">Empty</div>
-
   <h3>Total: $<span id="total">0.00</span></h3>
 
   <p id="payNotice" style="color:#b30000;font-size:12px">
     Please complete payment to send order.
   </p>
 
-  <!-- FORMSPREE -->
   <form action="https://formspree.io/f/xpqazkbv" method="POST">
     <input type="hidden" name="product" id="fProduct">
     <input type="hidden" name="quantity" id="fQty">
@@ -184,10 +180,34 @@ footer{
 
 <script>
 const PRODUCTS=[
-  {id:"srt-4",name:"SRT-4",price:25,category:"3D",img:"srt-1.png",img2:"srt-4.png"},
-  {id:"yamaha",name:"Yamaha fx svho 2016 Fuel Tech dashboard",price:80,category:"3D",img:"fusion.dash-3.png",img2:"fusion.dash-2.png",img3:"fusion.dash-1.png"},
-  {id:"LS",name:"Saillong 1 Pack LS Billet Oil Cooler Block off Plate on Oil Pan LS Billet Port Plate Compatible with Gen III IV Series Engines LS3 LSX LS1 LS2 LS6 L9H LQ4 LQ9 L92 4.8L 5.3L 5.7L 6.0L 6.2L",price:10,category:"CNC",img:"LS.1-PNG.png",img2:"LS.2-PNG.png"},
-  {id:"SRT-4",name:"Torque Solution Blow Off Valve Block Off Plate ",price:15,category:"CNC",img:"BLOW-OFF-PLATE.png"}
+  {
+    id:"srt-4",
+    name:"SRT-4",
+    price:25,
+    category:"3D",
+    images:["srt-1.png","srt-4.png"]
+  },
+  {
+    id:"yamaha",
+    name:"Yamaha fx svho 2016 Fuel Tech dashboard",
+    price:80,
+    category:"3D",
+    images:["fusion.dash-3.png","fusion.dash-2.png","fusion.dash-1.png"]
+  },
+  {
+    id:"LS",
+    name:"Saillong LS Billet Oil Cooler Block Off Plate",
+    price:10,
+    category:"CNC",
+    images:["LS.1-PNG.png","LS.2-PNG.png"]
+  },
+  {
+    id:"SRT-4-plate",
+    name:"Torque Solution Blow Off Valve Block Off Plate",
+    price:15,
+    category:"CNC",
+    images:["BLOW-OFF-PLATE.png"]
+  }
 ];
 
 let current="ALL";
@@ -195,7 +215,7 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const productArea=document.getElementById("productArea");
 const drawer=document.getElementById("drawer");
-document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
+cartBtn.onclick=()=>drawer.classList.toggle("open");
 
 function filter(cat){current=cat;render();}
 
@@ -204,11 +224,8 @@ function render(){
   PRODUCTS.filter(p=>current==="ALL"||p.category===current).forEach(p=>{
     productArea.innerHTML+=`
       <div class="card">
-       <img class="product-img" src="${p.images[0]}">
-${p.images.slice(1).map(img =>
-  `<img class="thumb" src="${img}">`
-).join("")}
-
+        <img class="product-img" src="${p.images[0]}">
+        ${p.images.slice(1).map(img=>`<img class="thumb" src="${img}">`).join("")}
         <h3>${p.name}</h3>
         <p>$${p.price}</p>
         Qty:
@@ -222,21 +239,20 @@ function add(id){
   const p = PRODUCTS.find(x=>x.id===id);
   const qty = parseInt(document.getElementById(`qty-${id}`).value);
   const item = cart.find(i=>i.id===id);
-  if(item){ item.qty+=qty } else { cart.push({...p,qty}) }
-  saveCart(); renderCart();
+  if(item){item.qty+=qty}else{cart.push({...p,qty})}
+  saveCart();renderCart();
 }
 
 function removeItem(id){
-  cart = cart.filter(i=>i.id!==id);
-  saveCart(); renderCart();
+  cart=cart.filter(i=>i.id!==id);
+  saveCart();renderCart();
 }
 
 function renderCart(){
   let total=0;
   summary.innerHTML="";
   cart.forEach(i=>{
-    const sub=i.qty*i.price;
-    total+=sub;
+    const sub=i.qty*i.price; total+=sub;
     summary.innerHTML+=`
       <div class="cart-item">
         ${i.name}<br>
@@ -245,43 +261,30 @@ function renderCart(){
       </div>`;
   });
   if(!cart.length) summary.innerHTML="Empty";
-
-  document.getElementById("total").innerText=total.toFixed(2);
-  document.getElementById("count").innerText=cart.reduce((s,i)=>s+i.qty,0);
-
-  if(total>0){
-    fProduct.value = cart.map(i=>`${i.name} x${i.qty}`).join(", ");
-    fQty.value = cart.reduce((s,i)=>s+i.qty,0);
-    fTotal.value = total.toFixed(2);
-    renderPayPal(total);
-  }else{
-    document.getElementById("paypal-button-container").innerHTML="";
-  }
+  totalEl.textContent=total.toFixed(2);
+  count.textContent=cart.reduce((s,i)=>s+i.qty,0);
+  if(total>0){fProduct.value=cart.map(i=>`${i.name} x${i.qty}`).join(", ");fQty.value=count.textContent;fTotal.value=total.toFixed(2);renderPayPal(total);}
 }
 
-function saveCart(){
-  localStorage.setItem("cart",JSON.stringify(cart));
-}
+function saveCart(){localStorage.setItem("cart",JSON.stringify(cart));}
 
 function renderPayPal(amount){
-  const c=document.getElementById("paypal-button-container");
-  c.innerHTML="";
+  paypalButtonContainer.innerHTML="";
   paypal.Buttons({
-    createOrder:(d,a)=>a.order.create({
-      purchase_units:[{amount:{value:amount.toFixed(2)}}]
-    }),
+    createOrder:(d,a)=>a.order.create({purchase_units:[{amount:{value:amount.toFixed(2)}}]}),
     onApprove:(d,a)=>a.order.capture().then(()=>{
       sendOrderBtn.disabled=false;
       sendOrderBtn.classList.remove("btn-disabled");
       payNotice.style.display="none";
-      c.innerHTML="<p class='success'>Payment confirmed ✔</p>";
+      paypalButtonContainer.innerHTML="<p class='success'>Payment confirmed ✔</p>";
     })
-  }).render(c);
+  }).render(paypalButtonContainer);
 }
 
-render(); renderCart();
+render();renderCart();
 </script>
 
 </body>
 </html>
+
 
