@@ -126,7 +126,6 @@ footer{
       <button onclick="filter('3D')">3D</button>
     </div>
 
-    <!-- BACKEND STYLE: EMPTY UNTIL CLICK -->
     <div id="productArea"></div>
   </div>
 </section>
@@ -187,8 +186,8 @@ const PRODUCTS=[
   {id:"SRT-4-plate",name:"Torque Solution Blow Off Valve Block Off Plate",price:15,category:"CNC",images:["BLOW-OFF-PLATE.png"]}
 ];
 
-let current = null; // 👈 NOTHING SHOWN UNTIL CLICK
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let current=null;
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
 const productArea=document.getElementById("productArea");
 const drawer=document.getElementById("drawer");
@@ -199,18 +198,17 @@ const count=document.getElementById("count");
 document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
 
 function filter(cat){
-  current=cat;
-  render();
-}
-
-function filter(cat){
-  if(current === cat){
-    current = null;   // 👈 segundo click = esconder
+  if(current===cat){
+    current=null;      // 👈 segundo click = esconder
   }else{
-    current = cat;    // 👈 primer click = mostrar
+    current=cat;       // 👈 primer click = mostrar
   }
   render();
 }
+
+function render(){
+  productArea.innerHTML="";
+  if(!current) return;
 
   PRODUCTS.filter(p=>current==="ALL"||p.category===current).forEach(p=>{
     productArea.innerHTML+=`
@@ -226,7 +224,6 @@ function filter(cat){
   });
 }
 
-/* CART + PAYPAL (UNCHANGED) */
 function add(id){
   const p=PRODUCTS.find(x=>x.id===id);
   const qty=parseInt(document.getElementById(`qty-${id}`).value);
@@ -235,11 +232,13 @@ function add(id){
   localStorage.setItem("cart",JSON.stringify(cart));
   renderCart();
 }
+
 function removeItem(id){
   cart=cart.filter(i=>i.id!==id);
   localStorage.setItem("cart",JSON.stringify(cart));
   renderCart();
 }
+
 function renderCart(){
   let total=0;
   summary.innerHTML="";
@@ -254,8 +253,10 @@ function renderCart(){
       </div>`;
   });
   if(!cart.length) summary.innerHTML="Empty";
+
   totalEl.textContent=total.toFixed(2);
   count.textContent=cart.reduce((s,i)=>s+i.qty,0);
+
   if(total>0){
     fProduct.value=cart.map(i=>`${i.name} x${i.qty}`).join(", ");
     fQty.value=cart.reduce((s,i)=>s+i.qty,0);
@@ -265,6 +266,7 @@ function renderCart(){
     paypalButtonContainer.innerHTML="";
   }
 }
+
 function renderPayPal(amount){
   paypalButtonContainer.innerHTML="";
   paypal.Buttons({
@@ -279,10 +281,12 @@ function renderPayPal(amount){
     })
   }).render(paypalButtonContainer);
 }
+
 renderCart();
 </script>
 
 </body>
 </html>
+
 
 
