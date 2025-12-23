@@ -203,9 +203,15 @@ function filter(cat){
   render();
 }
 
-function render(){
-  productArea.innerHTML="";
-  if(!current) return; // 🚫 BACKEND MODE
+function filter(cat){
+  if(current === cat){
+    current = null;   // 👈 segundo click = esconder
+  }else{
+    current = cat;    // 👈 primer click = mostrar
+  }
+  render();
+}
+
 
   PRODUCTS.filter(p=>current==="ALL"||p.category===current).forEach(p=>{
     productArea.innerHTML+=`
