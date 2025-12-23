@@ -81,6 +81,9 @@ input, textarea{
   width:100%;margin-top:8px;padding:8px;border-radius:8px;border:1px solid #ccc
 }
 
+/* HIDE SHOP INIT */
+#shop{display:none}
+
 /* FOOTER */
 footer{
   background:#0b0b0b;color:#cbd5e1;
@@ -100,7 +103,8 @@ footer{
       <strong>JC CNC Machine</strong>
     </div>
     <nav>
-      <a href="#shop">Shop</a>
+      <a href="javascript:goHome()">Home</a>
+      <a href="javascript:showShop()">Shop</a>
       <a href="#policies">Policies</a>
       <a href="https://www.facebook.com/people/JC-CNC/100063524948702/" target="_blank">Facebook</a>
     </nav>
@@ -109,7 +113,7 @@ footer{
 
 <div id="cartBtn">🛒 Cart (<span id="count">0</span>)</div>
 
-<section class="hero">
+<section class="hero" id="hero">
   <img src="https://raw.githubusercontent.com/joseaerio24/jccncmachine/main/Logo.png">
   <h1>Professional CNC & 3D Printing</h1>
   <p>Orders reviewed and confirmed after payment.</p>
@@ -121,6 +125,7 @@ footer{
     <div class="divider"></div>
 
     <div class="filters">
+      <button onclick="goHome()">HOME</button>
       <button onclick="filter('ALL')">ALL</button>
       <button onclick="filter('CNC')">CNC</button>
       <button onclick="filter('3D')">3D</button>
@@ -190,6 +195,7 @@ let current=null;
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
 const productArea=document.getElementById("productArea");
+const shop=document.getElementById("shop");
 const drawer=document.getElementById("drawer");
 const paypalButtonContainer=document.getElementById("paypal-button-container");
 const totalEl=document.getElementById("total");
@@ -197,12 +203,26 @@ const count=document.getElementById("count");
 
 document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
 
+function showShop(){
+  shop.style.display="block";
+  window.scrollTo({top:shop.offsetTop-80,behavior:"smooth"});
+}
+
+function goHome(){
+  shop.style.display="none";
+  current=null;
+  productArea.innerHTML="";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
 function filter(cat){
+  showShop();
   if(current===cat){
-    current=null;      // 👈 segundo click = esconder
-  }else{
-    current=cat;       // 👈 primer click = mostrar
+    current=null;
+    productArea.innerHTML="";
+    return;
   }
+  current=cat;
   render();
 }
 
@@ -224,6 +244,7 @@ function render(){
   });
 }
 
+/* CART + PAYPAL (SIN CAMBIOS) */
 function add(id){
   const p=PRODUCTS.find(x=>x.id===id);
   const qty=parseInt(document.getElementById(`qty-${id}`).value);
@@ -232,13 +253,11 @@ function add(id){
   localStorage.setItem("cart",JSON.stringify(cart));
   renderCart();
 }
-
 function removeItem(id){
   cart=cart.filter(i=>i.id!==id);
   localStorage.setItem("cart",JSON.stringify(cart));
   renderCart();
 }
-
 function renderCart(){
   let total=0;
   summary.innerHTML="";
@@ -253,7 +272,6 @@ function renderCart(){
       </div>`;
   });
   if(!cart.length) summary.innerHTML="Empty";
-
   totalEl.textContent=total.toFixed(2);
   count.textContent=cart.reduce((s,i)=>s+i.qty,0);
 
@@ -266,7 +284,6 @@ function renderCart(){
     paypalButtonContainer.innerHTML="";
   }
 }
-
 function renderPayPal(amount){
   paypalButtonContainer.innerHTML="";
   paypal.Buttons({
@@ -281,12 +298,10 @@ function renderPayPal(amount){
     })
   }).render(paypalButtonContainer);
 }
-
 renderCart();
 </script>
 
 </body>
 </html>
-
 
 
