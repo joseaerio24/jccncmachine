@@ -177,35 +177,10 @@ footer{
 
 <script>
 const PRODUCTS=[
- 
-  {
-    id:"srt-4",
-    name:"SRT-4",
-    price:25,
-    category:"3D",
-    images:["srt-1.png","srt-4.png"]
-  },
-  {
-    id:"yamaha",
-    name:"Yamaha fx svho 2016 Fuel Tech dashboard",
-    price:80,
-    category:"3D",
-    images:["fusion.dash-3.png","fusion.dash-2.png","fusion.dash-1.png"]
-  },
-  {
-    id:"LS",
-    name:"Saillong LS Billet Oil Cooler Block Off Plate",
-    price:10,
-    category:"CNC",
-    images:["LS.1-PNG.png","LS.2-PNG.png"]
-  },
-  {
-    id:"SRT-4-plate",
-    name:"Torque Solution Blow Off Valve Block Off Plate",
-    price:15,
-    category:"CNC",
-    images:["BLOW-OFF-PLATE.png"]
-  }
+  {id:"srt-4",name:"SRT-4",price:25,category:"3D",images:["srt-1.png","srt-4.png"]},
+  {id:"yamaha",name:"Yamaha fx svho 2016 Fuel Tech dashboard",price:80,category:"3D",images:["fusion.dash-3.png","fusion.dash-2.png","fusion.dash-1.png"]},
+  {id:"LS",name:"Saillong LS Billet Oil Cooler Block Off Plate",price:10,category:"CNC",images:["LS.1-PNG.png","LS.2-PNG.png"]},
+  {id:"SRT-4-plate",name:"Torque Solution Blow Off Valve Block Off Plate",price:15,category:"CNC",images:["BLOW-OFF-PLATE.png"]}
 ];
 
 let current="ALL";
@@ -214,6 +189,8 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 const productArea=document.getElementById("productArea");
 const drawer=document.getElementById("drawer");
 const paypalButtonContainer=document.getElementById("paypal-button-container");
+const totalEl=document.getElementById("total");
+const count=document.getElementById("count");
 
 document.getElementById("cartBtn").onclick=()=>drawer.classList.toggle("open");
 
